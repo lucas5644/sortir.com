@@ -1,0 +1,36 @@
+body {
+    background-color: lightblue;
+}
+
+nav {
+    align-items: center;
+    justify-items: center;
+    background-color: gainsboro;
+}
+
+header {
+    display: flex;
+    height: 100px;
+    align-items: center;
+}
+
+
+#header-title {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo {
+    width: 140px;
+    height: 80px;
+    border-radius: 20px;
+}
+
+#header-title h1 {
+    display: flex;
+    padding-left: 10px;
+    font-size: 70px;
+    font-family: -apple-system;
+}
