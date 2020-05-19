@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'main/index.html.twig' %}
 
 {% block title %}Connexion!{% endblock %}
 
@@ -17,14 +17,13 @@
     <h3 class="">Rentrez vos identifiants pour vous connecter : </h3>
     <label for="inputPseudo">Identifiant</label>
     <input type="text" value="{{ last_username }}" name="pseudo" id="inputPseudo" class="form-control" required autofocus>
-    <br>
     <label for="inputPassword">Mot de passe</label>
     <input type="password" name="password" id="inputPassword" class="form-control" required>
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
-    <br>
+
     <button class="btn btn-lg btn-primary" type="submit">
         Connexion
     </button>
