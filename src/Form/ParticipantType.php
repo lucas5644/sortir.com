@@ -4,6 +4,10 @@ namespace App\Form;
 
 use App\Entity\Participant;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,16 +16,34 @@ class ParticipantType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('pseudo')
-            ->add('nom')
-            ->add('prenom')
-            ->add('telephone')
-            ->add('mail')
-            ->add('password')
-            ->add('administrateur')
-            ->add('actif')
-            ->add('urlPhoto')
-            ->add('campus')
+            ->add('pseudo', TextType::class, [
+                'label' => 'Pseudo',
+            ])
+                ->add('nom', TextType::class, [
+                    'label' => 'Nom',
+                ])
+                ->add('prenom', TextType::class, [
+                    'label' => 'Prenom',
+                ])
+                ->add('telephone', TextType::class, [
+                    'label' => 'Téléphone',
+                    'required' => false
+                ])
+                ->add('mail', EmailType::class, [
+                    'label' => 'Email',
+                ])
+                ->add('password', RepeatedType::class, [
+                    'type' => PasswordType::class,
+                    'invalid_message' => 'The password fields must match.',
+                    'options' => ['attr' => ['class' => 'password-field']],
+                    'required' => true,
+                    'first_options' => ['label' => 'Mot de Passe'],
+                    'second_options' => ['label' => 'Confirmation'],
+                ])
+                ->add('administrateur')
+                ->add('actif')
+                ->add('urlPhoto')
+                ->add('campus')
         ;
     }
 
