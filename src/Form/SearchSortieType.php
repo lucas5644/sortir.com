@@ -18,13 +18,8 @@ class SearchSortieType extends AbstractType
                 'label'=>'Le nom de la sortie contient : '
             ])
             ->add('dateHeureDebut', DateTimeType::class)
-            ->add('dateLimiteInscription')
+            ->add('dateLimiteInscription', DateTimeType::class)
 
-            ->add('nbInscriptionMax')
-            ->add('infosSortie')
-            ->add('organisateur')
-            ->add('lieu')
-            ->add('etat')
         ;
     }
 
