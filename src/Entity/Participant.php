@@ -316,7 +316,7 @@ class Participant implements UserInterface
 
     public function getUsername()
     {
-        return $this->getUsername();
+        return $this->pseudo;
     }
 
     public function eraseCredentials()
