@@ -28,10 +28,12 @@
 
 {% include ('inc/nav.html.twig') %}
 <main>
-    {% block main %}{% endblock %}
+    <div class="container">
+        {% block main %}{% endblock %}
+    </div>
 </main>
 <footer>
-    <h6>&copy;{{ "now" | date("Y") }}  sortir.com</h6>
+    <h6>&copy;{{ "now" | date("Y") }} sortir.com</h6>
 </footer>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
