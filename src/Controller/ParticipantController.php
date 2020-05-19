@@ -40,7 +40,7 @@ class ParticipantController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        return $this->render("User/signIn.html.twig", [
+        return $this->render("User/register.html.twig", [
            "userForm" => $userForm->createView()
         ]);
     }
