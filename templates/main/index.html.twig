@@ -3,5 +3,10 @@
 {% block title %}Accueil{% endblock %}
 
 {% block main %}
-    <div></div>
+    <br>
+    <div class="col-6">
+        {{ form_start(sortieForm) }}
+        {{ form_widget(sortieForm) }}
+        {{ form_end(sortieForm) }}
+    </div>
 {% endblock %}

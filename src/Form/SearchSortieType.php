@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Sortie;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,9 +16,6 @@ class SearchSortieType extends AbstractType
             ->add('nom', TextType::class, [
                 'label'=>'Le nom de la sortie contient : '
             ])
-            ->add('dateHeureDebut', DateTimeType::class)
-            ->add('dateLimiteInscription', DateTimeType::class)
-
         ;
     }
 
