@@ -21,7 +21,7 @@ class SortieController extends AbstractController
 
         $sortieForm->handleRequest($request);
         dump($sortie);
-        if ($sortieForm->handleRequest($request) && $sortieForm->isValid()){
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
             $em->persist($sortie);
             $em->flush();
             $this->addFlash("success", "Votre évènement".$sortie->getNom()." a bien été sauvegardé !");
