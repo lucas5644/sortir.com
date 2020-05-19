@@ -27,6 +27,7 @@ class ParticipantType extends AbstractType
                 ])
                 ->add('telephone', TextType::class, [
                     'label' => 'Téléphone',
+                    'required' => false
                 ])
                 ->add('mail', EmailType::class, [
                     'label' => 'Email',

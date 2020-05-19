@@ -28,7 +28,9 @@ class ParticipantController extends AbstractController
             $utilisateur->setAdministrateur(false);
             $utilisateur->setActif(true);
             $em->persist($utilisateur);
-            return $this->redirectToRoute('home.html.twig', ['id'=>$utilisateur->getId()]);
+            $em->flush();
+            $this->addFlash("success", "Vous êtes inscrit!!! Bienvenue ".$utilisateur->getPseudo());
+            return $this->redirectToRoute('base.html.twig');
         }
 
         return $this->render("User/signIn.html.twig", [
