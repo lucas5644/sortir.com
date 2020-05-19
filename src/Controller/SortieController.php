@@ -25,6 +25,7 @@ class SortieController extends AbstractController
             $em->persist($sortie);
             $em->flush();
             $this->addFlash("success", "Votre évènement".$sortie->getNom()." a bien été sauvegardé !");
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('sortie/createSortie.html.twig', [
