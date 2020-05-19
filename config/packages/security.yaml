@@ -4,7 +4,7 @@ security:
         our_db_provider:
             entity:
                 class: App\Entity\Participant
-                property: pseudo
+                property: participant
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -16,18 +16,16 @@ security:
             form_login:
                 login_path: login
                 check_path: login
-            logout_on_user_change: true
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
             logout:
-                path: app_logout
+                path: logout
                 # where to redirect after logout
-                target: app_login
+                target: login
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
-                path : /
 
     encoders:
         App\Entity\Participant:
