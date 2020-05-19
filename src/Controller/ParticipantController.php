@@ -10,13 +10,18 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ParticipantController extends AbstractController
 {
     /**
      * @Route("/signIn", name="signIn")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function signInForm(Request $request, EntityManagerInterface $em)
+    public function signInForm(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
         $utilisateur = new Participant();
         $userForm = $this->createForm(ParticipantType::class, $utilisateur);
@@ -25,6 +30,8 @@ class ParticipantController extends AbstractController
         dump($utilisateur);
         if($userForm->isSubmitted() && $userForm->isValid())
         {
+            $password = $passwordEncoder->encodePassword($utilisateur, $utilisateur->getPassword());
+            $utilisateur->setPassword($password);
             $utilisateur->setAdministrateur(false);
             $utilisateur->setActif(true);
             $em->persist($utilisateur);
