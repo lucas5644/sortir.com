@@ -19,6 +19,8 @@ class Participant
      */
     private $id;
 
+    private $role;
+
     /**
      * @ORM\Column(type="string", length=30)
      */
@@ -84,6 +86,38 @@ class Participant
     {
         $this->inscriptions = new ArrayCollection();
         $this->sorties = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param mixed $role
+     */
+    public function setRole($role): void
+    {
+        $this->role = $role;
     }
 
     public function getPseudo(): ?string
@@ -267,6 +301,8 @@ class Participant
 
         return $this;
     }
+
+
 
     
 }
