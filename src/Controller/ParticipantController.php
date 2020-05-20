@@ -11,15 +11,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 
 class ParticipantController extends AbstractController
 {
 
     private $entityManager;
+    private $security;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, Security $security)
     {
         $this->entityManager = $entityManager;
+        $this->security = $security;
     }
 
     /**
@@ -56,10 +59,32 @@ class ParticipantController extends AbstractController
     /**
      * @Route("profil/{pseudo}", name="profile")
      */
-    public function afficherProfil($pseudo){
+    public function afficherProfil($pseudo, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder){
         $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $pseudo]);
-        return $this->render("User/profil.html.twig", [
-            "user" => $user
-        ]);
+        $userC = $this->security->getUser();
+        if($userC ==! $user){
+            return $this->render("User/profil.html.twig", [
+                "user" => $user
+            ]);
+        }else{
+            $userForm = $this->createForm(ParticipantType::class, $userC);
+
+            $userForm->handleRequest($request);
+            dump($userC);
+            if($userForm->isSubmitted() && $userForm->isValid())
+            {
+                $password = $passwordEncoder->encodePassword($userC, $userC->getPassword());
+                $userC->setPassword($password);
+                $em->persist($userC);
+                $em->flush();
+                $this->addFlash("success", "Vous êtes inscrit!!! Bienvenue ".$userC->getPseudo());
+                return $this->redirectToRoute('home');
+            }
+            return $this->render("User/monProfil.html.twig", [
+                "user" => $userC,
+                "userForm" => $userForm->createView()
+            ]);
+        }
+
     }
 }
