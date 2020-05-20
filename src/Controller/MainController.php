@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
 use App\Entity\Sortie;
 use App\Form\SearchSortieType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,7 +17,12 @@ class MainController extends AbstractController
      */
     public function index(Request $request, EntityManagerInterface $em)
     {
+        //Nouvelle instance Sortie
         $sortie = new Sortie();
+
+        //récupération de la liste des campus
+        $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+        $campus = $campusRepo->findAll();
 
         $sortieForm = $this->createForm(SearchSortieType::class, $sortie);
         $sortieForm->handleRequest($request);
@@ -26,7 +32,7 @@ class MainController extends AbstractController
             return $this->redirectToRoute('home');
         }
         return $this->render('main/index.html.twig', [
-            "sortieForm" => $sortieForm->createView()
+            "sortieForm" => $sortieForm->createView(), "campus" => $campus
         ]);
     }
 
