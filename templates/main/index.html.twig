@@ -4,9 +4,32 @@
 
 {% block main %}
     <br>
-    <div class="col-6">
-        {{ form_start(sortieForm) }}
-        {{ form_widget(sortieForm) }}
-        {{ form_end(sortieForm) }}
+
+    <h3>Filtrer les sorties</h3>
+
+    {{ form_start(sortieForm) }}
+    <div class="row">
+        <div class="form-group col-6">
+            <label for="dateDebut">Après le :</label>
+            <input type="datetime-local" class="form-control"
+                   name="dateDebut" id="dateDebut">
+        </div>
+        <div class="form-group col-6">
+            <label for="dateFin">Avant le :</label>
+            <input type="datetime-local" class="form-control"
+                   name="dateFin" id="dateFin">
+        </div>
+        <div class="form-group col-6">
+            <label for="campus">Campus : </label>
+            <select class="form-control" id="campus" name="campus">Campus
+                {% for camp in campus %}
+                    <option>{{ camp.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-6">
+            {{ form_widget(sortieForm) }}
+        </div>
     </div>
+    {{ form_end(sortieForm) }}
 {% endblock %}
