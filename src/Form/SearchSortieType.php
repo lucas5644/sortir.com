@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SearchSortieType extends AbstractType
@@ -24,7 +25,7 @@ class SearchSortieType extends AbstractType
             ->add('organisateur', EntityType::class, [
                 'label' => 'Campus',
                 'required' => false,
-                'choice_label' => 'campus',
+                'choice_label' => 'campus.nom',
                 'class' => Participant::class,
                 'placeholder' => 'Choisir un campus',
                 'query_builder' => function (EntityRepository $er) {
@@ -38,6 +39,9 @@ class SearchSortieType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Sortie::class,
+            'empty_data' => function (FormInterface $form) {
+                return new Sortie($form->get('nom')->getData());
+            }
         ]);
     }
 }
