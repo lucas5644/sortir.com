@@ -23,10 +23,10 @@ class SortieController extends AbstractController
         $organisateur = $this->getUser();
         $sortie->setOrganisateur($organisateur);
 
-        $lieu = $this->getDoctrine()->getManager()->getRepository('App:Lieu')->find(1);
+        $lieu = $this->getDoctrine()->getManager()->getRepository('App:Lieu')->findAll();
         $sortie->setLieu($lieu);
 
-        $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(1);
+        $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->findAll();
         $sortie->setEtat($etat);
 
         dump($sortie);
