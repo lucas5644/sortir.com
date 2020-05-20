@@ -2,9 +2,21 @@
 
 {% block title %}Afficher une sortie{% endblock %}
 
+{% block main %}
 <p>Nom de la sortie : {{ sortie.nom }}</p> {{ sortie.nom }}
-<p>Date et heure de la sortie : {{ sortie.date_heure_debut }}</p>
-<p>Date limite d'inscription{{ sortie.date_limite_inscription }}</p>
-<p>Nombre de places : {{ sortie.nb_inscription_max }}</p>
-<p>Durée : {{ sortie.duree }}</p>
-<p>Descriptions et infos : {{ sortie.infos_sortie }}</p>
+    <p>Date et heure de la sortie : {{ sortie.dateHeureDebut | date("d/m/y")}}</p>
+    <p>Date limite d'inscription : {{ sortie.dateLimiteInscription | date("d/m/y")}}</p>
+    <p>Nombre de places : {{ sortie.nbInscriptionMax }}</p>
+    <p>Durée : {{ sortie.duree }}</p>
+    {% if sortie.infosSortie is not null %}
+        <p>Descriptions et infos : {{ sortie.infosSortie}}</p>
+    {% endif %}
+    <p>Campus : {{ sortie.organisateur.campus.nom }}</p>
+    <p>Lieu : {{ sortie.lieu.nom }}</p>
+    <p>Rue : {{ sortie.lieu.rue }}</p>
+    <p>Code postal : {{ sortie.lieu.ville.codePostal }}</p>
+    {% if sortie.lieu.latitude and sortie.lieu.longitude is not null %}
+        <p>Latitude : {{ sortie.lieu.latitude }}</p>
+        <p>Longitude : {{ sortie.lieu.longitude }}</p>
+        {% endif %}
+{% endblock %}
