@@ -43,7 +43,7 @@ class SortieController extends AbstractController
     public function detail($id, Request $request)
     {
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
-        $sortie = $sortieRepo->findWithCampusParticipant($id);
+        $sortie = $sortieRepo->find($id);
 
         if(empty($sortie)){
             throw $this->createNotFoundException("Oh non... Cet évènement n'existe pas (╥﹏╥)");
