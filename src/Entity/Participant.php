@@ -306,7 +306,7 @@ class Participant implements UserInterface
 
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        return array('ROLE_USER');
     }
 
     public function getSalt()
@@ -316,7 +316,7 @@ class Participant implements UserInterface
 
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        return $this->pseudo;
     }
 
     public function eraseCredentials()
