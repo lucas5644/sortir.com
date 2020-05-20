@@ -38,10 +38,7 @@ class SearchSortieType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Sortie::class,
-            'empty_data' => function (FormInterface $form) {
-                return new Sortie($form->get('nom')->getData());
-            }
+            'data_class' => Sortie::class
         ]);
     }
 }
