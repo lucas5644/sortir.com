@@ -14,13 +14,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ParticipantController extends AbstractController
 {
-    /**
-     * @Route("/signIn", name="signIn")
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
 
     private $entityManager;
 
@@ -29,6 +22,13 @@ class ParticipantController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @Route("/register", name="register")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function signInForm(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
         $utilisateur = new Participant();
@@ -54,7 +54,7 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/{pseudo}")
+     * @Route("profil/{pseudo}", name="profile")
      */
     public function afficherProfil($pseudo){
         $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $pseudo]);
