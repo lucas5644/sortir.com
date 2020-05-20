@@ -21,6 +21,14 @@ class ParticipantController extends AbstractController
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
+
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function signInForm(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
         $utilisateur = new Participant();
@@ -42,6 +50,16 @@ class ParticipantController extends AbstractController
 
         return $this->render("User/register.html.twig", [
            "userForm" => $userForm->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/{pseudo}")
+     */
+    public function afficherProfil($pseudo){
+        $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $pseudo]);
+        return $this->render("User/profil.html.twig", [
+            "user" => $user
         ]);
     }
 }
