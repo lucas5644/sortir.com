@@ -192,35 +192,35 @@ class Sortie
         return $this->organisateur;
     }
 
-    public function setOrganisateur(?Participant $organisateur): self
+    /*public function setOrganisateur(?Participant $organisateur): self
     {
         $this->organisateur = $organisateur;
 
         return $this;
-    }
+    }*/
 
     public function getLieu(): ?Lieu
     {
         return $this->lieu;
     }
 
-    public function setLieu(?Lieu $lieu): self
+   /* public function setLieu(?Lieu $lieu): self
     {
         $this->lieu = $lieu;
 
         return $this;
-    }
+    }*/
 
     public function getEtat(): ?Etat
     {
         return $this->etat;
     }
 
-    public function setEtat(?Etat $etat): self
+    /*public function setEtat(?Etat $etat): self
     {
         $this->etat = $etat;
 
         return $this;
-    }
+    }*/
 
 }

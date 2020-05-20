@@ -42,6 +42,12 @@
         {{ form_errors(sortieForm.infosSortie) }}
     </div>
 
+    <div>
+        {{ form_label(sortieForm.lieu) }}
+        {{ form_widget(sortieForm.lieu) }}
+        {{ form_errors(sortieForm.lieu) }}
+    </div>
+
 
     {{ form_row(sortieForm._token) }}
     <button type="submit">Enregistrer</button>
