@@ -4,32 +4,44 @@
 
 {% block main %}
     <br>
-
     <h3>Filtrer les sorties</h3>
-
-    {{ form_start(sortieForm) }}
+    {{ form_start(findSortieForm) }}
     <div class="row">
-        <div class="form-group col-6">
-            <label for="dateDebut">Après le :</label>
-            <input type="datetime-local" class="form-control"
-                   name="dateDebut" id="dateDebut">
+        <div class="col-6">
+            {{ form_widget(findSortieForm) }}
         </div>
         <div class="form-group col-6">
-            <label for="dateFin">Avant le :</label>
+            <label for="dateDebut">Entre le :</label>
+            <input type="datetime-local" class="form-control"
+                   name="dateDebut" id="dateDebut">
+            <label for="dateFin" style="padding-top: 13px">... et le :</label>
             <input type="datetime-local" class="form-control"
                    name="dateFin" id="dateFin">
         </div>
-        <div class="form-group col-6">
-            <label for="campus">Campus : </label>
-            <select class="form-control" id="campus" name="campus">Campus
-                {% for camp in campus %}
-                    <option>{{ camp.nom }}</option>
-                {% endfor %}
-            </select>
+        <div class="col-6">
+            <input type="checkbox" name="mesSorties" id="mesSorties">
+            <label for="mesSorties">Sorties dont je suis l'organisateur/trice</label>
         </div>
         <div class="col-6">
-            {{ form_widget(sortieForm) }}
+            <input type="checkbox" name="mesInscriptions" id="mesInscriptions">
+            <label for="mesInscriptions">Sorties auxquelles je suis inscrit/e</label>
+        </div>
+        <div class="col-6">
+            <input type="checkbox" name="pasEncoreInscrit" id="pasEncoreInscrit">
+            <label for="pasEncoreInscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
+        </div>
+        <div class="col-6">
+            <input type="checkbox" name="sortiesPassees" id="sortiesPassees">
+            <label for="sortiesPassees">Sorties passées</label>
         </div>
     </div>
-    {{ form_end(sortieForm) }}
+    <div class="text-right">
+    <input class="btn btn-primary" type="submit" value="Rechercher">
+    </div>
+    {{ form_end(findSortieForm) }}
+    <div>
+        {% for sortie in sorties %}
+            {{ sortie.nom }}
+        {% endfor %}
+    </div>
 {% endblock %}
