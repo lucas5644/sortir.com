@@ -54,7 +54,6 @@
                 <th scope="col">Actions</th>
             </tr>
             </thead>
-
             {% for sortie in sorties %}
                 <tr>
                     <td>{{ sortie.nom }}</td>
@@ -66,7 +65,7 @@
                     <td>{{ sortie.etat.libelle }}</td>
 
                     <td></td>
-                    <td>{{ sortie.organisateur.prenom }}
+                    <td>{{ sortie.organisateur.campus.nom }}
                         {{ sortie.organisateur.nom | slice(0,1) }}.
                     </td>
                 </tr>

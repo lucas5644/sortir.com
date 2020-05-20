@@ -18,7 +18,9 @@
         <h1>Sortir.com</h1>
     </div>
 </header>
-
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+{% include ('inc/nav.html.twig') %}
+{% endif %}
 {% for label, messages in app.flashes %}
     {% for message in messages %}
         <div class="flash flash-{{ label }}">
@@ -26,9 +28,6 @@
         </div>
     {% endfor %}
 {% endfor %}
-{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-{% include ('inc/nav.html.twig') %}
-{% endif %}
 <main>
     <div class="container">
         {% block main %}{% endblock %}
