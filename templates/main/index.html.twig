@@ -66,8 +66,8 @@
                     <td>{{ sortie.etat.libelle }}</td>
 
                     <td></td>
-                    <td>{{ sortie.organisateur.prenom }}
-                        {{ sortie.organisateur.nom | slice(0,1) }}.
+                    <td><a href="{{ path('profile', {pseudo: sortie.organisateur.pseudo}) }}">{{ sortie.organisateur.prenom }}
+                        {{ sortie.organisateur.nom | slice(0,1) }}.</a>
                     </td>
                 </tr>
             {% endfor %}
