@@ -65,17 +65,13 @@
                         </td>
                         <td>{{ sortie.etat.libelle }}</td>
 
-                        <td></td>
-                        <td>{{ sortie.organisateur.prenom }}
-                            {{ sortie.organisateur.nom | slice(0,1) }}.
-                        </td>
-                    </tr>
-                {% endfor %}
-
-            </table>
-        </div>
-        {% else %}
-        <div class="alert alert-warning">Votre recherche n'a donné aucun résultat</div>
-    {% endif %}
+                    <td></td>
+                    <td>{{ sortie.organisateur.prenom }}
+                        {{ sortie.organisateur.nom | slice(0,1) }}.
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
     <br>
 {% endblock %}
