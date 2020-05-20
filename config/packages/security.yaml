@@ -24,8 +24,13 @@ security:
                 # where to redirect after logout
                 target: login
             remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 604800
+                secret:   '%kernel.secret%'
+                lifetime: 604800   # 1 week in seconds
+                path:     /
+                secure:   true
+                name:     REMEMBERME
+                remember_me_parameter: _remember_me
+                domain: ~
 
     encoders:
         App\Entity\Participant:
