@@ -24,27 +24,19 @@ class MainController extends AbstractController
         //récupération de la liste des campus
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
         $campus = $campusRepo->findAll();
-
         $findSortieForm = $this->createForm(SearchSortieType::class, $sortie);
         $findSortieForm->handleRequest($request);
         if ($findSortieForm->isSubmitted() && $findSortieForm->isValid()) {
-//            $em->persist($sortie);
-//            $em->flush();
-            return $this->redirectToRoute('home', [
+            $sorties = $sortieRepo->findSortie($sortie->getNom(), $sortie->getOrganisateur()->getCampus());
+            return $this->render('main/search-serie.html.twig', [
                 "sorties" => $sorties
             ]);
         }
         return $this->render('main/index.html.twig', [
             "findSortieForm" => $findSortieForm->createView(),
-            "sorties" => $sorties, "campus" => $campus
+            "sorties"=>$sorties, "campus" => $campus
         ]);
     }
 
-    /**
-     * @Route("/search", name="search")
-     */
-    public function search(Request $request, EntityManagerInterface $em)
-    {
 
-    }
 }

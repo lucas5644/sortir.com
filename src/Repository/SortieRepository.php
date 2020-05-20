@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,10 +20,18 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    public function findSortie() {
+    public function findSortie($sortie, $campus)
+    {
         return $this->createQueryBuilder('s')
-            ->andWhere()
-            ;
+            ->andWhere('s.nom = :nom')
+            ->setParameter('nom', $sortie)
+//            ->join('s.organisateur', 'o')
+//            ->join('o.campus', 'c')
+//            ->andWhere('c.nom = :organisateur')
+//            ->setParameter('organisateur', $campus)
+            ->getQuery()
+            ->getResult();
+
     }
 
 
