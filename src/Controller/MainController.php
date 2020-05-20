@@ -28,7 +28,7 @@ class MainController extends AbstractController
         $findSortieForm->handleRequest($request);
         if ($findSortieForm->isSubmitted() && $findSortieForm->isValid()) {
             $sorties = $sortieRepo->findSortie($sortie->getNom(), $sortie->getOrganisateur()->getCampus());
-            return $this->render('main/search-serie.html.twig', [
+            return $this->render('main/search-sortie.html.twig', [
                 "sorties" => $sorties
             ]);
         }
