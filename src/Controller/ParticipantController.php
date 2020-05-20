@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\ParticipantType;
+use App\Form\UpdateParticipantType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,29 +63,35 @@ class ParticipantController extends AbstractController
     public function afficherProfil($pseudo, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder){
         $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $pseudo]);
         $userC = $this->security->getUser();
+        $oldPassword = $userC->getPassword();
+
         if($userC ==! $user){
             return $this->render("User/profil.html.twig", [
                 "user" => $user
             ]);
         }else{
-            $userForm = $this->createForm(ParticipantType::class, $userC);
+            $userForm = $this->createForm(UpdateParticipantType::class, $user);
 
             $userForm->handleRequest($request);
-            dump($userC);
+            dump($user);
             if($userForm->isSubmitted() && $userForm->isValid())
             {
-                $password = $passwordEncoder->encodePassword($userC, $userC->getPassword());
-                $userC->setPassword($password);
-                $em->persist($userC);
+                if(strlen(trim($user->getPassword())) ==! 0){
+                    $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+                    $user->setPassword($password);
+                }else{
+                    $user->setPassword($oldPassword);
+                }
+                $em->persist($user);
                 $em->flush();
-                $this->addFlash("success", "Vous êtes inscrit!!! Bienvenue ".$userC->getPseudo());
                 return $this->redirectToRoute('home');
             }
             return $this->render("User/monProfil.html.twig", [
-                "user" => $userC,
+                "user" => $user,
                 "userForm" => $userForm->createView()
             ]);
         }
+
 
     }
 }
