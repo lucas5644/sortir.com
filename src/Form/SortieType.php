@@ -54,12 +54,12 @@ class SortieType extends AbstractType
                     'placeholder' => 'Veuillez décrire votre évènement'
                 ]
             ] )
-            /*->add('organisateur', TextType::class, [
+            ->add('organisateur', TextType::class, [
                 'label' => 'Organisateur : ',
                 'attr' => [
                     'class' => 'organisateur'
                 ]
-            ] )*/
+            ] )
             ->add('lieu', TextType::class, [
                 'label' => 'Lieu de l\'évènement : ',
                 'attr' => [
@@ -67,12 +67,12 @@ class SortieType extends AbstractType
                 ]
 
             ])
-            /*->add('etat', TextType::class, [
+            ->add('etat', TextType::class, [
                 'label' => 'Etat : ',
                 'attr' => [
                     'class' => 'etat-evenement'
                 ]
-            ])*/
+            ])
         ;
     }
 

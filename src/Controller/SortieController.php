@@ -17,10 +17,18 @@ class SortieController extends AbstractController
     public function create(EntityManagerInterface $em, Request $request)
     {
         $sortie = new Sortie();
-
         $sortieForm = $this ->createForm(SortieType::class, $sortie);
-
         $sortieForm->handleRequest($request);
+
+        $organisateur = $this->getUser();
+        $sortie->setOrganisateur($organisateur);
+
+        $lieu = $this->getDoctrine()->getManager()->getRepository('App:Lieu')->find(1);
+        $sortie->setLieu($lieu);
+
+        $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(1);
+        $sortie->setEtat($etat);
+
         dump($sortie);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
             $em->persist($sortie);
