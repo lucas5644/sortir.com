@@ -43,9 +43,12 @@
     </div>
 
     <div>
-        {{ form_label(sortieForm.lieu) }}
-        {{ form_widget(sortieForm.lieu) }}
-        {{ form_errors(sortieForm.lieu) }} <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}" alt="Ajouter un lieu" class="bouton-plus" width="35px"></a>
+        <select id="lieuE" name="lieuE">
+            {% for lieu in lieuE %}
+            <option value="{{ lieu }}">{{ lieu }}</option>
+            {% endfor %}
+        </select>
+        <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}" alt="Ajouter un lieu" class="bouton-plus" width="35px"></a>
     </div>
 
     {#<div>

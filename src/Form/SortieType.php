@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Sortie;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -60,7 +61,7 @@ class SortieType extends AbstractType
                     'class' => 'organisateur'
                 ]
             ] )
-            ->add('lieu', TextType::class, [
+            ->add('lieu', ChoiceType::class, [
                 'label' => 'Lieu de l\'évènement : ',
                 'attr' => [
                     'class' => 'lieu-evenement'
