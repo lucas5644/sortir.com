@@ -1,0 +1,10 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Afficher une sortie{% endblock %}
+
+<p>Nom de la sortie : {{ sortie.nom }}</p> {{ sortie.nom }}
+<p>Date et heure de la sortie : {{ sortie.date_heure_debut }}</p>
+<p>Date limite d'inscription{{ sortie.date_limite_inscription }}</p>
+<p>Nombre de places : {{ sortie.nb_inscription_max }}</p>
+<p>Durée : {{ sortie.duree }}</p>
+<p>Descriptions et infos : {{ sortie.infos_sortie }}</p>
