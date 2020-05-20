@@ -17,10 +17,13 @@
                 <a class="nav-link" href="#">Campus</a>
             </li>
             <li>
-                <a class="nav-link" href="#">Accueil</a>
+                <a class="nav-link" href="{{path('home')}}">Accueil</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Mon profil</a>
+                <a class="nav-link"
+                   href="{{ path('profile', {pseudo: app.user.pseudo}) }}">
+                    Mon profil
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('logout') }}">Se déconnecter</a>
