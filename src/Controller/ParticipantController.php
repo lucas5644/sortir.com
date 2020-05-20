@@ -54,7 +54,7 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/{pseudo}")
+     * @Route("profil/{pseudo}", name="profile")
      */
     public function afficherProfil($pseudo){
         $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $pseudo]);
