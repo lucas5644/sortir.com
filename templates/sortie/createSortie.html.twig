@@ -43,13 +43,17 @@
     </div>
 
     <div>
+        {{ form_label(sortieForm.ville) }}
+        {{ form_widget(sortieForm.ville) }}
+        {{ form_errors(sortieForm.ville) }}
+    </div>
+
+    <div>
         {{ form_label(sortieForm.lieu) }}
         {{ form_widget(sortieForm.lieu) }}
         {{ form_errors(sortieForm.lieu) }}
-        <a href="{{ path('lieu_add') }}" title="Ajouter un lieu"><img src="{{ asset('images/plus.png') }}" alt="Ajouter un lieu" class="bouton-plus"></a>
-
+        {#<a href="{{ path('lieu_add') }}" title="Ajouter un lieu"><img src="{{ asset('images/plus.png') }}" alt="Ajouter un lieu" class="bouton-plus"></a>#}
     </div>
-
 
 
     {{ form_row(sortieForm._token) }}
