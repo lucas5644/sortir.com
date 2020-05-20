@@ -45,10 +45,20 @@
     <div>
         {{ form_label(sortieForm.lieu) }}
         {{ form_widget(sortieForm.lieu) }}
-        {{ form_errors(sortieForm.lieu) }}
-        {#<a href="{{ path('lieu_add') }}" title="Ajouter un lieu"><img src="{{ asset('images/plus.png') }}" alt="Ajouter un lieu" class="bouton-plus"></a>#}
+        {{ form_errors(sortieForm.lieu) }} <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}" alt="Ajouter un lieu" class="bouton-plus" width="35px"></a>
     </div>
 
+    {#<div>
+        {{ form_label(sortieForm.lattitude) }}
+        {{ form_widget(sortieForm.lattitude) }}
+        {{ form_errors(sortieForm.lattitude) }}
+    </div>
+
+    <div>
+        {{ form_label(sortieForm.longitude) }}
+        {{ form_widget(sortieForm.longitude) }}
+        {{ form_errors(sortieForm.longitude) }}
+    </div>#}
 
     {{ form_row(sortieForm._token) }}
     <button type="submit">Enregistrer</button>
