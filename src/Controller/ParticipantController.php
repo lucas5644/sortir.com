@@ -64,6 +64,7 @@ class ParticipantController extends AbstractController
         $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $pseudo]);
         $userC = $this->security->getUser();
         $oldPassword = $userC->getPassword();
+        $oldURL = $userC->getUrlPhoto();
 
         if($userC ==! $user){
             return $this->render("User/profil.html.twig", [
@@ -82,8 +83,12 @@ class ParticipantController extends AbstractController
                 }else{
                     $user->setPassword($oldPassword);
                 }
+                if(is_null($user->getUrlPhoto())){
+                    $user->setUrlPhoto($oldURL);
+                }
                 $em->persist($user);
                 $em->flush();
+                $this->addFlash("success", "Modifications prise en compte!!! ".$user->getPseudo());
                 return $this->redirectToRoute('home');
             }
             return $this->render("User/monProfil.html.twig", [
