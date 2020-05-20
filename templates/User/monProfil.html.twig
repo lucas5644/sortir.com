@@ -2,34 +2,37 @@
 
 {% block main %}
     <div>
+        <div class="image">
+            <img src="{{ asset('uploads/photo_profil/' ~ user.getUrlPhoto()) }}" width="150">
+        </div>
         {{ form_start(userForm) }}
 
         <div>
-            {{ form_label(userForm.pseudo) }}
+            <label>{{ form_label(userForm.pseudo) }} : </label>
             {{ form_widget(userForm.pseudo) }}
             {{ form_errors(userForm.pseudo) }}
         </div>
 
         <div>
-            {{ form_label(userForm.prenom) }}
+            <label>{{ form_label(userForm.prenom) }} : </label>
             {{ form_widget(userForm.prenom) }}
             {{ form_errors(userForm.prenom) }}
         </div>
 
         <div>
-            {{ form_label(userForm.nom) }}
+            <label>{{ form_label(userForm.nom) }} : </label>
             {{ form_widget(userForm.nom) }}
             {{ form_errors(userForm.nom) }}
         </div>
 
         <div>
-            {{ form_label(userForm.telephone) }}
+            <label>{{ form_label(userForm.telephone) }} : </label>
             {{ form_widget(userForm.telephone) }}
             {{ form_errors(userForm.telephone) }}
         </div>
 
         <div>
-            {{ form_label(userForm.mail) }}
+            <label>{{ form_label(userForm.mail) }} : </label>
             {{ form_widget(userForm.mail) }}
             {{ form_errors(userForm.mail) }}
         </div>
@@ -40,10 +43,18 @@
         </div>
 
         <div>
-            {{ form_label(userForm.campus) }}
+            <label>{{ form_label(userForm.campus) }} : </label>
             {{ form_widget(userForm.campus) }}
             {{ form_errors(userForm.campus) }}
         </div>
+
+        <label>Ma photo : </label>
+        <div class="btn btn-outline-primary">
+            {{ form_label(userForm.urlPhoto) }}
+            {{ form_widget(userForm.urlPhoto) }}
+            {{ form_errors(userForm.urlPhoto) }}
+        </div>
+        <br>
 
         {{ form_row(userForm._token) }}
         <button class="btn btn-primary" type="submit">Modifier</button><a class="btn btn-dark" href="{{ path('home') }}">Retour</a>
