@@ -64,6 +64,7 @@ class ParticipantController extends AbstractController
         $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $pseudo]);
         $userC = $this->security->getUser();
         $oldPassword = $userC->getPassword();
+        $oldURL = $userC->getUrlPhoto();
 
         if($userC ==! $user){
             return $this->render("User/profil.html.twig", [
@@ -76,14 +77,42 @@ class ParticipantController extends AbstractController
             dump($user);
             if($userForm->isSubmitted() && $userForm->isValid())
             {
+
                 if(strlen(trim($user->getPassword())) ==! 0){
                     $password = $passwordEncoder->encodePassword($user, $user->getPassword());
                     $user->setPassword($password);
                 }else{
                     $user->setPassword($oldPassword);
                 }
+                if(is_null($user->getUrlPhoto())){
+                    $user->setUrlPhoto($oldURL);
+                }else{
+                    /** @var UploadedFile $brochureFile */
+                    $urlPhotoFile = $userForm->get('urlPhoto')->getData();
+                    if ($urlPhotoFile) {
+                        $originalFilename = pathinfo($urlPhotoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                        // this is needed to safely include the file name as part of the URL
+                        $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                        $newFilename = $safeFilename.'-'.uniqid().'.'.$urlPhotoFile->guessExtension();
+
+                        // Move the file to the directory where brochures are stored
+                        try {
+                            $urlPhotoFile->move(
+                                $this->getParameter('photo_profil_directory'),
+                                $newFilename
+                            );
+                        } catch (FileException $e) {
+                            // ... handle exception if something happens during file upload
+                        }
+
+                        // updates the 'brochureFilename' property to store the PDF file name
+                        // instead of its contents
+                        $user->setUrlPhoto($newFilename);
+                    }
+                }
                 $em->persist($user);
                 $em->flush();
+                $this->addFlash("success", "Modifications prise en compte!!! ".$user->getPseudo());
                 return $this->redirectToRoute('home');
             }
             return $this->render("User/monProfil.html.twig", [

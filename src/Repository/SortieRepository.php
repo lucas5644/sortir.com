@@ -19,6 +19,12 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
+    public function findSortie() {
+        return $this->createQueryBuilder('s')
+            ->andWhere()
+            ;
+    }
+
 
 
     // /**

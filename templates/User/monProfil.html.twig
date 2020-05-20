@@ -1,54 +1,66 @@
 {% extends 'layout.html.twig' %}
 
 {% block main %}
-    <div>
-        {{ form_start(userForm) }}
-
-        <div>
-            {{ form_label(userForm.pseudo) }}
-            {{ form_widget(userForm.pseudo) }}
-            {{ form_errors(userForm.pseudo) }}
+    <div class="col-12 row">
+        <div class="col-2 align-self-center">
+            <img src="{{ asset('uploads/photo_profil/' ~ user.getUrlPhoto()) }}" width="150">
         </div>
+        <div class="col-10">
+            {{ form_start(userForm) }}
 
-        <div>
-            {{ form_label(userForm.prenom) }}
-            {{ form_widget(userForm.prenom) }}
-            {{ form_errors(userForm.prenom) }}
+            <div>
+                <label>{{ form_label(userForm.pseudo) }} : </label>
+                {{ form_widget(userForm.pseudo) }}
+                {{ form_errors(userForm.pseudo) }}
+            </div>
+
+            <div>
+                <label>{{ form_label(userForm.prenom) }} : </label>
+                {{ form_widget(userForm.prenom) }}
+                {{ form_errors(userForm.prenom) }}
+            </div>
+
+            <div>
+                <label>{{ form_label(userForm.nom) }} : </label>
+                {{ form_widget(userForm.nom) }}
+                {{ form_errors(userForm.nom) }}
+            </div>
+
+            <div>
+                <label>{{ form_label(userForm.telephone) }} : </label>
+                {{ form_widget(userForm.telephone) }}
+                {{ form_errors(userForm.telephone) }}
+            </div>
+
+            <div>
+                <label>{{ form_label(userForm.mail) }} : </label>
+                {{ form_widget(userForm.mail) }}
+                {{ form_errors(userForm.mail) }}
+            </div>
+
+            <div>
+                {{ form_widget(userForm.password) }}
+                {{ form_errors(userForm.password) }}
+            </div>
+
+            <div>
+                <label>{{ form_label(userForm.campus) }} : </label>
+                {{ form_widget(userForm.campus) }}
+                {{ form_errors(userForm.campus) }}
+            </div>
+
+            <label>Ma photo : </label>
+            <div class="btn btn-outline-primary">
+                {{ form_label(userForm.urlPhoto) }}
+                {{ form_widget(userForm.urlPhoto) }}
+                {{ form_errors(userForm.urlPhoto) }}
+            </div>
+            <br>
+
+            {{ form_row(userForm._token) }}
+            <button class="btn btn-primary" type="submit">Modifier</button><a class="btn btn-dark" href="{{ path('home') }}">Retour</a>
+            {{ form_end(userForm, {'render_rest': false}) }}
         </div>
-
-        <div>
-            {{ form_label(userForm.nom) }}
-            {{ form_widget(userForm.nom) }}
-            {{ form_errors(userForm.nom) }}
-        </div>
-
-        <div>
-            {{ form_label(userForm.telephone) }}
-            {{ form_widget(userForm.telephone) }}
-            {{ form_errors(userForm.telephone) }}
-        </div>
-
-        <div>
-            {{ form_label(userForm.mail) }}
-            {{ form_widget(userForm.mail) }}
-            {{ form_errors(userForm.mail) }}
-        </div>
-
-        <div>
-            {{ form_widget(userForm.password) }}
-            {{ form_errors(userForm.password) }}
-        </div>
-
-        <div>
-            {{ form_label(userForm.campus) }}
-            {{ form_widget(userForm.campus) }}
-            {{ form_errors(userForm.campus) }}
-        </div>
-
-        {{ form_row(userForm._token) }}
-        <button class="btn btn-primary" type="submit">Modifier</button><a class="btn btn-dark" href="{{ path('home') }}">Retour</a>
-        {{ form_end(userForm, {'render_rest': false}) }}
-
 
     </div>
 {% endblock %}
