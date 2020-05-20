@@ -17,58 +17,58 @@ class SortieType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'label' => 'Nom de l\'évènement',
+                'label' => 'Nom de l\'évènement : ',
                 'attr' => [
                     'class' => 'nom-evenement',
                     'placeholder' => 'Nom'
                 ]
             ])
             ->add('dateHeureDebut', DateTimeType::class, [
-                'label' => 'Date et Heure de début',
+                'label' => 'Date et Heure de l\'évènement : ',
                 'attr' => [
                     'class' => 'date-debut'
                 ]
             ])
             ->add('duree', IntegerType::class, [
-                'label' => 'Durée de l\'évènement',
+                'label' => 'Durée de l\'évènement : ',
                 'attr' => [
                     'class' => 'duree-evenement'
                 ]
             ])
             ->add('dateLimiteInscription', DateTimeType::class, [
-                'label' => 'Date limite d\'inscription',
+                'label' => 'Date limite d\'inscription : ',
                 'attr' => [
                     'class' => 'date-limite-inscription'
                 ]
             ])
             ->add('nbInscriptionMax', IntegerType::class, [
-                'label' => 'Nombre d\'inscrits maximum',
+                'label' => 'Nombre de places : ',
                 'attr' => [
                     'class' => 'nb-inscrits-max'
                 ]
             ])
             ->add('infosSortie', TextareaType::class, [
-                'label' => 'Description de l\'évènement',
+                'label' => 'Description de l\'évènement : ',
                 'attr' => [
                     'class' => 'description-evenement',
                     'placeholder' => 'Veuillez décrire votre évènement'
                 ]
             ] )
             ->add('organisateur', TextType::class, [
-                'label' => 'Organisateur',
+                'label' => 'Organisateur : ',
                 'attr' => [
                     'class' => 'organisateur'
                 ]
             ] )
             ->add('lieu', TextType::class, [
-                'label' => 'Lieu de l\'évènement',
+                'label' => 'Lieu de l\'évènement : ',
                 'attr' => [
                     'class' => 'lieu-evenement'
                 ]
 
             ])
             ->add('etat', TextType::class, [
-                'label' => 'Etat',
+                'label' => 'Etat : ',
                 'attr' => [
                     'class' => 'etat-evenement'
                 ]

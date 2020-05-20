@@ -1,0 +1,53 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Publiez vos sorties{% endblock %}
+
+{% block main %}
+    <h1>Ajouter une sortie</h1>
+<div>
+    {{ form_start(sortieForm) }}
+    <div>
+        {{ form_label(sortieForm.nom) }}
+        {{ form_widget(sortieForm.nom) }}
+        {{ form_errors(sortieForm.nom) }}
+    </div>
+
+    <div>
+        {{ form_label(sortieForm.dateHeureDebut) }}
+        {{ form_widget(sortieForm.dateHeureDebut) }}
+        {{ form_errors(sortieForm.dateHeureDebut) }}
+    </div>
+
+    <div>
+        {{ form_label(sortieForm.dateLimiteInscription) }}
+        {{ form_widget(sortieForm.dateLimiteInscription) }}
+        {{ form_errors(sortieForm.dateLimiteInscription) }}
+    </div>
+
+    <div>
+        {{ form_label(sortieForm.nbInscriptionMax) }}
+        {{ form_widget(sortieForm.nbInscriptionMax) }}
+        {{ form_errors(sortieForm.nbInscriptionMax) }}
+    </div>
+
+    <div>
+        {{ form_label(sortieForm.duree) }}
+        {{ form_widget(sortieForm.duree) }}
+        {{ form_errors(sortieForm.duree) }}
+    </div>
+
+    <div>
+        {{ form_label(sortieForm.infosSortie) }}
+        {{ form_widget(sortieForm.infosSortie) }}
+        {{ form_errors(sortieForm.infosSortie) }}
+    </div>
+
+
+    {{ form_row(sortieForm._token) }}
+    <button type="submit">Enregistrer</button>
+    <button type="submit">Publier la sortie</button>
+    <button type="submit">Annuler</button>
+    {{ form_end(sortieForm, {'render_rest': false}) }}
+
+</div>
+{% endblock %}
