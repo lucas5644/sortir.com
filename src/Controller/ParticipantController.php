@@ -85,7 +85,7 @@ class ParticipantController extends AbstractController
                 }else{
                     $user->setPassword($oldPassword);
                 }
-                if(is_null($user->getUrlPhoto())){
+                if(is_null($user->getUrlPhoto()) && !is_null($oldURL)){
                     $user->setUrlPhoto($oldURL);
                 }else{
                     /** @var UploadedFile $brochureFile */
