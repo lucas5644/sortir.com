@@ -5,10 +5,10 @@
 {% block main %}
     <br>
     <h3>Filtrer les sorties</h3>
-    {{ form_start(sortieForm) }}
+    {{ form_start(findSortieForm) }}
     <div class="row">
         <div class="col-6">
-            {{ form_widget(sortieForm) }}
+            {{ form_widget(findSortieForm) }}
         </div>
         <div class="form-group col-6">
             <label for="dateDebut">Entre le :</label>
@@ -35,5 +35,13 @@
             <label for="sortiesPassees">Sorties passées</label>
         </div>
     </div>
-    {{ form_end(sortieForm) }}
+    <div class="text-right">
+    <input class="btn btn-primary" type="submit" value="Rechercher">
+    </div>
+    {{ form_end(findSortieForm) }}
+    <div>
+        {% for sortie in sorties %}
+            {{ sortie.nom }}
+        {% endfor %}
+    </div>
 {% endblock %}

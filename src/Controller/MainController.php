@@ -17,22 +17,26 @@ class MainController extends AbstractController
      */
     public function index(Request $request, EntityManagerInterface $em)
     {
-        //Nouvelle instance Sortie
         $sortie = new Sortie();
+        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sorties = $sortieRepo->findAll();
 
         //récupération de la liste des campus
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
         $campus = $campusRepo->findAll();
 
-        $sortieForm = $this->createForm(SearchSortieType::class, $sortie);
-        $sortieForm->handleRequest($request);
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            $em->persist($sortie);
-            $em->flush();
-            return $this->redirectToRoute('home');
+        $findSortieForm = $this->createForm(SearchSortieType::class, $sortie);
+        $findSortieForm->handleRequest($request);
+        if ($findSortieForm->isSubmitted() && $findSortieForm->isValid()) {
+//            $em->persist($sortie);
+//            $em->flush();
+            return $this->redirectToRoute('home', [
+                "sorties" => $sorties
+            ]);
         }
         return $this->render('main/index.html.twig', [
-            "sortieForm" => $sortieForm->createView(), "campus" => $campus
+            "findSortieForm" => $findSortieForm->createView(),
+            "sorties" => $sorties, "campus" => $campus
         ]);
     }
 

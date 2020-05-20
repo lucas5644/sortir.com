@@ -21,8 +21,8 @@ class SearchSortieType extends AbstractType
             ])
             ->add('organisateur', EntityType::class, [
                 'label' => 'Campus',
-                'choice_label' => 'nom',
-                'class'=>Campus::class,
+                'choice_label' => 'campus',
+                'class'=>Participant::class,
                 'placeholder'=>'Choisir un campus'
             ])
         ;
