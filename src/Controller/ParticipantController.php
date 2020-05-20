@@ -65,8 +65,9 @@ class ParticipantController extends AbstractController
         $userC = $this->security->getUser();
         $oldPassword = $userC->getPassword();
         $oldURL = $userC->getUrlPhoto();
-
-        if($userC ==! $user){
+        dump($userC->getUsername());
+        dump($user->getUsername());
+        if(!hash_equals($userC->getUsername(), $user->getUsername())){
             return $this->render("User/profil.html.twig", [
                 "user" => $user
             ]);
