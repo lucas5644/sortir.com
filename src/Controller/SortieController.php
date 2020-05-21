@@ -22,11 +22,12 @@ class SortieController extends AbstractController
         $sortie = new Sortie();
         $lieuRepo = $this->getDoctrine()->getRepository(Lieu::class);
         $lieuE = $lieuRepo->findAll();
-        foreach ($lieuE as $l) {
+
+        /*foreach ($lieuE as $l) {
             $villeRepo = $this->getDoctrine()->getRepository(Ville::class);
             $villeE = $villeRepo->findOneBy(['id'=>$l->getVille()->getId()]);
             $l->setVille($villeE);
-        }
+        }*/
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
@@ -42,6 +43,7 @@ class SortieController extends AbstractController
 
         $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(1);
         $sortie->setEtat($etat);
+
 
         dump($sortie);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
