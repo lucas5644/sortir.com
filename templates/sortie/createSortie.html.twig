@@ -51,17 +51,11 @@
         <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}" alt="Ajouter un lieu" class="bouton-plus" width="35px"></a>
     </div>
 
-    {#<div>
-        {{ form_label(sortieForm.lattitude) }}
-        {{ form_widget(sortieForm.lattitude) }}
-        {{ form_errors(sortieForm.lattitude) }}
-    </div>
-
     <div>
-        {{ form_label(sortieForm.longitude) }}
-        {{ form_widget(sortieForm.longitude) }}
-        {{ form_errors(sortieForm.longitude) }}
-    </div>#}
+        <label>Rue : </label>
+            <input type="text"></input>
+
+    </div>
 
     {{ form_row(sortieForm._token) }}
     <button type="submit">Enregistrer</button>
