@@ -85,11 +85,17 @@ class SortieType extends AbstractType
 
             ])*/
 
-            ->add('lieu',EntityType::class,[
+            /*->add('lieu',EntityType::class,[
                 'class'=>'App\Entity\Lieu',
                 'placeholder' => 'Selectionnez',
                 'mapped' => false,
-    ])
+    ])*/
+
+            ->add('ville',EntityType::class,[
+                'class'=>'App\Entity\Ville',
+                'placeholder' => 'Selectionnez',
+                'mapped' => false,
+            ])
 
             ->add('etat', TextType::class, [
                 'label' => 'Etat : ',

@@ -43,6 +43,12 @@
     </div>
 
     <div>
+        {{ form_label(sortieForm.ville) }}
+        {{ form_widget(sortieForm.ville) }}
+        {{ form_errors(sortieForm.ville) }}
+    </div>
+
+    <div>
         <select id="lieuE" name="lieuE">
             {% for lieu in lieuE %}
             <option class="lieu" value="{{ lieu }}" data-lieu="{{ lieu }}">{{ lieu }}</option>
