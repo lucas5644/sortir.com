@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Lieu;
 use App\Entity\Sortie;
+use App\Entity\Ville;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +22,11 @@ class SortieController extends AbstractController
         $sortie = new Sortie();
         $lieuRepo = $this->getDoctrine()->getRepository(Lieu::class);
         $lieuE = $lieuRepo->findAll();
+        foreach ($lieuE as $l) {
+            $villeRepo = $this->getDoctrine()->getRepository(Ville::class);
+            $villeE = $villeRepo->findOneBy(['id'=>$l->getVille()->getId()]);
+            $l->setVille($villeE);
+        }
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
