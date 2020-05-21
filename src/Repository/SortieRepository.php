@@ -23,14 +23,15 @@ class SortieRepository extends ServiceEntityRepository
     public function findSortie($sortie, $campus)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.nom = :nom')
-            ->setParameter('nom', $sortie)
-//            ->join('s.organisateur', 'o')
-//            ->join('o.campus', 'c')
-//            ->andWhere('c.nom = :organisateur')
-//            ->setParameter('organisateur', $campus)
+            ->andWhere('s.nom LIKE :nom')
+            ->setParameter('nom', '%'.$sortie.'%')
+            ->join('s.organisateur', 'o')
+            ->join('o.campus', 'c')
+            ->andWhere('c.nom LIKE :campus')
+            ->setParameter('campus','%'.$campus.'%')
             ->getQuery()
             ->getResult();
+
 
     }
 
