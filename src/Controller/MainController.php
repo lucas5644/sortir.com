@@ -30,13 +30,14 @@ class MainController extends AbstractController
             if ($sortie->getNom() == null) {
                 $sortie->setNom('');
             }
+            $valeurs = $request->get('campus');
 
 //            if ($sortie->getOrganisateur()->getCampus()->getNom() == null) {
 //                $sortie->getOrganisateur()->getCampus();
 //            }
-            dump($sortie);
+            dump($valeurs);
 
-            $sorties = $sortieRepo->findSortie($sortie->getNom(), $sortie->getOrganisateur()->getCampus());
+            $sorties = $sortieRepo->findSortie($sortie->getNom(), $valeurs);
             return $this->render('main/search-sortie.html.twig', [
                 "sorties" => $sorties
             ]);
