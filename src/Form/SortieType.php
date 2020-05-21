@@ -2,7 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -71,13 +76,21 @@ class SortieType extends AbstractType
                     'class' => 'organisateur'
                 ]
             ] )
-            ->add('lieu', ChoiceType::class, [
-                'label' => 'Lieu de l\'évènement : ',
+
+/*            ->add('lieu', ChoiceType::class, [
+                'label' => "Lieu de l'évènement : ",
                 'attr' => [
                     'class' => 'lieu-evenement'
                 ]
 
-            ])
+            ])*/
+
+            ->add('lieu',EntityType::class,[
+                'class'=>'App\Entity\Lieu',
+                'placeholder' => 'Selectionnez',
+                'mapped' => false,
+    ])
+
             ->add('etat', TextType::class, [
                 'label' => 'Etat : ',
                 'attr' => [
