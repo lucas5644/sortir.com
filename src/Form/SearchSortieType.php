@@ -20,19 +20,19 @@ class SearchSortieType extends AbstractType
         $builder
             ->add('nom', TextType::class, [
                 'label' => 'Le nom de la sortie contient : ',
-                'required' => false
-            ])
-            ->add('organisateur', EntityType::class, [
-                'label' => 'Campus',
                 'required' => false,
-                'choice_label' => 'campus.nom',
-                'class' => Participant::class,
-                'placeholder' => 'Choisir un campus',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('o')
-                        ->groupBy('o.campus');
-                },
             ]);
+//            ->add('organisateur', EntityType::class, [
+//                'label' => 'Campus',
+//                'required' => false,
+//                'choice_label' => 'campus.nom',
+//                'class' => Participant::class,
+//                'placeholder' => 'Choisir un campus',
+//                'query_builder' => function (EntityRepository $er) {
+//                    return $er->createQueryBuilder('o')
+//                        ->groupBy('o.campus');
+//                },
+//            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
