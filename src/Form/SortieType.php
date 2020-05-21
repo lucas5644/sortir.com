@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class SortieType extends AbstractType
 {
@@ -26,18 +27,27 @@ class SortieType extends AbstractType
             ])
             ->add('dateHeureDebut', DateTimeType::class, [
                 'label' => 'Date et Heure de l\'évènement : ',
+                'time_widget' => 'single_text',
+                'date_widget' => 'single_text',
+                'data' => new \DateTime("now"),
+                'format' => 'yyy-MM-dd',
                 'attr' => [
                     'class' => 'date-debut'
                 ]
             ])
+
             ->add('duree', IntegerType::class, [
-                'label' => 'Durée de l\'évènement : ',
+                'label' => 'Durée de l\'évènement ( en minutes ): ',
                 'attr' => [
                     'class' => 'duree-evenement'
                 ]
             ])
             ->add('dateLimiteInscription', DateTimeType::class, [
                 'label' => 'Date limite d\'inscription : ',
+                'time_widget' => 'single_text',
+                'date_widget' => 'single_text',
+                'data' => new \DateTime("now"),
+                'format' => 'yyy-MM-dd',
                 'attr' => [
                     'class' => 'date-limite-inscription'
                 ]
