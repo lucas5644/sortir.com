@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\FindSortie;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -20,20 +21,50 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    public function findSortie($sortie, $campus)
+
+    public function findSortie(FindSortie $filtre)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.nom LIKE :nom')
-            ->setParameter('nom', '%'.$sortie.'%')
-            ->join('s.organisateur', 'o')
-            ->join('o.campus', 'c')
-            ->andWhere('c.nom LIKE :campus')
-            ->setParameter('campus','%'.$campus.'%')
-            ->getQuery()
-            ->getResult();
+        $qb = $this->createQueryBuilder('s');
+
+        //Chercher si le champ nom est rempli
+        if ($filtre->getNomSortie() != null || $filtre->getNomSortie()) {
+            $qb->andWhere('s.nom LIKE :nom')
+            ->setParameter('nom', '%'.$filtre->getNomSortie().'%');
+        }
+
+        //requête
+        $query = $qb->getQuery();
+
+        dump($query);
+
+        return new Paginator($query);
 
 
+
+//        return $this->createQueryBuilder('s')
+//            ->andWhere('s.nom LIKE :nom')
+//            ->setParameter('nom', '%'.$sortie.'%')
+//            ->join('s.organisateur', 'o')
+//            ->join('o.campus', 'c')
+//            ->andWhere('c.nom LIKE :campus')
+//            ->setParameter('campus','%'.$campus.'%')
+//            ->getQuery()
+//            ->getResult();
     }
+
+
+//    public function findSortie($sortie, $campus)
+//    {
+//        return $this->createQueryBuilder('s')
+//            ->andWhere('s.nom LIKE :nom')
+//            ->setParameter('nom', '%'.$sortie.'%')
+//            ->join('s.organisateur', 'o')
+//            ->join('o.campus', 'c')
+//            ->andWhere('c.nom LIKE :campus')
+//            ->setParameter('campus','%'.$campus.'%')
+//            ->getQuery()
+//            ->getResult();
+//    }
 
 
 
