@@ -22,7 +22,7 @@
 
     <p>Nombre d'inscrit à l'évènement : {{ sortie.getInscriptions()|length }}</p>
 
-    {% if utilisateurIns is null or idInscription is null %}
+    {% if utilisateurIns is null and idInscription is null %}
         {% if sortie.etat.id == 2 and date(sortie.dateLimiteInscription) > date("now") and sortie.getInscriptions()|length < 5%}
             Bonjour, cette sortie est disponible jusqu'au {{ sortie.dateLimiteInscription | date('d/m/y') }}
 
@@ -35,7 +35,7 @@
         {% endif %}
     {% endif %}
 
-    {% if utilisateurIns is not null %}
+    {% if utilisateurIns is not null and sortie.etat.id == 2%}
         {% if utilisateurIns.id == app.user.id %}
             <p>Vous voulez vous désister?</p>
             {{ utilisateurIns.nom }}

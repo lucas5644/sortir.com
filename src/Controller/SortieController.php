@@ -100,6 +100,7 @@ class SortieController extends AbstractController
         $inscriptionForm = $this->createForm(InscriptionType::class, $inscription);
 
         dump($inscription);
+        dump($sortie);
 
         $inscriptionForm->handleRequest($request);
 
