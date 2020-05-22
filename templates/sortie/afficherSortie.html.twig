@@ -24,13 +24,9 @@
 
     {% if utilisateurIns is null and idInscription is null %}
         {% if sortie.etat.id == 2 and date(sortie.dateLimiteInscription) > date("now") and sortie.getInscriptions()|length < 5%}
-            Bonjour, cette sortie est disponible jusqu'au {{ sortie.dateLimiteInscription | date('d/m/y') }}
+            <p>Bonjour, cette sortie est disponible jusqu'au {{ sortie.dateLimiteInscription | date('d/m/y') }}</p>
 
-            {{ form_start(inscriptionForm) }}
-
-            {{ form_row(inscriptionForm._token) }}
-            <button type="submit">S'inscrire</button>
-            {{ form_end(inscriptionForm, {'render_rest': false}) }}
+            <a class="btn btn-primary" href="{{ path('inscription', {idSortie: sortie.id}) }}">S'inscrire</a>
 
         {% endif %}
     {% endif %}
@@ -38,13 +34,11 @@
     {% if utilisateurIns is not null and sortie.etat.id == 2%}
         {% if utilisateurIns.id == app.user.id %}
             <p>Vous voulez vous désister?</p>
-            {{ utilisateurIns.nom }}
-            {{ utilisateurIns.id }}
-            <a class="btn btn-danger" href="{{ path('inscription', {id: idInscription}) }}">Se désister</a>
+            <a class="btn btn-danger" href="{{ path('inscriptionDelete', {id: idInscription}) }}">Se désister</a>
         {% endif %}
     {% endif %}
 
-    {% if sortie.getInscriptions()|length == 5 %}
+    {% if sortie.getInscriptions()|length == 5 and utilisateurIns is null%}
         <p>Il n'y a plus de place disponible pour cette sortie.</p>
     {% endif %}
 

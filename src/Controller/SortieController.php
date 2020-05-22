@@ -18,12 +18,10 @@ class SortieController extends AbstractController
 {
 
     private $security;
-    private $date;
 
     public function __construct(Security $security)
     {
         $this->security = $security;
-        $this->date = new \DateTime();
     }
 
     /**
@@ -87,34 +85,11 @@ class SortieController extends AbstractController
         $idInscription = null;
         $user = null;
 
-        foreach ($sortie->getInscriptions() as $ins){
-            if($ins->getParticipant()->getId() == $idUser){
+        foreach ($sortie->getInscriptions() as $ins) {
+            if ($ins->getParticipant()->getId() == $idUser) {
                 $idInscription = $ins->getId();
-                dump($idInscription);
                 $user = $ins->getParticipant();
-                dump($user);
             }
-        }
-
-        $inscription = new Inscription();
-        $inscriptionForm = $this->createForm(InscriptionType::class, $inscription);
-
-        dump($inscription);
-        dump($sortie);
-
-        $inscriptionForm->handleRequest($request);
-
-        if($inscriptionForm->isSubmitted() && $inscriptionForm->isValid()){
-
-            $inscription->setDateInscription($this->date);
-            $inscription->setParticipant($this->security->getUser());
-            $inscription->setSortie($sortie);
-            dump($inscription);
-            $em->persist($inscription);
-            $em->flush();
-
-            $this->addFlash("success", "Votre inscription a bien été sauvegardée");
-            return $this->redirectToRoute('sortie_detail',['id'=>$sortie->getId()]);
         }
 
         if(empty($sortie)){
@@ -125,7 +100,6 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
             'utilisateurIns' => $user,
             'idInscription' => $idInscription,
-            'inscriptionForm' => $inscriptionForm -> createView()
         ]);
     }
 
