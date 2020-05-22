@@ -32,11 +32,18 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('nom', '%' . $filtre->getNomSortie() . '%');
         }
 
-        if ($filtre->getNomCampus() != null || $filtre->getNomSortie()) {
+        if ($filtre->getNomCampus() != '' || $filtre->getNomSortie()) {
             $qb->join('s.organisateur', 'o')
                 ->join('o.campus', 'c')
-                ->andWhere('c.id = :campus')
-                ->setParameter('campus', $filtre->getNomCampus());
+                ->andWhere('c.nom LIKE :campus')
+                ->setParameter('campus', '%' . $filtre->getNomCampus() . '%');
+        }
+
+        if (($filtre->getDateDebut() != null || $filtre->getDateDebut())
+            || ($filtre->getDateFin() != null || $filtre->getDateFin()))  {
+            $qb->andWhere('s.dateHeureDebut > :dateDebut AND s.dateHeureDebut < :dateFin')
+                ->setParameter('dateFin', $filtre->getDateFin())
+                ->setParameter('dateDebut', $filtre->getDateDebut());
         }
 
         //requête

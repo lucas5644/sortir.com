@@ -1,8 +1,6 @@
 {% extends "layout.html.twig" %}
 {% block title %}Accueil{% endblock %}
 {% block main %}
-    <br>
-    <div class="jumbotron">
         <h3>Filtrer les sorties</h3>
         {{ form_start(findMesSortiesForm) }}
         <div class="form-row">
@@ -41,7 +39,6 @@
             </div>
         </div>
         {{ form_end(findMesSortiesForm) }}
-    </div>
 <div class="table-responsive pre-scrollable">
     <table class="table table-striped">
         <thead>

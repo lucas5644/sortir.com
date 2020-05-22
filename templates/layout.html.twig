@@ -21,15 +21,16 @@
 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 {% include ('inc/nav.html.twig') %}
 {% endif %}
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="flash flash-{{ label }}">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endfor %}
 <main>
+    <br>
     <div class="container">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
         {% block main %}{% endblock %}
     </div>
 </main>

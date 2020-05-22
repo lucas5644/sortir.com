@@ -40,6 +40,11 @@ class MainController extends AbstractController
         //récupération des données du formulaire
         $findMesSortiesForm->handleRequest($request);
 
+        if ($findSortie->getDateDebut() == '' && $findSortie->getDateFin() != '' ||
+            $findSortie->getDateDebut() != '' && $findSortie->getDateFin() == '') {
+            $this->addFlash('warning', 'Les deux dates doivent être saisies');
+        }
+
         //recherche de toutes les sorties pour affichage dan tableau
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
 
@@ -49,9 +54,6 @@ class MainController extends AbstractController
 
 
         //renvoyer le formulaire à ma page et mon filtre
-
-        dump($sorties);
-
         return $this->render('main/index.html.twig', [
             'findMesSortiesForm' => $findMesSortiesForm->createView(),
             "sorties" => $sorties,
