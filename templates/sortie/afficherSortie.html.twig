@@ -18,5 +18,13 @@
     {% if sortie.lieu.latitude and sortie.lieu.longitude is not null %}
         <p>Latitude : {{ sortie.lieu.latitude }}</p>
         <p>Longitude : {{ sortie.lieu.longitude }}</p>
-        {% endif %}
+    {% endif %}
+
+    {% if sortie.etat.id == 2 and date(sortie.dateLimiteInscription) > date("now") %}
+        Bonjour, cette sortie est disponible jusqu'au {{ sortie.dateLimiteInscription | date('d/m/y') }}
+    {% endif %}
+
+    {% if  sortie.etat.id != 1 and sortie.etat.id != 2 %}
+        Vous ne pouvez plus vous inscrire
+    {% endif %}
 {% endblock %}
