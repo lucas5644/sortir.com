@@ -38,6 +38,8 @@
                 {{ form_errors(userForm.mail) }}
             </div>
 
+
+
             <div>
                 {{ form_widget(userForm.password) }}
                 {{ form_errors(userForm.password) }}
@@ -58,7 +60,10 @@
             <br>
 
             {{ form_row(userForm._token) }}
-            <button class="btn btn-primary" type="submit">Modifier</button><a class="btn btn-dark" href="{{ path('home') }}">Retour</a>
+
+                <button class="btn btn-primary" type="submit">Modifier</button><a class="btn btn-dark" href="{{ path('home') }}">Retour</a>
+
+
             {{ form_end(userForm, {'render_rest': false}) }}
         </div>
 

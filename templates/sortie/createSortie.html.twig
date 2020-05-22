@@ -49,11 +49,11 @@
     </div>
 
     <div>
-{#        <select id="lieuE" name="lieuE">
-            {% for lieu in lieuE %}
+        <select id="lieuE" name="lieuE">
+            {#{% for lieu in lieuE %}
             <option class="lieu" value="{{ lieu }}" data-lieu="{{ lieu }}">{{ lieu }}</option>
-            {% endfor %}
-        </select>#}
+            {% endfor %}#}
+        </select>
         {{ form_label(sortieForm.lieu.) }}
         {{ form_widget(sortieForm.lieu) }}
         {{ form_errors(sortieForm.lieu) }}
