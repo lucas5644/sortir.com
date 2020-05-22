@@ -3,10 +3,14 @@
 namespace App\Repository;
 
 use App\Entity\FindSortie;
+use App\Entity\Inscription;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\AST\Functions\CurrentDateFunction;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,9 +20,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SortieRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $security;
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Sortie::class);
+        $this->security = $security;
     }
 
 
@@ -26,19 +32,19 @@ class SortieRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('s');
 
-        //Chercher si le champ nom est rempli
+        //Si le champ nom est rempli...
         if ($filtre->getNomSortie() != null || $filtre->getNomSortie()) {
             $qb->andWhere('s.nom LIKE :nom')
                 ->setParameter('nom', '%' . $filtre->getNomSortie() . '%');
         }
-
+        //Si le champ campus est choisi
         if ($filtre->getNomCampus() != '' || $filtre->getNomSortie()) {
             $qb->join('s.organisateur', 'o')
                 ->join('o.campus', 'c')
                 ->andWhere('c.nom LIKE :campus')
                 ->setParameter('campus', '%' . $filtre->getNomCampus() . '%');
         }
-
+        // si les dates sont saisies
         if (($filtre->getDateDebut() != null || $filtre->getDateDebut())
             || ($filtre->getDateFin() != null || $filtre->getDateFin()))  {
             $qb->andWhere('s.dateHeureDebut > :dateDebut AND s.dateHeureDebut < :dateFin')
@@ -46,10 +52,52 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('dateDebut', $filtre->getDateDebut());
         }
 
+        //si je suis organisateur
+        if ($filtre->getMesSorties() == true) {
+            //je recherche l'id du user connecté
+            $userId = $this->security->getUser()->getId();
+
+            //recherche des sorties que j'organise
+            $qb->andWhere('s.organisateur = :userId')
+                ->setParameter('userId', $userId);
+        }
+
+        // si je suis inscrit
+        if ($filtre->getMesInscriptions() == true) {
+            //je recherche l'id du user connecté
+            $userId = $this->security->getUser()->getId();
+
+            //recherche des sorties où je suis inscrit
+            $qb->join('s.inscriptions', 'i')
+                ->andWhere('i.participant = :userId')
+                ->setParameter('userId', $userId)
+                ->groupBy('s.id');
+        }
+
+        //si je ne suis pas inscrit
+        if ($filtre->getPasEncoreInscrit() == true) {
+            //je recherche l'id du user connecté
+            $userId = $this->security->getUser()->getId();
+
+            //recherche des sorties où je ne suis pas inscrit
+            $qb->join('s.inscriptions', 'i')
+                ->andWhere('i.participant != :userId')
+                ->setParameter('userId', $userId)
+                ->groupBy('s.id');
+        }
+
+        //si la sortie est passée
+        if ($filtre->getSortiesPassees() == true) {
+
+            //recherche des sorties passées
+            $qb->andWhere('s.dateHeureDebut < CURRENT_DATE()');
+        }
+
+
         //requête
         $query = $qb->getQuery();
 
-        dump($query);
+        dump($query->getResult());
 
         return new Paginator($query);
 

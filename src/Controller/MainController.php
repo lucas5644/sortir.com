@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\FindSortie;
+use App\Entity\Inscription;
 use App\Entity\Sortie;
 use App\Form\FindSortieType;
 use App\Repository\SortieRepository;
@@ -51,7 +52,12 @@ class MainController extends AbstractController
         //requête avec l'instance FindSortie qui a récupéré les données du formulaire
         $sorties = $sortieRepo->findSortie($findSortie);
 
+//        if (cou) {
+//            $this->addFlash('warning', 'Aucun résultat ne correspond à votre recherche');
+//        }
 
+
+        dump($findSortie);
 
         //renvoyer le formulaire à ma page et mon filtre
         return $this->render('main/index.html.twig', [

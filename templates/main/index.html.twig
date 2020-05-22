@@ -1,77 +1,78 @@
 {% extends "layout.html.twig" %}
 {% block title %}Accueil{% endblock %}
 {% block main %}
-        <h3>Filtrer les sorties</h3>
-        {{ form_start(findMesSortiesForm) }}
-        <div class="form-row">
-            <div class="col-6">
-                {{ form_row(findMesSortiesForm.nomSortie) }}
-            </div>
-            <div class="col-6">
-                {{ form_row(findMesSortiesForm.nomCampus) }}
-            </div>
-            <div class="col-6">
-                {{ form_row(findMesSortiesForm.dateDebut) }}
-            </div>
-            <div class="col-6">
-                {{ form_row(findMesSortiesForm.dateFin) }}
-            </div>
-
-            <div class="col-6">
-                <input type="checkbox" name="mesSorties" id="mesSorties">
-                <label for="mesSorties">Sorties dont je suis l'organisateur/trice</label>
-            </div>
-            <div class="col-6">
-                <input type="checkbox" name="mesInscriptions" id="mesInscriptions">
-                <label for="mesInscriptions">Sorties auxquelles je suis inscrit/e</label>
-            </div>
-            <div class="col-6">
-                <input type="checkbox" name="pasEncoreInscrit" id="pasEncoreInscrit">
-                <label for="pasEncoreInscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
-            </div>
-            <div class="col-6">
-                <input type="checkbox" name="sortiesPassees" id="sortiesPassees">
-                <label for="sortiesPassees">Sorties passées</label>
-            </div>
-            <div class="text-right">
-                <input class="btn btn-primary"
-                       type="submit" value="Rechercher">
-            </div>
+    <h3>Filtrer les sorties</h3>
+    {{ form_start(findMesSortiesForm) }}
+    <div class="form-row">
+        <div class="col-6">
+            {{ form_row(findMesSortiesForm.nomSortie) }}
         </div>
-        {{ form_end(findMesSortiesForm) }}
-<div class="table-responsive pre-scrollable">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">Nom de la sortie</th>
-            <th scope="col">Date de la sortie</th>
-            <th scope="col">Clôture</th>
-            <th scope="col">Inscrits/<br>places</th>
-            <th scope="col">Etat</th>
-            <th scope="col">Inscrit</th>
-            <th scope="col">Organisateur</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        {% for sortie in sorties %}
-            <tr>
-                <td><a href="{{ path('sortie_detail', {id: sortie.id}) }}">{{ sortie.nom }}</a></td>
-                <td>{{ sortie.dateHeureDebut | date('d/m/y') }}</td>
-                <td>{{ sortie.dateLimiteInscription | date('d/m/y') }}</td>
-                <td class="text-center">{{ sortie.inscriptions | length }} /
-                    {{ sortie.nbInscriptionMax }}
-                </td>
-                <td>{{ sortie.etat.libelle }}</td>
+        <div class="col-6">
+            {{ form_row(findMesSortiesForm.nomCampus) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(findMesSortiesForm.dateDebut) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(findMesSortiesForm.dateFin) }}
+        </div>
+        <div class="col-12">
+            <h5>Sorties : </h5>
 
-                <td></td>
-                <td>
-                    <a href="{{ path('profile', {pseudo: sortie.organisateur.pseudo}) }}">{{ sortie.organisateur.prenom }}
-                        {{ sortie.organisateur.nom | slice(0,1) }}.</a>
-                </td>
+        </div>
+        <div class="col-6">
+            {{ form_row(findMesSortiesForm.mesSorties) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(findMesSortiesForm.mesInscriptions) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(findMesSortiesForm.pasEncoreInscrit) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(findMesSortiesForm.sortiesPassees) }}
+        </div>
+
+        <div class="text-right">
+            <input class="btn btn-primary"
+                   type="submit" value="Rechercher">
+        </div>
+    </div>
+    {{ form_end(findMesSortiesForm) }}
+    <br>
+    <div class="table-responsive pre-scrollable">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Nom de la sortie</th>
+                <th scope="col">Date de la sortie</th>
+                <th scope="col">Clôture</th>
+                <th scope="col">Inscrits/<br>places</th>
+                <th scope="col">Etat</th>
+                <th scope="col">Inscrit</th>
+                <th scope="col">Organisateur</th>
+                <th scope="col">Actions</th>
             </tr>
-        {% endfor %}
-    </table>
-</div>
+            </thead>
+            {% for sortie in sorties %}
+                <tr>
+                    <td><a href="{{ path('sortie_detail', {id: sortie.id}) }}">{{ sortie.nom }}</a></td>
+                    <td>{{ sortie.dateHeureDebut | date('d/m/y') }}</td>
+                    <td>{{ sortie.dateLimiteInscription | date('d/m/y') }}</td>
+                    <td class="text-center">{{ sortie.inscriptions | length }} /
+                        {{ sortie.nbInscriptionMax }}
+                    </td>
+                    <td>{{ sortie.etat.libelle }}</td>
+
+                    <td></td>
+                    <td>
+                        <a href="{{ path('profile', {pseudo: sortie.organisateur.pseudo}) }}">{{ sortie.organisateur.prenom }}
+                            {{ sortie.organisateur.nom | slice(0,1) }}.</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 
 
 {% endblock %}
