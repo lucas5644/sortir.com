@@ -33,8 +33,9 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         if ($filtre->getNomCampus() != null || $filtre->getNomSortie()) {
-            $qb->join('s.campus', 'c')
-                ->andWhere('c.nom = :campus')
+            $qb->join('s.organisateur', 'o')
+                ->join('o.campus', 'c')
+                ->andWhere('c.id = :campus')
                 ->setParameter('campus', $filtre->getNomCampus());
         }
 

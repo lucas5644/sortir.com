@@ -75,12 +75,6 @@ class Sortie
      */
     private $etat;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="sorties")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $campus;
-
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
@@ -231,16 +225,5 @@ class Sortie
         return $this;
     }
 
-    public function getCampus(): ?Campus
-    {
-        return $this->campus;
-    }
-
-    public function setCampus(?Campus $campus): self
-    {
-        $this->campus = $campus;
-
-        return $this;
-    }
 
 }
