@@ -2,17 +2,30 @@
 
 namespace App\Controller;
 
+use App\Entity\Inscription;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Form\InscriptionType;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class SortieController extends AbstractController
 {
+
+    private $security;
+    private $date;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+        $this->date = new \DateTime();
+    }
+
     /**
      * @Route("/sortie/createSortie", name="sortie")
      */
@@ -64,17 +77,54 @@ class SortieController extends AbstractController
      *     requirements={"id":"\d+"},
      *     methods={"GET"})
      */
-    public function detail($id, Request $request)
+    public function detail($id, Request $request, EntityManagerInterface $em)
     {
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortieRepo->find($id);
+
+
+        $idUser = $this->security->getUser()->getId();
+        $idInscription = null;
+        $user = null;
+
+        foreach ($sortie->getInscriptions() as $ins){
+            if($ins->getParticipant()->getId() == $idUser){
+                $idInscription = $ins->getId();
+                dump($idInscription);
+                $user = $ins->getParticipant();
+                dump($user);
+            }
+        }
+
+        $inscription = new Inscription();
+        $inscriptionForm = $this->createForm(InscriptionType::class, $inscription);
+
+        dump($inscription);
+
+        $inscriptionForm->handleRequest($request);
+
+        if($inscriptionForm->isSubmitted() && $inscriptionForm->isValid()){
+
+            $inscription->setDateInscription($this->date);
+            $inscription->setParticipant($this->security->getUser());
+            $inscription->setSortie($sortie);
+            dump($inscription);
+            $em->persist($inscription);
+            $em->flush();
+
+            $this->addFlash("success", "Votre inscription a bien été sauvegardée");
+            return $this->redirectToRoute('sortie_detail',['id'=>$sortie->getId()]);
+        }
 
         if(empty($sortie)){
             throw $this->createNotFoundException("Oh non... Cet évènement n'existe pas (╥﹏╥)");
         }
 
         return $this->render('sortie/afficherSortie.html.twig', [
-            'sortie' => $sortie
+            'sortie' => $sortie,
+            'utilisateurIns' => $user,
+            'idInscription' => $idInscription,
+            'inscriptionForm' => $inscriptionForm -> createView()
         ]);
     }
 
