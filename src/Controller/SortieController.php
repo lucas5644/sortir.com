@@ -8,7 +8,6 @@ use App\Entity\Ville;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,7 +20,8 @@ class SortieController extends AbstractController
     {
         $sortie = new Sortie();
         $lieuRepo = $this->getDoctrine()->getRepository(Lieu::class);
-        $lieuE = $lieuRepo->findAll();
+
+
 
         /*foreach ($lieuE as $l) {
             $villeRepo = $this->getDoctrine()->getRepository(Ville::class);
@@ -32,14 +32,13 @@ class SortieController extends AbstractController
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
         $sortieForm->handleRequest($request);
-        dump($lieuE);
 
         $organisateur = $this->getUser();
         $sortie->setOrganisateur($organisateur);
 
-        $nom = $request->request->get('lieuE');
+        /*$nom = $request->request->get('lieuE');
         $lieu = $this->getDoctrine()->getManager()->getRepository(Lieu::class)->findOneBy(['nom'=>$nom]);
-        $sortie->setLieu($lieu);
+        $sortie->setLieu($lieu);*/
 
         $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(1);
         $sortie->setEtat($etat);
@@ -55,7 +54,7 @@ class SortieController extends AbstractController
         }
 
         return $this->render('sortie/createSortie.html.twig', [
-            'lieuE'=> $lieuE,
+            //'lieuE'=> $lieuE,
             'sortieForm' => $sortieForm -> createView()
         ]);
     }

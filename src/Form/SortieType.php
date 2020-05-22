@@ -85,11 +85,11 @@ class SortieType extends AbstractType
 
             ])*/
 
-            ->add('lieu',EntityType::class,[
+            /*->add('lieu',EntityType::class,[
                 'class'=>'App\Entity\Lieu',
                 'placeholder' => 'Selectionnez',
                 'mapped' => false,
-    ])
+    ])*/
 
             ->add('etat', TextType::class, [
                 'label' => 'Etat : ',
@@ -97,7 +97,26 @@ class SortieType extends AbstractType
                     'class' => 'etat-evenement'
                 ]
             ])
-        ;
+
+            ->add('ville',EntityType::class,[
+                'class'=>'App\Entity\Ville',
+                'placeholder' => 'Selectionnez',
+                'mapped' => false,
+                'required' => false,
+            ]);
+
+
+            $builder->get('ville')->addEventListener(
+                FormEvents::POST_SUBMIT,
+                function(FormEvent $event){
+                    $form= $event->getForm();
+                    $form->getParent()->add('lieu',EntityType::class,[
+                        'class' => 'App\Entity\Lieu',
+                        'placeholder' => 'Sélectionnez',
+                        'choices'=>$form->getData()->getLieu()
+                    ]);
+                }
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)

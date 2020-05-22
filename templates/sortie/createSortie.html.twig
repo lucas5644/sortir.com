@@ -43,21 +43,27 @@
     </div>
 
     <div>
-        <select id="lieuE" name="lieuE">
-            {% for lieu in lieuE %}
-            <option class="lieu" value="{{ lieu }}" data-lieu="{{ lieu }}">{{ lieu }}</option>
-            {% endfor %}
-        </select>
-        <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}" alt="Ajouter un lieu" class="bouton-plus" width="35px"></a>
+        {{ form_label(sortieForm.ville) }}
+        {{ form_widget(sortieForm.ville) }}
+        {{ form_errors(sortieForm.ville) }}
     </div>
 
     <div>
-        <label>Rue : </label>
-            <input type="text">
+{#        <select id="lieuE" name="lieuE">
+            {% for lieu in lieuE %}
+            <option class="lieu" value="{{ lieu }}" data-lieu="{{ lieu }}">{{ lieu }}</option>
+            {% endfor %}
+        </select>#}
+        {{ form_label(sortieForm.lieu.) }}
+        {{ form_widget(sortieForm.lieu) }}
+        {{ form_errors(sortieForm.lieu) }}
+
+        <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}" alt="Ajouter un lieu" class="bouton-plus" width="35px"></a>
     </div>
 
 
-    <script>
+
+{#    <script>
         document.addEventListener('DOMContentLoaded', function() {
             var userRating = document.querySelector('.lieu');
             var lieu = userRating.dataset.lieu;
@@ -66,7 +72,9 @@
             // or with jQuery
             //var isAuthenticated = $('.js-user-rating').data('isAuthenticated');
         });
-    </script>
+
+    </script>#}
+
     {{ form_row(sortieForm._token) }}
     <button type="submit">Enregistrer</button>
     <button type="submit">Publier la sortie</button>
