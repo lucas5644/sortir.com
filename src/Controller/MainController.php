@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Campus;
 use App\Entity\FindSortie;
 use App\Entity\Sortie;
 use App\Form\FindSortieType;

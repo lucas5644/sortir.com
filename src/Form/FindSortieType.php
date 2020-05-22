@@ -21,17 +21,13 @@ class FindSortieType extends AbstractType
                 'required' => false,
                 'label' => 'Le nom de la sortie contient : '
             ])
-//            ->add('nomCampus', EntityType::class, [
-//                'label' => 'Choisir le campus : ',
-//                'required' => false,
-//                'choice_label' => 'nom',
-//                'class' => Campus::class,
-//                'placeholder' => 'Choisir un campus',
-//                'query_builder' => function (EntityRepository $er) {
-//                    return $er->createQueryBuilder('o')
-//                        ->groupBy('o.nom');
-//                },
-//            ])
+            ->add('nomCampus', EntityType::class, [
+                'label' => 'Choisir le campus : ',
+                'required' => false,
+                'choice_label' => 'nom',
+                'class' => Campus::class,
+                'placeholder' => 'Choisir un campus',
+            ])
 
             ->add('dateDebut', DateType::class, [
                 'widget' => 'single_text',

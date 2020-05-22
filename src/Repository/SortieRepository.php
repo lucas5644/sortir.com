@@ -29,7 +29,13 @@ class SortieRepository extends ServiceEntityRepository
         //Chercher si le champ nom est rempli
         if ($filtre->getNomSortie() != null || $filtre->getNomSortie()) {
             $qb->andWhere('s.nom LIKE :nom')
-            ->setParameter('nom', '%'.$filtre->getNomSortie().'%');
+                ->setParameter('nom', '%' . $filtre->getNomSortie() . '%');
+        }
+
+        if ($filtre->getNomCampus() != null || $filtre->getNomSortie()) {
+            $qb->join('s.campus', 'c')
+                ->andWhere('c.nom = :campus')
+                ->setParameter('campus', $filtre->getNomCampus());
         }
 
         //requête
@@ -38,7 +44,6 @@ class SortieRepository extends ServiceEntityRepository
         dump($query);
 
         return new Paginator($query);
-
 
 
 //        return $this->createQueryBuilder('s')
@@ -65,7 +70,6 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getQuery()
 //            ->getResult();
 //    }
-
 
 
     // /**

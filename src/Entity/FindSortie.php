@@ -13,9 +13,7 @@ class FindSortie
      */
     private $nomSortie;
 
-    /**
-     * @Assert\Type(type="string")
-     */
+
     private $nomCampus;
 
     /**
