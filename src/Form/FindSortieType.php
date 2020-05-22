@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Campus;
 use App\Entity\FindSortie;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -20,15 +21,15 @@ class FindSortieType extends AbstractType
                 'required' => false,
                 'label' => 'Le nom de la sortie contient : '
             ])
-//            ->add('campus', EntityType::class, [
-//                'label' => 'Campus',
+//            ->add('nomCampus', EntityType::class, [
+//                'label' => 'Choisir le campus : ',
 //                'required' => false,
 //                'choice_label' => 'nom',
 //                'class' => Campus::class,
 //                'placeholder' => 'Choisir un campus',
 //                'query_builder' => function (EntityRepository $er) {
 //                    return $er->createQueryBuilder('o')
-//                        ->groupBy('o.campus');
+//                        ->groupBy('o.nom');
 //                },
 //            ])
 
