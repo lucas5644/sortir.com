@@ -20,11 +20,35 @@
         <p>Longitude : {{ sortie.lieu.longitude }}</p>
     {% endif %}
 
-    {% if sortie.etat.id == 2 and date(sortie.dateLimiteInscription) > date("now") %}
-        Bonjour, cette sortie est disponible jusqu'au {{ sortie.dateLimiteInscription | date('d/m/y') }}
+    <p>Nombre d'inscrit à l'évènement : {{ sortie.getInscriptions()|length }}</p>
+
+    {% if utilisateurIns is null or idInscription is null %}
+        {% if sortie.etat.id == 2 and date(sortie.dateLimiteInscription) > date("now") and sortie.getInscriptions()|length < 5%}
+            Bonjour, cette sortie est disponible jusqu'au {{ sortie.dateLimiteInscription | date('d/m/y') }}
+
+            {{ form_start(inscriptionForm) }}
+
+            {{ form_row(inscriptionForm._token) }}
+            <button type="submit">S'inscrire</button>
+            {{ form_end(inscriptionForm, {'render_rest': false}) }}
+
+        {% endif %}
+    {% endif %}
+
+    {% if utilisateurIns is not null %}
+        {% if utilisateurIns.id == app.user.id %}
+            <p>Vous voulez vous désister?</p>
+            {{ utilisateurIns.nom }}
+            {{ utilisateurIns.id }}
+            <a class="btn btn-danger" href="{{ path('inscription', {id: idInscription}) }}">Se désister</a>
+        {% endif %}
+    {% endif %}
+
+    {% if sortie.getInscriptions()|length == 5 %}
+        <p>Il n'y a plus de place disponible pour cette sortie.</p>
     {% endif %}
 
     {% if  sortie.etat.id != 1 and sortie.etat.id != 2 %}
-        Vous ne pouvez plus vous inscrire
+        <p>Vous ne pouvez plus vous inscrire</p>
     {% endif %}
 {% endblock %}
