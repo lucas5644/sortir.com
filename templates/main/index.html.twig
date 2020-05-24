@@ -63,8 +63,13 @@
                             {{ sortie.nbInscriptionMax }}
                         </td>
                         <td>{{ sortie.etat.libelle }}</td>
-
-                        <td></td>
+                        <td class="text-center">
+                        {% for numSortie in numeroSortie %}
+                            {% if numSortie == sortie.id %}
+                               X
+                            {% endif %}
+                        {% endfor %}
+                        </td>
                         <td>
                             <a href="{{ path('profile', {pseudo: sortie.organisateur.pseudo}) }}">{{ sortie.organisateur.prenom }}
                                 {{ sortie.organisateur.nom | slice(0,1) }}.</a>

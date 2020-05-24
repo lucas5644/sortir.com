@@ -94,10 +94,8 @@ class SortieRepository extends ServiceEntityRepository
         }
 
 
-        //requête
+        //requête sur la table des sorties
         $query = $qb->getQuery();
-
-        dump($query->getResult());
 
         return new Paginator($query);
 

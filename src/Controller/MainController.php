@@ -29,7 +29,7 @@ class MainController extends AbstractController
     public function index(Request $request, SortieRepository $sortieRepository): Response
     {
 
-        if(is_null($this->security->getUser())){
+        if (is_null($this->security->getUser())) {
             return $this->redirectToRoute('login');
         }
 
@@ -52,6 +52,19 @@ class MainController extends AbstractController
         //récupération des données avec la requête FindSortie
         $sorties = $sortieRepo->findSortie($findSortie);
 
+        //l'utilisateur courant est-il inscrit
+        $userConnected = $this->security->getUser()->getId();
+        $inscriptionRepo = $this->getDoctrine()->getRepository(Inscription::class);
+        $inscrit = $inscriptionRepo->findBy(array('participant' => $userConnected));
+
+        $numeroSortie = array();
+
+        foreach ($inscrit as $i) {
+            array_push($numeroSortie, $i->getSortie()->getId());
+        }
+
+        dump($inscrit, $numeroSortie);
+
         //Afficher un message d'erreur si aucun résultat
         if ($sorties->count() == 0) {
             $this->addFlash('warning', 'Aucun résultat à votre recherche');
@@ -61,6 +74,7 @@ class MainController extends AbstractController
         return $this->render('main/index.html.twig', [
             'findMesSortiesForm' => $findMesSortiesForm->createView(),
             "sorties" => $sorties,
+            'numeroSortie'=>$numeroSortie
         ]);
     }
 
