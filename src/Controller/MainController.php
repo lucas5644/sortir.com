@@ -29,7 +29,7 @@ class MainController extends AbstractController
     public function index(Request $request, SortieRepository $sortieRepository): Response
     {
 
-        if(is_null($this->security->getUser())){
+        if (is_null($this->security->getUser())) {
             return $this->redirectToRoute('login');
         }
 
@@ -49,60 +49,33 @@ class MainController extends AbstractController
         //recherche de toutes les sorties pour affichage dan tableau
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
 
-        //requête avec l'instance FindSortie qui a récupéré les données du formulaire
+        //récupération des données avec la requête FindSortie
         $sorties = $sortieRepo->findSortie($findSortie);
 
-//        if (cou) {
-//            $this->addFlash('warning', 'Aucun résultat ne correspond à votre recherche');
-//        }
+        //l'utilisateur courant est-il inscrit
+        $userConnected = $this->security->getUser()->getId();
+        $inscriptionRepo = $this->getDoctrine()->getRepository(Inscription::class);
+        $inscrit = $inscriptionRepo->findBy(array('participant' => $userConnected));
 
+        $numeroSortie = array();
 
-        dump($findSortie);
+        foreach ($inscrit as $i) {
+            array_push($numeroSortie, $i->getSortie()->getId());
+        }
+
+        dump($inscrit, $numeroSortie);
+
+        //Afficher un message d'erreur si aucun résultat
+        if ($sorties->count() == 0) {
+            $this->addFlash('warning', 'Aucun résultat à votre recherche');
+        }
 
         //renvoyer le formulaire à ma page et mon filtre
         return $this->render('main/index.html.twig', [
             'findMesSortiesForm' => $findMesSortiesForm->createView(),
             "sorties" => $sorties,
+            'numeroSortie'=>$numeroSortie
         ]);
     }
-
-
-//    public function index(Request $request, EntityManagerInterface $em)
-//    {
-//        $sortie = new Sortie();
-//        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
-//        $sorties = $sortieRepo->findAll();
-//
-//        //récupération de la liste des campus
-//        $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
-//        $campus = $campusRepo->findAll();
-//        $findSortieForm = $this->createForm(SearchSortieType::class, $sortie);
-//        $findSortieForm->handleRequest($request);
-//        if ($findSortieForm->isSubmitted() && $findSortieForm->isValid()) {
-//            if ($sortie->getNom() == null) {
-//                $sortie->setNom('');
-//            }
-//
-//            $nomCampus = $request->get('campus');
-//            $dateDebut = $request->get('dateDebut');
-//            $dateFin = $request->get('dateFin');
-//            $mesSorties = $request->get('mesSorties');
-//            $mesInscriptions = $request->get('mesInscriptions');
-//            $pasEncoreInscrit = $request->get('pasEncoreInscrit');
-//            $sortiesPassees = $request->get('sortiesPassees');
-//
-//            dump($sortie->getNom(), $nomCampus, $dateDebut, $dateFin, $mesSorties, $mesInscriptions, $pasEncoreInscrit, $sortiesPassees);
-//
-//            $sorties = $sortieRepo->findSortie($sortie->getNom(), $nomCampus);
-//            return $this->render('main/search-sortie.html.twig', [
-//                "sorties" => $sorties
-//            ]);
-//        }
-//        return $this->render('main/index.html.twig', [
-//            "findSortieForm" => $findSortieForm->createView(),
-//            "sorties"=>$sorties, "campus" => $campus
-//        ]);
-//    }
-
 
 }
