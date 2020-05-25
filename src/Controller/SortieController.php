@@ -44,6 +44,7 @@ class SortieController extends AbstractController
 
         $sortieForm->handleRequest($request);
 
+
         $organisateur = $this->getUser();
         $sortie->setOrganisateur($organisateur);
 
