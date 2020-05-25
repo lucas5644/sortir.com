@@ -27,8 +27,9 @@ class ImportType extends AbstractType
                     new File([
                         'maxSize' => '100M',
                         'mimeTypes' => [
+                            'text/csv',
                             'application/vnd.oasis.opendocument.spreadsheet',
-                            'application/vnd.ms-excel'
+                            'application/vnd.ms-excel',
                         ],
                         'mimeTypesMessage' => 'Veuillez uploader un fichier .csv valide',
                     ])
