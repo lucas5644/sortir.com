@@ -5,11 +5,14 @@ namespace App\Controller;
 
 
 use App\Entity\Participant;
+use App\Form\ImportType;
 use App\Form\ParticipantType;
 use App\Form\UpdateParticipantType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
@@ -27,11 +30,11 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="register")
+     * @Route("/admin/register", name="register")
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param UserPasswordEncoderInterface $passwordEncoder
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function signInForm(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -44,7 +47,6 @@ class ParticipantController extends AbstractController
         {
             $password = $passwordEncoder->encodePassword($utilisateur, $utilisateur->getPassword());
             $utilisateur->setPassword($password);
-            $utilisateur->setAdministrateur(false);
             $utilisateur->setActif(true);
             $em->persist($utilisateur);
             $em->flush();
@@ -54,6 +56,38 @@ class ParticipantController extends AbstractController
 
         return $this->render("User/register.html.twig", [
            "userForm" => $userForm->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/import", name="import")
+     */
+    public function importUsers(Request $request){
+
+        $fichierFrom = $this->createForm(ImportType::class);
+        $fichierFrom->handleRequest($request);
+        if($fichierFrom->isSubmitted() && $fichierFrom->isValid()){
+            $urlPhotoFile = $fichierFrom->get('fichier')->getData();
+            if ($urlPhotoFile) {
+                $originalFilename = pathinfo($urlPhotoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$urlPhotoFile->guessExtension();
+
+                try {
+                    $urlPhotoFile->move(
+                        $this->getParameter('import_csv_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    $this->addFlash("success", "Impossible d'enregistrer l'image!!! ");
+                    return $this->redirectToRoute('import');
+                }
+            }
+        }
+
+        return $this->render("User/import.html.twig", [
+            'fichierFrom' => $fichierFrom->createView()
         ]);
     }
 
@@ -88,7 +122,6 @@ class ParticipantController extends AbstractController
                 if(is_null($user->getUrlPhoto()) && !is_null($oldURL)){
                     $user->setUrlPhoto($oldURL);
                 }else{
-                    /** @var UploadedFile $brochureFile */
                     $urlPhotoFile = $userForm->get('urlPhoto')->getData();
                     if ($urlPhotoFile) {
                         $originalFilename = pathinfo($urlPhotoFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -96,18 +129,15 @@ class ParticipantController extends AbstractController
                         $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
                         $newFilename = $safeFilename.'-'.uniqid().'.'.$urlPhotoFile->guessExtension();
 
-                        // Move the file to the directory where brochures are stored
                         try {
                             $urlPhotoFile->move(
                                 $this->getParameter('photo_profil_directory'),
                                 $newFilename
                             );
                         } catch (FileException $e) {
-                            // ... handle exception if something happens during file upload
+                            $this->addFlash("success", "Impossible d'enregistrer l'image!!! ".$user->getPseudo());
+                            return $this->redirectToRoute('profile', $user->getPseudo());
                         }
-
-                        // updates the 'brochureFilename' property to store the PDF file name
-                        // instead of its contents
                         $user->setUrlPhoto($newFilename);
                     }
                 }
