@@ -1,0 +1,18 @@
+{% extends 'layout.html.twig' %}
+
+{% block main %}
+    <h1>Import de fichier .CSV</h1>
+
+    {{ form_start(fichierFrom) }}
+
+    <label>Le fichier .csv : </label>
+    <div class="btn btn-outline-primary">
+        {{ form_label(fichierFrom.fichier) }}
+        {{ form_widget(fichierFrom.fichier) }}
+        {{ form_errors(fichierFrom.fichier) }}
+    </div>
+
+    <button class="btn btn-primary" type="submit">Enregistrer le fichier</button>
+    {{ form_end(fichierFrom)}}
+
+{% endblock %}

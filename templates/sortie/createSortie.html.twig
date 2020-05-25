@@ -3,6 +3,8 @@
 {% block title %}Publiez vos sorties{% endblock %}
 
 {% block main %}
+
+
     <h1>Ajouter une sortie</h1>
 <div class="col-10">
     {{ form_start(sortieForm) }}
@@ -33,32 +35,41 @@
     <div>
         {{ form_label(sortieForm.duree) }}
         {{ form_widget(sortieForm.duree) }}
-        {{ form_errors(sortieForm.duree) }}
     </div>
 
     <div>
         {{ form_label(sortieForm.infosSortie) }}
         {{ form_widget(sortieForm.infosSortie) }}
-        {{ form_errors(sortieForm.infosSortie) }}
     </div>
 
-    <div>
+
+
+
+
+    <div id="dynamic">
         {{ form_label(sortieForm.ville) }}
         {{ form_widget(sortieForm.ville) }}
         {{ form_errors(sortieForm.ville) }}
-    </div>
-
-    <div>
-        <select id="lieuE" name="lieuE">
-            {#{% for lieu in lieuE %}
-            <option class="lieu" value="{{ lieu }}" data-lieu="{{ lieu }}">{{ lieu }}</option>
-            {% endfor %}#}
-        </select>
-        {{ form_label(sortieForm.lieu.) }}
-        {{ form_widget(sortieForm.lieu) }}
-        {{ form_errors(sortieForm.lieu) }}
 
         <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}" alt="Ajouter un lieu" class="bouton-plus" width="35px"></a>
+
+        <div>
+            {{form_rest(sortieForm) }}
+        </div>
+    </div>
+
+
+
+
+
+
+    <div>
+{#        <select id="lieuE" name="lieuE">
+            {% for lieu in lieuE %}
+            <option class="lieu" value="{{ lieu }}" data-lieu="{{ lieu }}">{{ lieu }}</option>
+            {% endfor %}
+            {{ form_rest(sortieForm) }}
+        </select>#}
     </div>
 
 
@@ -83,3 +94,9 @@
 
 </div>
 {% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
+    {% endblock %}

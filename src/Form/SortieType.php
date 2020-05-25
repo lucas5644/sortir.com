@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Lieu;
 use App\Entity\Sortie;
+use App\Entity\Ville;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 
@@ -15,12 +16,43 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 class SortieType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+
+    /**
+     * Rajoute un Lieu au formulaire en fonction de la ville sélectionnée
+     * @param FormInterface $form
+     * @param Ville $ville
+     */
+    private function addLieuField(FormInterface $form, ?Ville $ville){
+        $builder = $form->getConfig()->getFormFactory()->createNamedBuilder(
+            'lieu',
+            EntityType::class,
+            null,
+            [
+                'class' =>'App\Entity\Lieu',
+                'placeholder' => $ville ? 'Sélectionnez' : 'Sélectionnez la ville',
+                'mapped' => false,
+                'auto_initialize' => false,
+                'required' => false,
+                'choices' => $ville ? $ville->getLieux($ville) : []
+            ]
+        );
+
+        $builder->addEventListener(
+            FormEvents::PRE_SUBMIT,
+            function (FormEvent $event){
+                dump($event->getForm());
+            }
+        );
+        $form->add($builder->getForm());
+    }
+
+     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('nom', TextType::class, [
@@ -45,7 +77,8 @@ class SortieType extends AbstractType
                 'label' => 'Durée de l\'évènement ( en minutes ): ',
                 'attr' => [
                     'class' => 'duree-evenement'
-                ]
+                ],
+                'required' => false
             ])
             ->add('dateLimiteInscription', DateTimeType::class, [
                 'label' => 'Date limite d\'inscription : ',
@@ -64,57 +97,45 @@ class SortieType extends AbstractType
                 ]
             ])
             ->add('infosSortie', TextareaType::class, [
-                'label' => 'Description de l\'évènement : ',
+                'label' => "Description de l'évènement : ",
                 'attr' => [
                     'class' => 'description-evenement',
                     'placeholder' => 'Veuillez décrire votre évènement'
-                ]
-            ] )
-            ->add('organisateur', TextType::class, [
-                'label' => 'Organisateur : ',
-                'attr' => [
-                    'class' => 'organisateur'
-                ]
-            ] )
-
-/*            ->add('lieu', ChoiceType::class, [
-                'label' => "Lieu de l'évènement : ",
-                'attr' => [
-                    'class' => 'lieu-evenement'
-                ]
-
-            ])*/
-
-            /*->add('lieu',EntityType::class,[
-                'class'=>'App\Entity\Lieu',
-                'placeholder' => 'Selectionnez',
-                'mapped' => false,
-    ])*/
-
-            ->add('etat', TextType::class, [
-                'label' => 'Etat : ',
-                'attr' => [
-                    'class' => 'etat-evenement'
-                ]
+                ],
+                'required' => false
             ])
 
             ->add('ville',EntityType::class,[
                 'class'=>'App\Entity\Ville',
-                'placeholder' => 'Selectionnez',
+                'placeholder' => 'Sélectionnez',
                 'mapped' => false,
                 'required' => false,
             ]);
 
-
             $builder->get('ville')->addEventListener(
-                FormEvents::POST_SUBMIT,
+            FormEvents::PRE_SUBMIT,
                 function(FormEvent $event){
-                    $form= $event->getForm();
-                    $form->getParent()->add('lieu',EntityType::class,[
-                        'class' => 'App\Entity\Lieu',
-                        'placeholder' => 'Sélectionnez',
-                        'choices'=>$form->getData()->getLieu()
-                    ]);
+                    $form = $event->getForm();
+                    $this->addLieuField($form->getParent(),$form->getData());
+                }
+            );
+
+            $builder->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event){
+                    $data = $event->getData();
+
+                    $lieu = $data->getLieu();
+                    $form = $event->getForm();
+                    if ($lieu){
+                        $ville = $lieu->getVille();
+                        $this->addLieuField($form, $ville);
+
+                        $form->get('ville')->setData($ville);
+                        $form->get('lieu')->setData($lieu);
+                    } else{
+                        $this->addLieuField($form, null);
+                    }
                 }
             );
     }
