@@ -31,10 +31,9 @@
         <div class="col-sm-6 col-xs-12" style="padding-left: 30px">
             {{ form_row(findMesSortiesForm.sortiesPassees) }}
         </div>
-
-        <div class="text-right">
-            <input class="btn btn-primary"
-                   type="submit" value="Rechercher">
+        <div class="col-12 text-center">
+            <input class="btn btn-primary" type="submit" value="Rechercher">
+            <a class="btn btn-primary" href="{{ path('sortie') }}">Créer une sortie</a>
         </div>
     </div>
     {{ form_end(findMesSortiesForm) }}
@@ -181,55 +180,4 @@
         </div>
     {% endif %}
     <br>
-    <a class="btn btn-primary" href="{{ path('sortie') }}">Créer une sortie</a>
-    <br>
-    <br>
 {% endblock %}
-
-   {#                            #}{# Si l'utilisateur est l'organisateur de la sortie #}
-                        {#                            {% if sortie.organisateur.pseudo == app.user.pseudo %}#}
-                        {#                                #}{# Modif' de l'affichage suivant l'état de la sortie #}
-                        {#                                {% if sortie.etat.libelle == 'créée' %}#}
-                        {#                                    <a href="{{ path('sortie_detail', {id: sortie.id}) }}">#}
-                        {#                                        Modifier</a> - <a>Publier</a>#}
-                        {#                                {% elseif sortie.etat.libelle == 'passée' %}#}
-                        {#                                    <a href="{{ path('sortie_detail', {id: sortie.id}) }}">#}
-                        {#                                        Afficher</a>#}
-                        {#                                {% elseif sortie.etat.libelle == 'annulée' %}#}
-                        {#                                    <a href="{{ path('sortie_detail', {id: sortie.id}) }}">#}
-                        {#                                        Afficher</a>#}
-                        {#                                {% elseif sortie.etat.libelle == 'activité en cours' %}#}
-                        {#                                    <a href="{{ path('sortie_detail', {id: sortie.id}) }}">#}
-                        {#                                        Afficher</a>#}
-                        {#                                {% else %}#}
-                        {#                                    <a href="{{ path('sortie_detail', {id: sortie.id}) }}">#}
-                        {#                                        Afficher</a> -#}
-                        {#                                    <a href="{{ path('sortie_delete',{id: sortie.id}) }}">#}
-                        {#                                        Annuler</a>#}
-                        {#                                {% endif %}#}
-                        {#                                #}{# Si l'utilisateur n'est pas l'organisateur de la sortie #}
-                        {#                            {% else %}#}
-                        {#                                {% if sortie.etat.libelle == 'activité en cours' %}#}
-                        {#                                    <a href="{{ path('sortie_detail', {id: sortie.id}) }}">#}
-                        {#                                        Afficher</a>#}
-                        {#                                {% elseif sortie.etat.libelle == 'ouverte' %}#}
-                        {#                                    <a href="{{ path('sortie_detail', {id: sortie.id}) }}">#}
-                        {#                                        Afficher</a> -#}
-                        {#                                    {% if inscrit == true %}#}
-                        {#                                        <a href="{{ path('inscriptionDelete',{id: sortie.id}) }}">#}
-                        {#                                            S'inscrire</a>#}
-                        {#                                    {% else %}#}
-                        {#                                        <a href="{{ path('inscriptionDelete',{id: sortie.id}) }}">#}
-                        {#                                            Se désister</a>#}
-                        {#                                    {% endif %}#}
-                        {#                                {% elseif sortie.etat.libelle == 'clôturée' %}#}
-                        {#                                    <a href="{{ path('sortie_detail', {id: sortie.id}) }}">#}
-                        {#                                        Afficher</a> -#}
-                        {#                                    <a href="{{ path('inscriptionDelete',{id: sortie.id}) }}">#}
-                        {#                                        Se désister</a>#}
-                        {#                                {% else %}#}
-                        {#                                    <a href="{{ path('sortie_detail', {id: sortie.id}) }}">#}
-                        {#                                        Afficher</a>#}
-                        {#                                {% endif %}#}
-                        {#                            {% endif %}#}
-                        {#                        </td>#}
