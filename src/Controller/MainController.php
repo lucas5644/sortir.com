@@ -70,11 +70,12 @@ class MainController extends AbstractController
             $this->addFlash('warning', 'Aucun résultat à votre recherche');
         }
 
+
         //renvoyer le formulaire à ma page et mon filtre
         return $this->render('main/index.html.twig', [
             'findMesSortiesForm' => $findMesSortiesForm->createView(),
             "sorties" => $sorties,
-            'numeroSortie'=>$numeroSortie
+            'numeroSortie'=>$numeroSortie,
         ]);
     }
 
