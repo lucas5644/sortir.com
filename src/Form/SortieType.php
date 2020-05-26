@@ -145,7 +145,7 @@ class SortieType extends AbstractType
         $form = $event->getForm();
 
         $ville = null;
-        dump($ville);
+
         $this->addElements($form, $ville);
     }
 
