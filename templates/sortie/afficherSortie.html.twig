@@ -45,4 +45,29 @@
     {% if  sortie.etat.id != 1 and sortie.etat.id != 2 %}
         <p>Vous ne pouvez plus vous inscrire</p>
     {% endif %}
+
+    {% if app.user.administrateur == 1 and sortie.etat.id <= 3 %}
+        <form action="{{ path('annuler', {id: sortie.id}) }}" onsubmit="return annulerSortie()">
+
+            <input id="status" hidden value="nope">
+
+            <button class="btn btn-outline-primary" type="submit">Annuler sortie</button>
+
+        </form>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        function annulerSortie() {
+            if (document.getElementById("status").value) {
+                return confirm('Voulez vous vraiment annuler cette sortie ?');
+            } else {
+                console.log('Non non');
+                return false;
+            }
+        }
+    </script>
+
 {% endblock %}

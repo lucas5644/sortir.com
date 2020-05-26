@@ -1,0 +1,34 @@
+{% extends "layout.html.twig" %}
+{% block title %}Gestion des villes{% endblock %}
+
+{% block main %}
+    <div class="jumbotron">
+        <h1 class="text-center">Gérer les villes</h1>
+        {{ form_start(gestionVilles) }}
+        <div class="form-row">
+            <div class="col-4">
+                {{ form_row(gestionVilles.nom) }}
+            </div>
+            <div class="col-3 align-self-center" style="padding-top: 15px">
+                <input class="btn btn-outline-primary"
+                       type="submit" value="Rechercher">
+            </div>
+        </div>
+        {{ form_end(gestionVilles) }}
+        <br>
+        <div class="table-responsive pre-scrollable table-bordered table-info">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Campus</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

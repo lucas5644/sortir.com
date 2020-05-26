@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light
-col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-sm-10 offset-sm-1">
+<nav class="navbar sticky-top navbar-expand-lg navbar-light
+col-lg-12 col-md-12 col-sm-12">
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -9,9 +9,9 @@ col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-sm-10 offset-sm-1">
         Nous sommes le {{ ("now" | date("d/m/y")) }}</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            {% if is_granted('ROLE_USER') %}
+            {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Villes</a>
+                    <a class="nav-link" href="{{ path('gestion_villes') }}">Villes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Campus</a>

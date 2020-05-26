@@ -15,4 +15,7 @@
     <button class="btn btn-primary" type="submit">Enregistrer le fichier</button>
     {{ form_end(fichierFrom)}}
 
+    <br>
+    <a class="btn btn-dark" href="{{ app.request.headers.get('referer') }}">Retour</a>
+
 {% endblock %}
