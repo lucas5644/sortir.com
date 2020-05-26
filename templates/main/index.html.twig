@@ -1,42 +1,42 @@
 {% extends "layout.html.twig" %}
 {% block title %}Accueil{% endblock %}
 {% block main %}
-        <h3>Filtrer les sorties</h3>
-        {{ form_start(findMesSortiesForm) }}
-        <div class="form-row col-12">
-            <div class="col-sm-6 col-xs-12">
-                {{ form_row(findMesSortiesForm.nomSortie) }}
-            </div>
-            <div class="col-sm-6 col-xs-12">
-                {{ form_row(findMesSortiesForm.nomCampus) }}
-            </div>
-            <div class="col-sm-6 col-xs-12">
-                {{ form_row(findMesSortiesForm.dateDebut) }}
-            </div>
-            <div class="col-sm-6 col-xs-12">
-                {{ form_row(findMesSortiesForm.dateFin) }}
-            </div>
-            <div class="col-12">
-                <h5>Sorties : </h5>
-            </div>
-            <div class="col-sm-12 col-xs-12" style="padding-left: 30px">
-                {{ form_row(findMesSortiesForm.mesSorties) }}
-            </div>
-            <div class="col-sm-12 col-xs-12" style="padding-left: 30px">
-                {{ form_row(findMesSortiesForm.mesInscriptions) }}
-            </div>
-            <div class="col-sm-12 col-xs-12" style="padding-left: 30px">
-                {{ form_row(findMesSortiesForm.pasEncoreInscrit) }}
-            </div>
-            <div class="col-sm-12 col-xs-12" style="padding-left: 30px">
-                {{ form_row(findMesSortiesForm.sortiesPassees) }}
-            </div>
-            <div class="col-12 text-center">
-                <input class="btn btn-primary" type="submit" value="Rechercher">
-                <a class="btn btn-primary" href="{{ path('sortie') }}">Créer une sortie</a>
-            </div>
+    <h3>Filtrer les sorties</h3>
+    {{ form_start(findMesSortiesForm) }}
+    <div class="form-row col-12">
+        <div class="col-sm-6 col-xs-12">
+            {{ form_row(findMesSortiesForm.nomSortie) }}
         </div>
-        {{ form_end(findMesSortiesForm) }}
+        <div class="col-sm-6 col-xs-12">
+            {{ form_row(findMesSortiesForm.nomCampus) }}
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            {{ form_row(findMesSortiesForm.dateDebut) }}
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            {{ form_row(findMesSortiesForm.dateFin) }}
+        </div>
+        <div class="col-12">
+            <h5>Sorties : </h5>
+        </div>
+        <div class="col-sm-12 col-xs-12" style="padding-left: 30px">
+            {{ form_row(findMesSortiesForm.mesSorties) }}
+        </div>
+        <div class="col-sm-12 col-xs-12" style="padding-left: 30px">
+            {{ form_row(findMesSortiesForm.mesInscriptions) }}
+        </div>
+        <div class="col-sm-12 col-xs-12" style="padding-left: 30px">
+            {{ form_row(findMesSortiesForm.pasEncoreInscrit) }}
+        </div>
+        <div class="col-sm-12 col-xs-12" style="padding-left: 30px">
+            {{ form_row(findMesSortiesForm.sortiesPassees) }}
+        </div>
+        <div class="col-12 text-center">
+            <input class="btn btn-primary" type="submit" value="Rechercher">
+            <a class="btn btn-primary" href="{{ path('sortie') }}">Créer une sortie</a>
+        </div>
+    </div>
+    {{ form_end(findMesSortiesForm) }}
     <br>
     {% if sorties | length > 0 %}
         <div class="table-responsive pre-scrollable table-bordered table-info">
@@ -131,10 +131,10 @@
                                 {# Si l'utilisateur n'est pas inscrit #}
                                 {# Si l'utilisateur est l'organisateur de la sortie #}
                                 {% if sortie.organisateur.pseudo == app.user.pseudo %}
-                                    Modif' de l'affichage suivant l'état de la sortie
+                                    {# Modif' de l'affichage suivant l'état de la sortie #}
                                     {% if sortie.etat.libelle == 'créée' %}
                                         <a href="{{ path('sortie_detail', {id: sortie.id}) }}">
-                                            Modifier</a> - <a>Publier</a>
+                                            Modifier</a> - Publier
                                     {% elseif sortie.etat.libelle == 'activité en cours' %}
                                         <a href="{{ path('sortie_detail', {id: sortie.id}) }}">
                                             Afficher</a>

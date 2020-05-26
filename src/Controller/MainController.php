@@ -63,7 +63,7 @@ class MainController extends AbstractController
             array_push($numeroSortie, $i->getSortie()->getId());
         }
 
-        dump($inscrit, $numeroSortie);
+        dump($inscrit);
 
         //Afficher un message d'erreur si aucun résultat
         if ($sorties->count() == 0) {

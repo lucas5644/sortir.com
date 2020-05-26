@@ -1,0 +1,23 @@
+{% extends "layout.html.twig" %}
+{% block title %}Gestion des villes{% endblock %}
+
+{% block main %}
+
+    {{ form_start(findVilleForm) }}
+    {{ form_widget(findVilleForm) }}
+    {{ form_end(findVilleForm) }}
+
+{#        <h1 class="text-center">Gérer les villes</h1>#}
+{#        <div class="jumbotron">#}
+{#            <nav class="navbar navbar-light bg-transparent">#}
+{#                <form class="form-inline">#}
+{#                    <input class="form-control mr-sm-2" type="search"#}
+{#                           placeholder="Rechercher">#}
+{#                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">#}
+{#                        Rechercher#}
+{#                    </button>#}
+{#                </form>#}
+{#            </nav>#}
+{#        </div>#}
+
+{% endblock %}
