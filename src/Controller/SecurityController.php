@@ -133,13 +133,15 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @param string $token
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param EntityManagerInterface $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder)
+    public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
     {
         $utilisateur = new Participant();
-        $resPassForm = $this->createForm(ResetPasswordType::class, $utilisateur);
+        $form = $this->createForm(ResetPasswordType::class);
 
+        //$resPassForm->handleRequest($request);
         // On cherche un utilisateur avec le token donné
         $utilisateur = $this->getDoctrine()->getRepository(Participant::class)->findOneBy(['reset_token' => $token]);
 
@@ -151,17 +153,18 @@ class SecurityController extends AbstractController
         }
 
         // Si le formulaire est envoyé en méthode post
-        if ($request->isMethod('POST')) {
+        if ($form->isSubmitted() && $form->isValid()) {
+
             // On supprime le token
-            $utilisateur->setResetToken(null);
+            $utilisateur->setResetToken();
 
             // On chiffre le mot de passe
             $utilisateur->setPassword($passwordEncoder->encodePassword($utilisateur, $request->request->get('password')));
-
-            // On stocke
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($utilisateur);
-            $entityManager->flush();
+            dump($utilisateur);
+            // On stock
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($utilisateur);
+            $em->flush();
 
             // On crée le message flash
             $this->addFlash('message', 'Mot de passe mis à jour');
@@ -172,9 +175,8 @@ class SecurityController extends AbstractController
             // Si on n'a pas reçu les données, on affiche le formulaire
             return $this->render('security/reset_password.html.twig', [
                 'token' => $token,
-                "resPassForm" => $resPassForm->createView()
+                'resPassForm' => $form->createView()
             ]);
         }
-
     }
 }
