@@ -17,28 +17,69 @@ $sortie_ville.change(function ()
 })*/
 
 
-$(document).on('change','#sortie_ville','#sortie_lieu', function(){
-    let $field =$(this)
-    let $villeField = $('#sortie_ville')
-    let $form = $field.closest('form')
-    let data = {}
-    data[$villeField.attr('name')] = $villeField.val()
 
+
+
+
+
+/*$(document).on('change','#sortie_ville','#sortie_lieu', function(){
 // Submit data via AJAX to the form's action path.
     $.ajax({
-        url: $form.attr('action'),
-        type: $form.attr('method'),
-        data: data,
-        success: function (html) {
-            // Replace current race field ...
-            $('#sortie_lieu').replaceWith(
-                // ... with the returned one from the AJAX response.
-                $(html).find('#sortie_lieu')
-            );
-            // race field now displays the appropriate positions.
+        url: 'sortie/createSortie',
+        type:       'POST',
+        dataType:   'json',
+        async:      true,
+        success:
+            function(data, status) {
+                var e = $('<tr><th>Name</th><th>Address</th></tr>');
+                $('#sortie_ville').html('');
+                $('#student').append(e);
+
+                for(i = 0; i < data.length; i++) {
+                    student = data[i];
+                    var e = $('<tr><td id = "name"></td><td id = "address"></td></tr>');
+
+                    $('#name', e).html(student['name']);
+                    $('#address', e).html(student['address']);
+                    $('#student').append(e);
+                }
+            },
+        error : function(xhr, textStatus, errorThrown) {
+            alert('Ajax request failed.');
         }
     });
+})*/
+
+$(document).ready( function(){
+// Submit data via AJAX to the form's action path.
+    $("#sortie_lieu").on('click', function(event){
+        $.ajax({
+            url: 'sortie/createSortie',
+            type:       'GET',
+            dataType:   'JSON',
+            async:      true,
+            success:
+                function(data,status) {
+                var e = $('');
+                    $('#sortie_lieu').html('');
+                    $('#sortie_lieu').append(e);
+
+                   for(i = 0; i < data.length; i++) {
+
+                    $('#',e).html(lieu['rue']);
+                    $('#',e).html(lieu['latitude']);
+                    $('#',e).html(lieu['longitude']);
+                    $('#sortie_lieu',e).append(e);
+                   }
+                },
+            error : function(xhr, textStatus, errorThrown) {
+                alert('Une erreur est survenue :( ');
+            }
+        })
+
+    });
 })
+
 
 
 /*$(document).on('change','#sortie_ville','#sortie_lieu', function(){

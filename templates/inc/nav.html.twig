@@ -1,23 +1,24 @@
-<nav class="navbar navbar-expand-lg navbar-light">
-
+<nav class="navbar navbar-expand-lg navbar-light
+col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-sm-10 offset-sm-1">
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon text-center"></span>
     </button>
-
     <a>Bienvenue {{ app.user.prenom }}<br>
-        Nous sommes le {{ ("now" | date("d/m/y"))}}</a>
+        Nous sommes le {{ ("now" | date("d/m/y")) }}</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto" style="padding-left: 50px" >
-            <li class="nav-item">
-                <a class="nav-link" href="#">Villes</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Campus</a>
-            </li>
+        <ul class="navbar-nav mr-auto">
+            {% if is_granted('ROLE_USER') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Villes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Campus</a>
+                </li>
+            {% endif %}
             <li>
-                <a class="nav-link" href="{{path('home')}}">Accueil</a>
+                <a class="nav-link" href="{{ path('home') }}">Accueil</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"

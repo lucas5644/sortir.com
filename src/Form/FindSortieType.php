@@ -21,7 +21,7 @@ class FindSortieType extends AbstractType
         $builder
             ->add('nomSortie', TextType::class, [
                 'required' => false,
-                'label' => 'Le nom de la sortie contient : '
+                'label' => 'Le nom contient : '
             ])
             ->add('nomCampus', EntityType::class, [
                 'label' => 'Choisir le campus : ',
