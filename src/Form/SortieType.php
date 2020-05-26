@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 
@@ -22,36 +24,15 @@ use Symfony\Component\Validator\Constraints\DateTime;
 
 class SortieType extends AbstractType
 {
+    private $em;
 
     /**
-     * Rajoute un Lieu au formulaire en fonction de la ville sélectionnée
-     * @param FormInterface $form
-     * @param Ville $ville
+     * @param EntityManagerInterface $em
      */
-    private function addLieuField(FormInterface $form, ?Ville $ville)
+    public function __construct(EntityManagerInterface $em)
     {
-        $builder = $form->getConfig()->getFormFactory()->createNamedBuilder(
-            'lieu',
-            EntityType::class,
-            null,
-            [
-                'class' => 'App\Entity\Lieu',
-                'placeholder' => $ville ? 'Sélectionnez' : 'Sélectionnez la ville',
-                'mapped' => false,
-                'auto_initialize' => false,
-                'required' => false,
-                'choices' => $ville ? $ville->getLieux($ville) : []
-            ]
-        );
-        $builder->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
-                $form = $event->getForm();
-            }
-        );
-        $form->add($builder->getForm());
+        $this->em = $em;
     }
-
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -108,43 +89,70 @@ class SortieType extends AbstractType
                     'placeholder' => 'Veuillez décrire votre évènement'
                 ],
                 'required' => false
-            ])
+            ]);
 
-        ->add('ville', EntityType::class, [
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
+    }
+
+    protected function addElements(FormInterface $form, Ville $ville = null)
+    {
+        $form->add('ville', EntityType::class, [
             'class' => 'App\Entity\Ville',
-        'placeholder' => 'Sélectionnez',
-        'mapped' => false,
-        'required' => false,]);
+            'placeholder' => 'Sélectionnez',
+            'mapped' => false,
+            'data' => $ville,
+            'required' => true
+        ]);
 
-        $builder->get('ville')->addEventListener(
-            FormEvents::PRE_SUBMIT,
-            function (FormEvent $event)
-            {
-/*                $ville = $event->getForm()->getData();*/
-                $form = $event->getForm();
-                $this->addLieuField($form->getParent(), $form->getData());
+        $lieux = array();
+
+        if($ville){
+
+            $repoLieu = $this->em->getRepository(Lieu::class);
+
+            $lieux = $repoLieu->createQueryBuilder('q')
+                ->where("q.ville = :villeid")
+                ->setParameter("villeid", $ville->getId())
+                ->getQuery()
+                ->getResult();
             }
-        );
 
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function (FormEvent $event)
-            {
-                $data = $event->getData();
+            $form->add('lieu', EntityType::class, array(
+                'class' => 'App:Lieu',
+                'placeholder' => 'Sélectionnez la ville avant',
+                'mapped' => true,
+                'auto_initialize' => false,
+                'required' => true,
+                'choices' => $lieux
+            ));
 
-                $lieu = $data->getLieu();
-                $form = $event->getForm();
-                if ($lieu) {
-                    $ville = $lieu->getVille();
-                    $this->addLieuField($form, $ville);
+    }
 
-                    $form->get('ville')->setData($ville);
-                    $form->get('lieu')->setData($lieu);
-                } else {
-                    $this->addLieuField($form, null);
-                }
-            }
-        );
+    function onPreSubmit(FormEvent $event)
+    {
+        $form = $event->getForm();
+        $data = $event->getData();
+
+        $ville = $this->em->getRepository(Ville::class)->find($data['ville']);
+        $lieu = $this->em->getRepository(Lieu::class)->find($data['lieu']);
+    dump($lieu);
+
+    foreach ($ville->getLieux() as $lieux){
+        dump($lieux);
+    }
+
+        $this->addElements($form,$ville);
+
+    }
+
+    function onPreSetData(FormEvent $event) {
+        $sortie = $event->getData();
+        $form = $event->getForm();
+
+        $ville = null;
+        dump($ville);
+        $this->addElements($form, $ville);
 
     }
 
@@ -154,5 +162,10 @@ class SortieType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Sortie::class,
         ]);
+    }
+
+    public function getBlockPrefix()
+    {
+        return 'sortie';
     }
 }

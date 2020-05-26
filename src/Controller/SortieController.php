@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Inscription;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
@@ -33,21 +34,27 @@ class SortieController extends AbstractController
 
         $sortie = new Sortie();
 
+        $organisateur = $this->getUser();
+        $sortie->setOrganisateur($organisateur);
+
+
+        $etat = $this->getDoctrine()->getManager()->getRepository(Etat::class)->findOneBy(["libelle"=>"créée"]);
+        $sortie->setEtat($etat);
+/*        $lieu = $this->getDoctrine()->getManager()->getRepository(Lieu::class)->findOneBy(["nom" => ]);*/
+
+
+
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
         $sortieForm->handleRequest($request);
 
-        $organisateur = $this->getUser();
-        $sortie->setOrganisateur($organisateur);
 
-        $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(1);
-        $sortie->setEtat($etat);
+        dump($sortieForm->getData());
 
-
-        dump($sortie);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $em->persist($sortie);
             $em->flush();
+
 
             $this->addFlash("success", "Votre évènement" . $sortie->getNom() . " a bien été sauvegardé !");
             return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
@@ -58,7 +65,32 @@ class SortieController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/sortie/lieux", name="sortie_lieux")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function lieuSelonVille(Request $request)
+    {
+        $em =$this->getDoctrine()->getManager();
+        $lieuxRepo = $em->getRepository("App:Lieu");
 
+        $lieux = $lieuxRepo->createQueryBuilder("q")
+            ->where("q.ville = :villeid")
+            ->setParameter("villeid",$request->query->get("villeid"))
+            ->getQuery()
+            ->getResult();
+
+        $responseArray = array();
+
+        foreach ($lieux as $lieu){
+            $responseArray[] = array(
+                "id" => $lieu->getId(),
+                "nom" => $lieu->getNom()
+            );
+        }
+        return new JsonResponse($responseArray);
+    }
 
 
     /**

@@ -50,35 +50,52 @@ $sortie_ville.change(function ()
     });
 })*/
 
-$(document).ready( function(){
-// Submit data via AJAX to the form's action path.
-    $("#sortie_lieu").on('click', function(event){
-        $.ajax({
-            url: 'sortie/createSortie',
-            type:       'GET',
-            dataType:   'JSON',
-            async:      true,
-            success:
-                function(data,status) {
-                var e = $('');
-                    $('#sortie_lieu').html('');
-                    $('#sortie_lieu').append(e);
 
-                   for(i = 0; i < data.length; i++) {
+$("#sortie_ville").change(function(){
+    var villeSelec = $(this).val();
+    var ville = $(this);
+    console.log($('#sortie_ville').val());
 
-                    $('#',e).html(lieu['rue']);
-                    $('#',e).html(lieu['latitude']);
-                    $('#',e).html(lieu['longitude']);
-                    $('#sortie_lieu',e).append(e);
-                   }
-                },
-            error : function(xhr, textStatus, errorThrown) {
-                alert('Une erreur est survenue :( ');
-            }
-        })
+//récupérer val ville dans l'url soit dans controller, soit récupérer l'id dans queryString(?) ou soit dans le data en post
 
+    $.ajax({
+       url: 'lieux',
+       type:       'GET',
+       dataType:   'JSON',
+       data : {villeid:villeSelec},
+       async:      true,
+
+       success: function (lieux){
+           var lieuSelec = $("#sortie_lieu");
+
+           lieuSelec.html('');
+
+           lieuSelec.append('<option value> Selectionner lieu de ' + ville.find("option:selected").text() + ' ...</option>');
+            console.log(ville.find("option:selected").text());
+            $.each(lieux, function (key,lieu) {
+                lieuSelec.append('<option value="' + lieu.id + '">' + lieu.nom + '</option>');
+            });
+
+        },
+        error : function(error) {
+            alert('Une erreur est survenue :( ');
+        }
     });
-})
+});
+
+
+/*function(data,status) {
+   var e = $('');
+   $('#sortie_lieu').html('');
+   $('#sortie_lieu').append(e);
+
+   for(i = 0; i < data.length; i++) {
+
+   $('#',e).html(lieu['rue']);
+   $('#',e).html(lieu['latitude']);
+   $('#',e).html(lieu['longitude']);
+   $('#sortie_lieu',e).append(e);
+ }*/
 
 
 
