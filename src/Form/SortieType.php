@@ -136,14 +136,8 @@ class SortieType extends AbstractType
 
         $ville = $this->em->getRepository(Ville::class)->find($data['ville']);
         $lieu = $this->em->getRepository(Lieu::class)->find($data['lieu']);
-    dump($lieu);
-
-    foreach ($ville->getLieux() as $lieux){
-        dump($lieux);
-    }
 
         $this->addElements($form,$ville);
-
     }
 
     function onPreSetData(FormEvent $event) {
@@ -153,7 +147,6 @@ class SortieType extends AbstractType
         $ville = null;
         dump($ville);
         $this->addElements($form, $ville);
-
     }
 
 
