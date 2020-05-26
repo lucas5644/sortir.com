@@ -2,22 +2,33 @@
 {% block title %}Gestion des villes{% endblock %}
 
 {% block main %}
+    <div class="jumbotron">
+        <h1 class="text-center">Gérer les villes</h1>
+        {{ form_start(gestionVilles) }}
+        <div class="form-row">
+            <div class="col-4">
+                {{ form_row(gestionVilles.nom) }}
+            </div>
+            <div class="col-3 align-self-center" style="padding-top: 15px">
+                <input class="btn btn-outline-primary"
+                       type="submit" value="Rechercher">
+            </div>
+        </div>
+        {{ form_end(gestionVilles) }}
+        <br>
+        <div class="table-responsive pre-scrollable table-bordered table-info">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Campus</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 
-    {{ form_start(findVilleForm) }}
-    {{ form_widget(findVilleForm) }}
-    {{ form_end(findVilleForm) }}
 
-{#        <h1 class="text-center">Gérer les villes</h1>#}
-{#        <div class="jumbotron">#}
-{#            <nav class="navbar navbar-light bg-transparent">#}
-{#                <form class="form-inline">#}
-{#                    <input class="form-control mr-sm-2" type="search"#}
-{#                           placeholder="Rechercher">#}
-{#                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">#}
-{#                        Rechercher#}
-{#                    </button>#}
-{#                </form>#}
-{#            </nav>#}
-{#        </div>#}
+
 
 {% endblock %}

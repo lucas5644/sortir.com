@@ -38,7 +38,7 @@ class VilleController extends AbstractController
         dump($findVille, $findVilleForm);
 
         return $this->render('ville/gestion-villes.html.twig', [
-            "findVilleForm", $findVilleForm->createView(),
+            'gestionVilles' => $findVilleForm->createView(),
         ]);
     }
 }

@@ -15,11 +15,8 @@ class FindVilleType extends AbstractType
         $builder
             ->add('nom', TextType::class, [
                 'required' => false,
-                'label' => 'Le nom contient : '
-            ])
-            ->add('codePostal', TextType::class, [
-                'required' => false,
-                'label' => 'Le code postal contient : '
+                'label' => 'Le nom contient : ',
+                'attr' => ['class'=>'form-control mr-sm-2']
             ])
         ;
     }
