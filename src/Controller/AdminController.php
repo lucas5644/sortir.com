@@ -158,8 +158,10 @@ class AdminController extends AbstractController
      */
     public function supprimerUser($id, Request $request){
         $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['id' => $id]);
+        $pseudo = $user->getPseudo();
         $this->entityManager->remove($user);
         $this->entityManager->flush();
+        $this->addFlash("success", "Utilisateur supprimé : " . $pseudo);
         return $this->redirectToRoute('admin');
     }
 
