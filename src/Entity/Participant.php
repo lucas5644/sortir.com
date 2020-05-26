@@ -105,7 +105,7 @@ class Participant implements UserInterface
     /**
      * @param mixed $reset_token
      */
-    public function setResetToken($reset_token): void
+    public function setResetToken($reset_token = null): void
     {
         $this->reset_token = $reset_token;
     }

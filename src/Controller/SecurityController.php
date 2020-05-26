@@ -141,7 +141,7 @@ class SecurityController extends AbstractController
         $utilisateur = new Participant();
         $form = $this->createForm(ResetPasswordType::class);
 
-        //$resPassForm->handleRequest($request);
+        $form->handleRequest($request);
         // On cherche un utilisateur avec le token donné
         $utilisateur = $this->getDoctrine()->getRepository(Participant::class)->findOneBy(['reset_token' => $token]);
 
@@ -155,14 +155,18 @@ class SecurityController extends AbstractController
         // Si le formulaire est envoyé en méthode post
         if ($form->isSubmitted() && $form->isValid()) {
 
+
             // On supprime le token
             $utilisateur->setResetToken();
 
             // On chiffre le mot de passe
-            $utilisateur->setPassword($passwordEncoder->encodePassword($utilisateur, $request->request->get('password')));
-            dump($utilisateur);
+
+            $password = $passwordEncoder->encodePassword($utilisateur, $form->get('password')->getData());
+
+            $utilisateur->setPassword($password);
+
             // On stock
-            $em = $this->getDoctrine()->getManager();
+            //$em = $this->getDoctrine()->getManager();
             $em->persist($utilisateur);
             $em->flush();
 
