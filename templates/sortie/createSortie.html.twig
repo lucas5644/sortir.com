@@ -51,14 +51,14 @@
         {{ form_widget(sortieForm.ville) }}
         {{ form_errors(sortieForm.ville) }}
 
-        <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}" alt="Ajouter un lieu" class="bouton-plus" width="35px"></a>
-
-        <div>
-            {{form_rest(sortieForm) }}
-        </div>
     </div>
 
+    <div>
+        {{form_rest(sortieForm) }}
 
+        <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}" alt="Ajouter un lieu" class="bouton-plus" width="35px"></a>
+
+    </div>
 
 
 
@@ -94,7 +94,6 @@
 
 </div>
 {% endblock %}
-
     {% block javascripts %}
         {{ parent() }}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

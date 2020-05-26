@@ -10,6 +10,7 @@ use App\Form\InscriptionType;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
@@ -29,47 +30,36 @@ class SortieController extends AbstractController
      */
     public function create(EntityManagerInterface $em, Request $request)
     {
+
         $sortie = new Sortie();
-        $lieuRepo = $this->getDoctrine()->getRepository(Lieu::class);
-
-
-
-        /*foreach ($lieuE as $l) {
-            $villeRepo = $this->getDoctrine()->getRepository(Ville::class);
-            $villeE = $villeRepo->findOneBy(['id'=>$l->getVille()->getId()]);
-            $l->setVille($villeE);
-        }*/
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
         $sortieForm->handleRequest($request);
 
-
         $organisateur = $this->getUser();
         $sortie->setOrganisateur($organisateur);
-
-        /*$nom = $request->request->get('lieuE');
-        $lieu = $this->getDoctrine()->getManager()->getRepository(Lieu::class)->findOneBy(['nom'=>$nom]);
-        $sortie->setLieu($lieu);*/
 
         $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(1);
         $sortie->setEtat($etat);
 
 
         dump($sortie);
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $em->persist($sortie);
             $em->flush();
 
-            $this->addFlash("success", "Votre évènement".$sortie->getNom()." a bien été sauvegardé !");
-            return $this->redirectToRoute('sortie_detail',['id'=>$sortie->getId()]);
+            $this->addFlash("success", "Votre évènement" . $sortie->getNom() . " a bien été sauvegardé !");
+            return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
         }
 
         return $this->render('sortie/createSortie.html.twig', [
-            //'lieuE'=> $lieuE,
-            'sortieForm' => $sortieForm -> createView()
+            'sortieForm' => $sortieForm->createView()
         ]);
     }
+
+
+
 
     /**
      * @Route("/sortie/{id}", name="sortie_detail")
@@ -103,6 +93,7 @@ class SortieController extends AbstractController
             'idInscription' => $idInscription,
         ]);
     }
+
 
     /**
      * @Route("/sortie/delete/{id}", name="sortie_delete", requirements={"id": "\d+"})
