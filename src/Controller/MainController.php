@@ -63,13 +63,12 @@ class MainController extends AbstractController
             array_push($numeroSortie, $i->getSortie()->getId());
         }
 
-        dump($inscrit);
+        dump($request->get('nomSortie'));
 
         //Afficher un message d'erreur si aucun résultat
         if ($sorties->count() == 0) {
             $this->addFlash('warning', 'Aucun résultat à votre recherche');
         }
-
 
         //renvoyer le formulaire à ma page et mon filtre
         return $this->render('main/index.html.twig', [

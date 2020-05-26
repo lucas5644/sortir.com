@@ -35,10 +35,15 @@ class VilleController extends AbstractController
         $findVilleForm = $this->createForm(FindVilleType::class, $findVille);
         $findVilleForm->handleRequest($request);
 
-        dump($findVille, $findVilleForm);
+        //recherche des toutes les villes
+        $villeRepo  = $this->getDoctrine()->getRepository(Ville::class);
+        $listeVilles = $villeRepo->findAll();
+
+        dump($listeVilles, $request->get('addVille'));
 
         return $this->render('ville/gestion-villes.html.twig', [
             'gestionVilles' => $findVilleForm->createView(),
+            'listeVilles' => $listeVilles,
         ]);
     }
 }
