@@ -56,4 +56,6 @@
         {{ form_end(userForm, {'render_rest': false}) }}
 
     </div>
+    <br>
+    <a class="btn btn-dark" href="{{ app.request.headers.get('referer') }}">Retour</a>
 {% endblock %}

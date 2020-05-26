@@ -58,9 +58,35 @@
             <br>
 
             {{ form_row(userForm._token) }}
-            <button class="btn btn-primary" type="submit">Modifier</button><a class="btn btn-dark" href="{{ path('home') }}">Retour</a>
+            <button class="btn btn-primary" type="submit">Modifier</button><a class="btn btn-dark" href="{{ app.request.headers.get('referer') }}">Retour</a>
             {{ form_end(userForm, {'render_rest': false}) }}
         </div>
 
+        <div class="text-center">
+            {% if app.user.administrateur == 1 %}
+                <form action="{{ path('supprimer', {id: user.id}) }}" onsubmit="return validate()">
+
+                    <input id="status" hidden value="nope">
+
+                    <button class="btn btn-danger" type="submit">Supprimer utilisateur</button>
+
+                </form>
+            {% endif %}
+        </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+    function validate() {
+        if (document.getElementById("status").value) {
+            return confirm('Voulez vous vraiment supprimer cet utilisateur?');
+        } else {
+            console.log('Non non');
+            return false;
+        }
+    }
+</script>
+
 {% endblock %}

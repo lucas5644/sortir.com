@@ -25,7 +25,34 @@
             <p>Campus : {{ user.campus }}</p>
         </div>
         <div class="text-center">
-            <a class="btn btn-primary" href="{{ url('home') }}">Retour</a>
+            <a class="btn btn-primary" href="{{ app.request.headers.get('referer') }}">Retour</a>
         </div>
     </div>
+    <div class="text-center">
+        {% if app.user.administrateur == 1 %}
+            <form action="{{ path('supprimer', {id: user.id}) }}" onsubmit="return validate()">
+
+                <input id="status" hidden value="nope">
+
+                <button class="btn btn-danger" type="submit">Supprimer utilisateur</button>
+
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+
+    <script>
+        function validate() {
+            if (document.getElementById("status").value) {
+                return confirm('Voulez vous vraiment supprimer cet utilisateur?');
+            } else {
+                console.log('Non non');
+                return false;
+            }
+        }
+    </script>
+
 {% endblock %}

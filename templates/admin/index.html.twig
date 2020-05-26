@@ -1,0 +1,100 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Administratueur{% endblock %}
+
+{% block main %}
+    <div class="text-center">
+        <a href="{{ path('register') }}" class="btn btn-primary">Créer un utilisateur</a>
+        <a href="{{ path('import') }}" class="btn btn-primary">Importer des utilisateurs</a>
+    </div>
+
+    <br>
+
+    {% if users | length > 0 %}
+        <div class="table-responsive pre-scrollable table-bordered table-info">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Pseudo</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Téléphone</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Campus</th>
+                        <th scope="col">Actif</th>
+                        <th scope="col">Administrateur</th>
+                    </tr>
+                </thead>
+                {% for user in users %}
+                    <tr>
+                        <td><a href="{{ path('profile', {pseudo: user.pseudo}) }}">{{ user.pseudo }}</a></td>
+                        <td>{{ user.nom }}</td>
+                        <td>{{ user.prenom }}</td>
+                        {% if user.telephone is null %}
+                            <td>Non renseigné</td>
+                        {% else %}
+                            <td>{{ user.telephone }}</td>
+                        {% endif %}
+                        <td>{{ user.mail }}</td>
+                        <td>{{ user.campus.nom }}</td>
+                        {% if user.actif == 0 %}
+                            <td>
+                                <form action="{{ path('activer', {id: user.id}) }}" onsubmit="return validerteActivation()">
+
+                                    <input id="status" hidden value="nope">
+
+                                    <button class="btn btn-outline-primary" type="submit">Activer</button>
+
+                                </form>
+                            </td>
+                        {% else %}
+                            <td>
+                                <form action="{{ path('desactiver', {id: user.id}) }}" onsubmit="return validaterDesactivation()">
+
+                                    <input id="status" hidden value="nope">
+
+                                    <button class="btn btn-outline-primary" type="submit">Désactiver</button>
+
+                                </form>
+                            </td>
+                        {% endif %}
+
+                        {% if user.administrateur == 1 %}
+                            <td class="text-center">Oui</td>
+                        {% else %}
+                            <td class="text-center">Non</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    {% endif %}
+    <br>
+    <a class="btn btn-dark" href="{{ app.request.headers.get('referer') }}">Retour</a>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        function validerteActivation() {
+            if (document.getElementById("status").value) {
+                return confirm('Voulez vous vraiment activer cet utilisateur ?');
+            } else {
+                console.log('Non non');
+                return false;
+            }
+        }
+
+        function validaterDesactivation() {
+            if (document.getElementById("status").value) {
+                return confirm('Voulez vous vraiment désactiver cet utilisateur?');
+            } else {
+                console.log('Non non');
+                return false;
+            }
+        }
+    </script>
+
+{% endblock %}
