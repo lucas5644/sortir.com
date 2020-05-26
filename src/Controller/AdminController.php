@@ -81,6 +81,7 @@ class AdminController extends AbstractController
         $sortie->setEtat($etat);
         $this->entityManager->persist($sortie);
         $this->entityManager->flush();
+        $this->addFlash("success", "Sortie annulée : " . $sortie->getNom());
         return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getid()]);
     }
 
@@ -132,6 +133,7 @@ class AdminController extends AbstractController
         $user->setActif(0);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+        $this->addFlash("success", "Utilisateur désactivé : " . $user->getPseudo());
         return $this->redirectToRoute('admin');
     }
 
@@ -145,6 +147,7 @@ class AdminController extends AbstractController
         $user->setActif(1);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+        $this->addFlash("success", "Utilisateur activé : " . $user->getPseudo());
         return $this->redirectToRoute('admin');
     }
 
