@@ -63,6 +63,11 @@ class Participant implements UserInterface
     private $actif;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reset_token;
+
+    /**
      * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="participant")
      */
     private $inscriptions;
@@ -87,6 +92,22 @@ class Participant implements UserInterface
     {
         $this->inscriptions = new ArrayCollection();
         $this->sorties = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResetToken()
+    {
+        return $this->reset_token;
+    }
+
+    /**
+     * @param mixed $reset_token
+     */
+    public function setResetToken($reset_token): void
+    {
+        $this->reset_token = $reset_token;
     }
 
     /**
@@ -325,5 +346,10 @@ class Participant implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function findOneByEmail($email)
+    {
+        return $this->getMail();
     }
 }

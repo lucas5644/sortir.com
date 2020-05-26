@@ -10,7 +10,7 @@
 
     {% if app.user %}
         <div class="mb-3">
-            {{ app.user.username }} | <a href="{{ path('app_logout') }}">Deconnexion</a>
+            {{ app.user.username }} | <a href="{{ path('logout') }}">Deconnexion</a>
         </div>
     {% endif %}
 
@@ -40,7 +40,9 @@
         </div>
 
     {# faire mdp oublié#}
-
+        <div class="mb-3">
+           <a href="{{ path('app_forgotten_password') }}">Mot de passe oublié</a>
+        </div>
 
 
 </form>
