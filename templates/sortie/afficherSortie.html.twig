@@ -3,58 +3,98 @@
 {% block title %}Afficher une sortie{% endblock %}
 
 {% block main %}
-<p>Nom de la sortie : {{ sortie.nom }}</p> {{ sortie.nom }}
-    <p>Date et heure de la sortie : {{ sortie.dateHeureDebut | date("d/m/y")}}</p>
-    <p>Date limite d'inscription : {{ sortie.dateLimiteInscription | date("d/m/y")}}</p>
-    <p>Nombre de places : {{ sortie.nbInscriptionMax }}</p>
-    <p>Durée : {{ sortie.duree }}</p>
-    {% if sortie.infosSortie is not null %}
-        <p>Descriptions et infos : {{ sortie.infosSortie}}</p>
-    {% endif %}
-    <p>Campus : {{ sortie.organisateur.campus.nom }}</p>
-    <p>Lieu : {{ sortie.lieu.nom }}</p>
-    <p>Rue : {{ sortie.lieu.rue }}</p>
-    <p>Code postal : {{ sortie.lieu.ville.codePostal }}</p>
-    {% if sortie.lieu.latitude and sortie.lieu.longitude is not null %}
-        <p>Latitude : {{ sortie.lieu.latitude }}</p>
-        <p>Longitude : {{ sortie.lieu.longitude }}</p>
-    {% endif %}
-
-    <p>Nombre d'inscrit à l'évènement : {{ sortie.getInscriptions()|length }}</p>
-
+    <div>
     {% if utilisateurIns is null and idInscription is null %}
         {% if sortie.etat.id == 2 and date(sortie.dateLimiteInscription) > date("now") and sortie.getInscriptions()|length < 5%}
-            <p>Bonjour, cette sortie est disponible jusqu'au {{ sortie.dateLimiteInscription | date('d/m/y') }}</p>
-
-            <a class="btn btn-primary" href="{{ path('inscription', {idSortie: sortie.id}) }}">S'inscrire</a>
-
+        <div class="text-center">
+            <p class="alert alert-primary" role="alert">Cette sortie est disponible jusqu'au {{ sortie.dateLimiteInscription | date('d/m/y') }}</p>
+        </div>
         {% endif %}
     {% endif %}
+    </div>
 
+    <div>
+        {% if sortie.getInscriptions()|length == 5 and utilisateurIns is null%}
+            <div class="text-center">
+            <p class="alert alert-danger" role="alert">Il n'y a plus de place disponible pour cette sortie.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div>
+        {% if  sortie.etat.id != 1 and sortie.etat.id != 2 %}
+            <div class="text-center">
+            <p class="alert alert-danger" role="alert">La sortie est déja {{ sortie.etat.libelle }}.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <dl class="row">
+        <dt class="col-sm-3">Nom :</dt>
+        <dd class="col-sm-9">{{ sortie.nom }} </dd>
+        <dt class="col-sm-3">Commence le : </dt>
+        <dd class="col-sm-9">{{ sortie.dateHeureDebut | date("d/m/yy h:m")}}</dd>
+        <dt class="col-sm-3">Date limite d'inscription : </dt>
+        <dd class="col-sm-9">{{ sortie.dateLimiteInscription | date("d/m/yy h:m")}}</dd>
+        <dt class="col-sm-3">Nombre de places :</dt>
+        <dd class="col-sm-9">{{ sortie.nbInscriptionMax }}</dd>
+        <dt class="col-sm-3">Durée :</dt>
+        <dd class="col-sm-9">{{ sortie.duree }} minutes</dd>
+    {% if sortie.infosSortie is not null %}
+        <dt class="col-sm-3">Descriptions et infos :</dt>
+        <dd class="col-sm-9">{{ sortie.infosSortie}}</dd>
+    {% endif %}
+        <dt class="col-sm-3">Campus :</dt>
+        <dd class="col-sm-9">{{ sortie.organisateur.campus.nom }}</dd>
+        <dt class="col-sm-3">Lieu</dt>
+        <dd class="col-sm-9">
+        <dl class="row">
+        <dd class="col-sm-9">{{ sortie.lieu.nom }}</dd>
+        <dt class="col-sm-3"> </dt>
+        <dd class="col-sm-9">{{ sortie.lieu.rue }}</dd>
+        <dt class="col-sm-3"> </dt>
+        <dd class="col-sm-9">{{ sortie.lieu.ville.nom }}   {{ sortie.lieu.ville.codePostal }}</dd>
+    {% if sortie.lieu.latitude and sortie.lieu.longitude is not null %}
+        <dt class="col-sm-4">Coordonnées GPS :</dt>
+        <dd class="col-sm-8">{{ sortie.lieu.latitude }}, {{ sortie.lieu.longitude }}</dd>
+    {% endif %}
+        </dl>
+        </dd>
+
+
+        <dt class="col-sm-3">Nombre d'inscrit à l'évènement : </dt>
+        <dd class="col-sm-9">{{ sortie.getInscriptions()|length }}</dt>
+    </dl>
+
+
+    <div class="text-center">
     {% if utilisateurIns is not null and sortie.etat.id == 2%}
         {% if utilisateurIns.id == app.user.id %}
             <p>Vous voulez vous désister?</p>
             <a class="btn btn-danger" href="{{ path('inscriptionDelete', {id: idInscription}) }}">Se désister</a>
         {% endif %}
     {% endif %}
+    </div>
 
-    {% if sortie.getInscriptions()|length == 5 and utilisateurIns is null%}
-        <p>Il n'y a plus de place disponible pour cette sortie.</p>
-    {% endif %}
+    <div>
+        {% if utilisateurIns is null and idInscription is null %}
+            {% if sortie.etat.id == 2 and date(sortie.dateLimiteInscription) > date("now") and sortie.getInscriptions()|length < 5%}
+                <a class="btn btn-primary" href="{{ path('inscription', {idSortie: sortie.id}) }}">S'inscrire</a>
+            {% endif %}
+        {% endif %}
+    </div>
 
-    {% if  sortie.etat.id != 1 and sortie.etat.id != 2 %}
-        <p>Vous ne pouvez plus vous inscrire</p>
-    {% endif %}
-
+    <div class="text-center">
     {% if app.user.administrateur == 1 and sortie.etat.id <= 3 %}
         <form action="{{ path('annuler', {id: sortie.id}) }}" onsubmit="return annulerSortie()">
 
             <input id="status" hidden value="nope">
 
-            <button class="btn btn-outline-primary" type="submit">Annuler sortie</button>
+            <button class="btn btn-warning" type="submit">Annuler sortie</button>
 
         </form>
     {% endif %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}

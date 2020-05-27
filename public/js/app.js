@@ -1,27 +1,3 @@
-/*var $sortie_ville = $('sortie_ville')
-
-$sortie_ville.change(function ()
-{
-    var $form = $(this).closest('form')
-
-    var data = {}
-
-    data[$sortie_ville.attr('name')] = $sortie_ville.val()
-
-    $.post($form.attr('action'), data).then(function(response)
-    {
-        $('#sortie_lieu').replaceWith(
-            $(response).find('#sortie_lieu')
-        )
-    })
-})*/
-
-
-
-
-
-
-
 /*$(document).on('change','#sortie_ville','#sortie_lieu', function(){
 // Submit data via AJAX to the form's action path.
     $.ajax({
@@ -50,13 +26,14 @@ $sortie_ville.change(function ()
     });
 })*/
 
-
 $("#sortie_ville").change(function(){
     var villeSelec = $(this).val();
     var ville = $(this);
-    console.log($('#sortie_ville').val());
 
-//récupérer val ville dans l'url soit dans controller, soit récupérer l'id dans queryString(?) ou soit dans le data en post
+/*    console.log($('#sortie_ville').val());
+    console.log(ville.find("option:selected").text());*/
+
+//récupérer val ville dans l'url dans queryString
 
     $.ajax({
        url: 'lieux',
@@ -66,12 +43,13 @@ $("#sortie_ville").change(function(){
        async:      true,
 
        success: function (lieux){
+
            var lieuSelec = $("#sortie_lieu");
 
            lieuSelec.html('');
 
            lieuSelec.append('<option value> Selectionner lieu de ' + ville.find("option:selected").text() + ' ...</option>');
-            console.log(ville.find("option:selected").text());
+
             $.each(lieux, function (key,lieu) {
                 lieuSelec.append('<option value="' + lieu.id + '">' + lieu.nom + '</option>');
             });
@@ -83,32 +61,5 @@ $("#sortie_ville").change(function(){
     });
 });
 
-
-/*function(data,status) {
-   var e = $('');
-   $('#sortie_lieu').html('');
-   $('#sortie_lieu').append(e);
-
-   for(i = 0; i < data.length; i++) {
-
-   $('#',e).html(lieu['rue']);
-   $('#',e).html(lieu['latitude']);
-   $('#',e).html(lieu['longitude']);
-   $('#sortie_lieu',e).append(e);
- }*/
-
-
-
-/*$(document).on('change','#sortie_ville','#sortie_lieu', function(){
-    let $field =$(this)
-    let $villeField = $('#sortie_ville')
-    let $form = $field.closest('form')
-    let data = {}
-    data[$villeField.attr('name')] = $villeField.val()
-    $.post($form.attr('action'), data).then(function(data) {
-        let $input = $(data).find('#sortie_lieu')
-        $('#sortie_lieu').replaceWith($input)
-    })
-})*/
 
 
