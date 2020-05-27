@@ -29,7 +29,13 @@
                     <tr>
                         <td>{{ ville.nom }}</td>
                         <td>{{ ville.codePostal }}</td>
-                        <td></td>
+                        <td><form action="{{ path('supprimer_Ville', {id: ville.id}) }}" onsubmit="return validate()">
+
+                                <input id="status" hidden value="nope">
+
+                                <button class="btn btn-danger" type="submit">Supprimer Ville</button>
+                            </form>
+                        </td>
                     </tr>
                 {% endfor %}
 
@@ -44,7 +50,19 @@
         </div>
     </div>
 
+{% endblock %}
 
+{% block javascripts %}
 
+    <script>
+        function validate() {
+            if (document.getElementById("status").value) {
+                return confirm('Voulez vous vraiment supprimer cette ville?');
+            } else {
+                console.log('Non non');
+                return false;
+            }
+        }
+    </script>
 
 {% endblock %}

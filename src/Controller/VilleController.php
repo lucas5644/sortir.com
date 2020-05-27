@@ -15,14 +15,20 @@ use Symfony\Component\Security\Core\Security;
 class VilleController extends AbstractController
 {
     private $security;
+    private $entityManager;
 
-    public function __construct(Security $security)
+
+    public function __construct(EntityManagerInterface $em, Security $security)
     {
         $this->security = $security;
+        $this->entityManager = $em;
     }
 
     /**
      * @Route("villes", name="gestion_villes")
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return Response
      */
     public function gestionVilles(EntityManagerInterface $em, Request $request) : Response
     {
@@ -48,6 +54,7 @@ class VilleController extends AbstractController
 
         if ($addVilleForm->isSubmitted() && $addVilleForm->isValid()) {
 
+
             $em->persist($addVille);
             $em->flush();
 
@@ -60,6 +67,22 @@ class VilleController extends AbstractController
             'listeVilles' => $listeVilles,
             'addVille' => $addVilleForm->createView()
         ]);
+    }
+
+    /**
+     * @Route("/villes/supprimer_Ville/{id}", name="supprimer_Ville")
+     * @param $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function supprimerVille($id, Request $request)
+    {
+        $ville = $this->entityManager->getRepository(Ville::class)->findOneBy(['id' => $id]);
+        $nom = $ville->getNom();
+        $this->entityManager->remove($ville);
+        $this->entityManager->flush();
+        $this->addFlash("success", $ville->getNom()." à bien été supprimée !");
+        return $this->redirectToRoute('gestion_villes');
     }
 
 }
