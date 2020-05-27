@@ -24,7 +24,7 @@ class VilleController extends AbstractController
     /**
      * @Route("villes", name="gestion_villes")
      */
-    public function gestionVilles(EntityManagerInterface $em, Request $request)
+    public function gestionVilles(EntityManagerInterface $em, Request $request) : Response
     {
         if (is_null($this->security->getUser())) {
             return $this->redirectToRoute('login');
