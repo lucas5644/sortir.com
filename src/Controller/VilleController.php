@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Ville;
+use App\Form\AddVilleType;
 use App\Form\FindVilleType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +24,7 @@ class VilleController extends AbstractController
     /**
      * @Route("villes", name="gestion_villes")
      */
-    public function gestionVilles(Request $request): Response
+    public function gestionVilles(EntityManagerInterface $em, Request $request)
     {
         if (is_null($this->security->getUser())) {
             return $this->redirectToRoute('login');
@@ -39,11 +41,25 @@ class VilleController extends AbstractController
         $villeRepo  = $this->getDoctrine()->getRepository(Ville::class);
         $listeVilles = $villeRepo->findAll();
 
-        dump($listeVilles, $request->get('addVille'));
+        $addVille = new Ville();
 
+        $addVilleForm = $this->createForm(AddVilleType::class, $addVille);
+        $addVilleForm->handleRequest($request);
+
+        if ($addVilleForm->isSubmitted() && $addVilleForm->isValid()) {
+
+            $em->persist($addVille);
+            $em->flush();
+
+            $this->addFlash("success", "Votre ville " . $addVille->getNom() ." ". $addVille->getCodePostal() . " a bien été ajoutée !");
+            return $this->redirectToRoute('gestion_villes');
+
+        }
         return $this->render('ville/gestion-villes.html.twig', [
             'gestionVilles' => $findVilleForm->createView(),
             'listeVilles' => $listeVilles,
+            'addVille' => $addVilleForm->createView()
         ]);
     }
+
 }
