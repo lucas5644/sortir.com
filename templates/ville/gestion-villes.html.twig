@@ -10,7 +10,7 @@
                 {{ form_row(gestionVilles.nom) }}
             </div>
             <div class="col-3 align-self-center" style="padding-top: 15px">
-                <input class="btn btn-outline-primary"
+                <input class="btn btn-outline-info"
                        type="submit" value="Rechercher">
             </div>
         </div>
@@ -19,26 +19,29 @@
         <div class="table-responsive pre-scrollable table-bordered table-info">
             <table class="table table-striped">
                 <thead>
-                <tr>
-                    <th scope="col">Villes</th>
-                    <th scope="col">Code postal</th>
-                    <th scope="col">Actions</th>
-                </tr>
+                    <tr>
+                        <th scope="col">Villes</th>
+                        <th scope="col">Code postal</th>
+                        <th scope="col">Actions</th>
+                    </tr>
                 </thead>
                 {% for ville in listeVilles %}
                     <tr>
                         <td>{{ ville.nom }}</td>
                         <td>{{ ville.codePostal }}</td>
-                        <td><form action="{{ path('supprimer_Ville', {id: ville.id}) }}" onsubmit="return validate()">
+                        <td>
+                            <form style="align-items:center" action="{{ path('supprimer_Ville', {id: ville.id}) }}" onsubmit="return validate()">
 
                                 <input id="status" hidden value="nope">
 
                                 <button class="btn btn-danger" type="submit">Supprimer Ville</button>
                             </form>
+                            <form style="align-items:center">
+                                <button class="btn btn-info" type="submit">Modifier Ville</button>
+                            </form>
                         </td>
                     </tr>
                 {% endfor %}
-
                 <tr>
                     {{ form_start(addVille) }}
                     <td>{{ form_row(addVille.nom) }}</td>
@@ -49,11 +52,11 @@
             </table>
         </div>
     </div>
-
 {% endblock %}
 
-{% block javascripts %}
 
+
+{% block javascripts %}
     <script>
         function validate() {
             if (document.getElementById("status").value) {
@@ -64,5 +67,4 @@
             }
         }
     </script>
-
 {% endblock %}
