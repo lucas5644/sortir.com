@@ -42,22 +42,33 @@
         {{ form_label(sortieForm.ville) }}
         {{ form_widget(sortieForm.ville) }}
         {{ form_errors(sortieForm.ville) }}
-
     </div>
 
     <div>
         {{form_rest(sortieForm) }}
 
         <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}" alt="Ajouter un lieu" class="bouton-plus" width="35px"></a>
+    </div>
+
+    <div id="rue">
+
+    </div>
+    <div id="lati">
+
+    </div>
+    <div id="longi">
 
     </div>
 
 
     {{ form_row(sortieForm._token) }}
-    <button type="submit">Enregistrer</button>
-    <button type="submit">Publier la sortie</button>
-    <button type="submit">Annuler</button>
+    <button class="btn btn-primary" type="submit">Enregistrer</button>
+    <a class="btn btn-primary" href={{ path('sortie_publier') }}>Publier la sortie</a>
     {{ form_end(sortieForm, {'render_rest': false}) }}
+
+
+
+    <a class="btn btn-primary" href="{{ app.request.headers.get('referer') }}">Annuler</a>
 
 </div>
 {% endblock %}

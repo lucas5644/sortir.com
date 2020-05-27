@@ -59,6 +59,7 @@ class Lieu
         return $this->nom;
     }
 
+
     public function getId(): ?int
     {
         return $this->id;

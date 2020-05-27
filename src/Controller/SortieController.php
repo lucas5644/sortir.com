@@ -60,6 +60,40 @@ class SortieController extends AbstractController
     }
 
     /**
+     * @Route("/sortie/publierSortie", name="sortie_publier")
+     */
+    public function publierSortie(EntityManagerInterface $em, Request $request)
+    {
+
+        $sortie = new Sortie();
+
+        $organisateur = $this->getUser();
+        $sortie->setOrganisateur($organisateur);
+
+        $etat = $this->getDoctrine()->getManager()->getRepository(Etat::class)->findOneBy(["libelle"=>"publiée"]);
+        $sortie->setEtat($etat);
+
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+
+        $sortieForm->handleRequest($request);
+
+
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            $em->persist($sortie);
+            $em->flush();
+
+
+            $this->addFlash("success", "Votre évènement" . $sortie->getNom() . " a bien été sauvegardé !");
+            return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
+        }
+
+        return $this->render('sortie/createSortie.html.twig', [
+            'sortieForm' => $sortieForm->createView()
+        ]);
+    }
+
+
+    /**
      * @Route("/sortie/lieux", name="sortie_lieux")
      * @param Request $request
      * @return JsonResponse
@@ -83,6 +117,36 @@ class SortieController extends AbstractController
                 "nom" => $lieu->getNom()
             );
         }
+        return new JsonResponse($responseArray);
+    }
+
+    /**
+     * @Route("/sortie/lieu", name="sortie_coor")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function CoorSelonLieu(Request $request)
+    {
+        $em =$this->getDoctrine()->getManager();
+        $lieuxRepo = $em->getRepository(Lieu::class);
+
+        $lieu = $lieuxRepo->createQueryBuilder("q")
+            ->where("q.id = :lieuid")
+            ->setParameter("lieuid",$request->query->get("lieuid"))
+            ->getQuery()
+            ->getOneOrNullResult();
+
+/*        $responseArray = array();*/
+
+
+            $responseArray = array(
+                "id" => $lieu->getId(),
+                "nom" => $lieu->getNom(),
+                "rue" => $lieu->getRue(),
+                "latitude" => $lieu->getLatitude(),
+                "longitude" => $lieu->getLongitude()
+            );
+
         return new JsonResponse($responseArray);
     }
 

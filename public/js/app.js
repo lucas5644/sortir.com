@@ -52,12 +52,57 @@ $("#sortie_ville").change(function(){
 
             $.each(lieux, function (key,lieu) {
                 lieuSelec.append('<option value="' + lieu.id + '">' + lieu.nom + '</option>');
+                console.log("dddd :"+key + " " + lieu.id);
             });
 
         },
         error : function(error) {
             alert('Une erreur est survenue :( ');
         }
+    });
+});
+
+$("#sortie_lieu").change(function(){
+    var lieuSelec = $(this).val();
+    console.log(lieuSelec);
+
+    $.ajax({
+        url: 'lieu',
+        type: 'GET',
+        dataType: 'JSON',
+        data: {lieuid: lieuSelec},
+        async: true,
+
+        success: function (lieu) {
+            var element = document.getElementById("rue");
+            element.removeChild(element.childNodes[0]);
+            var rue = document.createElement("dt");
+/*            rue.setAttribute('class',"col-sm-3");*/
+            var text = document.createTextNode("Rue : " + lieu.rue);
+            rue.appendChild(text);
+            element.appendChild(rue);
+
+            if (lieu.latitude){
+            var divLat = document.getElementById("lati");
+            divLat.removeChild(divLat.childNodes[0]);
+            var lat = document.createElement("dt");
+            var latText = document.createTextNode("Latitude : " + lieu.latitude);
+            lat.appendChild(latText);
+            divLat.appendChild(lat);
+
+
+            var divLongi = document.getElementById("longi");
+            divLongi.removeChild(divLongi.childNodes[0]);
+            var longi = document.createElement("dt");
+            var longiText = document.createTextNode("Longitude : " + lieu.longitude);
+            longi.appendChild(longiText);
+            divLongi.appendChild(longi);
+            }
+        },
+            error : function(error) {
+                alert('Une erreur est survenue :( ');
+            }
+
     });
 });
 
