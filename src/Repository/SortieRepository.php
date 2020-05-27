@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\FindSortie;
+use App\Entity\Inscription;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -29,8 +30,6 @@ class SortieRepository extends ServiceEntityRepository
     public function findSortie(FindSortie $filtre)
     {
         $qb = $this->createQueryBuilder('s');
-
-        dump($qb->getQuery());
 
         //Si le champ nom est rempli...
         if ($filtre->getNomSortie() != null || $filtre->getNomSortie()) {
@@ -77,6 +76,11 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         //si je ne suis pas inscrit
+//        if ($filtre->getMesInscriptions() === false) {
+//            $qb->andWhere('s.id != :idSortie')
+//                ->andWhere('s.id != :idSortie2')
+//                ->setParameter('idSortie', $filtreInscription->)
+//        }
         if ($filtre->getMesInscriptions() === false) {
             //je recherche l'id du user connecté
             $userId = $this->security->getUser()->getId();
@@ -85,12 +89,11 @@ class SortieRepository extends ServiceEntityRepository
             $qb->join('s.inscriptions', 'i')
                 ->andWhere('i.participant != :userId')
                 ->setParameter('userId', $userId)
-                ->groupBy('s.id');
+                ->groupBy('i.sortie');
         }
 
         //si la sortie est passée
         if ($filtre->getSortiesPassees() == true) {
-
             //recherche des sorties passées
             $qb->andWhere('s.dateHeureDebut < CURRENT_DATE()');
         }
