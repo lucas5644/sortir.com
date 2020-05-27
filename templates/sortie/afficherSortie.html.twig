@@ -85,15 +85,25 @@
     </div>
 
     <div class="text-center">
-    {% if app.user.administrateur == 1 and sortie.etat.id <= 3 %}
-        <form action="{{ path('annuler', {id: sortie.id}) }}" onsubmit="return annulerSortie()">
-
+    {% if sortie.organisateur.pseudo == app.user.pseudo and sortie.etat.id <= 3 %}
+        <form action="{{ path('annuler_sortie', {id: sortie.id}) }}" onsubmit="return annulerSortie()">
             <input id="status" hidden value="nope">
 
             <button class="btn btn-warning" type="submit">Annuler sortie</button>
 
         </form>
     {% endif %}
+    </div>
+    <div class="text-center">
+        {% if app.user.administrateur == 1 and sortie.etat.id <= 3 %}
+            <form action="{{ path('annuler', {id: sortie.id}) }}" onsubmit="return annulerSortie()">
+
+                <input id="status" hidden value="nope">
+
+                <button class="btn btn-danger" type="submit">Annuler sortie</button>
+
+            </form>
+        {% endif %}
     </div>
 {% endblock %}
 

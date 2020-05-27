@@ -19,10 +19,12 @@ use Symfony\Component\Security\Core\Security;
 class SortieController extends AbstractController
 {
 
+    private $entityManager;
     private $security;
 
-    public function __construct(Security $security)
+    public function __construct(EntityManagerInterface $entityManager,Security $security)
     {
+        $this->entityManager = $entityManager;
         $this->security = $security;
     }
 
@@ -224,5 +226,19 @@ class SortieController extends AbstractController
         $em->flush();
         $this->addFlash("success","Votre évènement a bien été publié !");
         return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/sortie/annuler/{id}", name="annuler_sortie")
+     * @param $id
+     */
+    public function annulerSortie($id){
+        $sortie = $this->entityManager->getRepository(Sortie::class)->findOneBy(['id' => $id]);
+        $etat = $this->entityManager->getRepository(Etat::class)->findOneBy(['id' => 6]);
+        $sortie->setEtat($etat);
+        $this->entityManager->persist($sortie);
+        $this->entityManager->flush();
+        $this->addFlash("success", "Sortie annulée : " . $sortie->getNom());
+        return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getid()]);
     }
 }
