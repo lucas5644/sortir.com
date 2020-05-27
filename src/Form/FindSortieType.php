@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -46,17 +47,18 @@ class FindSortieType extends AbstractType
                 'label' => '...dont je suis l\'organisateur/trice',
                 'required' => false
             ])
-            ->add('mesInscriptions', CheckboxType::class, [
-                'label' => '...auxquelles je suis inscrit/e',
-                'required' => false
-            ])
-            ->add('pasEncoreInscrit', CheckboxType::class, [
-                'label' => '...auxquelles je ne suis pas inscrit/e',
-                'required' => false
-            ])
             ->add('sortiesPassees', CheckboxType::class, [
                 'label' => '...passées',
                 'required' => false
+            ])
+            ->add('mesInscriptions', ChoiceType::class, [
+                'choices' => [
+                    'Toutes les sorties' => null,
+                    'Les sorties auxquelles je suis inscrit' => true,
+                    'les sorties auxquelles je ne suis pas inscrit' => false,
+                ],
+                'expanded' => false,
+                'label' => false,
             ])
         ;
     }

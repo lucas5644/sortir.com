@@ -6,11 +6,9 @@ use App\Entity\FindSortie;
 use App\Entity\Inscription;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query\AST\Functions\CurrentDateFunction;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,6 +19,7 @@ use Symfony\Component\Validator\Constraints\Date;
 class SortieRepository extends ServiceEntityRepository
 {
     private $security;
+
     public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Sortie::class);
@@ -46,7 +45,7 @@ class SortieRepository extends ServiceEntityRepository
         }
         // si les dates sont saisies
         if (($filtre->getDateDebut() != null || $filtre->getDateDebut())
-            || ($filtre->getDateFin() != null || $filtre->getDateFin()))  {
+            || ($filtre->getDateFin() != null || $filtre->getDateFin())) {
             $qb->andWhere('s.dateHeureDebut > :dateDebut AND s.dateHeureDebut < :dateFin')
                 ->setParameter('dateFin', $filtre->getDateFin())
                 ->setParameter('dateDebut', $filtre->getDateDebut());
@@ -62,8 +61,10 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('userId', $userId);
         }
 
+        dump($filtre->getMesInscriptions());
+
         // si je suis inscrit
-        if ($filtre->getMesInscriptions() == true) {
+        if ($filtre->getMesInscriptions() === true) {
             //je recherche l'id du user connecté
             $userId = $this->security->getUser()->getId();
 
@@ -75,7 +76,12 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         //si je ne suis pas inscrit
-        if ($filtre->getPasEncoreInscrit() == true) {
+//        if ($filtre->getMesInscriptions() === false) {
+//            $qb->andWhere('s.id != :idSortie')
+//                ->andWhere('s.id != :idSortie2')
+//                ->setParameter('idSortie', $filtreInscription->)
+//        }
+        if ($filtre->getMesInscriptions() === false) {
             //je recherche l'id du user connecté
             $userId = $this->security->getUser()->getId();
 
@@ -83,16 +89,16 @@ class SortieRepository extends ServiceEntityRepository
             $qb->join('s.inscriptions', 'i')
                 ->andWhere('i.participant != :userId')
                 ->setParameter('userId', $userId)
-                ->groupBy('s.id');
+                ->groupBy('i.sortie');
         }
 
         //si la sortie est passée
         if ($filtre->getSortiesPassees() == true) {
-
             //recherche des sorties passées
             $qb->andWhere('s.dateHeureDebut < CURRENT_DATE()');
         }
 
+        dump($qb->getQuery());
 
         //requête sur la table des sorties
         $query = $qb->getQuery();
@@ -100,5 +106,4 @@ class SortieRepository extends ServiceEntityRepository
         return new Paginator($query);
 
     }
-
 }

@@ -42,12 +42,6 @@ class FindSortie
      * @Assert\Type(type="boolean")
      * @var boolean|null
      */
-    private $pasEncoreInscrit;
-
-    /**
-     * @Assert\Type(type="boolean")
-     * @var boolean|null
-     */
     private $sortiesPassees;
 
     /**
@@ -145,22 +139,6 @@ class FindSortie
     public function setMesInscriptions(?bool $mesInscriptions): void
     {
         $this->mesInscriptions = $mesInscriptions;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getPasEncoreInscrit(): ?bool
-    {
-        return $this->pasEncoreInscrit;
-    }
-
-    /**
-     * @param bool|null $pasEncoreInscrit
-     */
-    public function setPasEncoreInscrit(?bool $pasEncoreInscrit): void
-    {
-        $this->pasEncoreInscrit = $pasEncoreInscrit;
     }
 
     /**

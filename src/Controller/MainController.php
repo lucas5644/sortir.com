@@ -46,7 +46,7 @@ class MainController extends AbstractController
             $this->addFlash('warning', 'Les deux dates doivent être saisies');
         }
 
-        //recherche de toutes les sorties pour affichage dan tableau
+        //recherche de toutes les sorties pour affichage dans tableau
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
 
         //récupération des données avec la requête FindSortie
@@ -56,14 +56,25 @@ class MainController extends AbstractController
         $userConnected = $this->security->getUser()->getId();
         $inscriptionRepo = $this->getDoctrine()->getRepository(Inscription::class);
         $inscrit = $inscriptionRepo->findBy(array('participant' => $userConnected));
+        $estInscrit = $findMesSortiesForm->getData()->getMesInscriptions();
 
-        $numeroSortie = array();
 
+        //injection de l'id des sorties dans l'array numeroSortie
+        $numeroSortieInscrit = array();
         foreach ($inscrit as $i) {
-            array_push($numeroSortie, $i->getSortie()->getId());
+            array_push($numeroSortieInscrit, $i->getSortie()->getId());
         }
 
-        dump($request->get('nomSortie'));
+        dump($inscrit);
+
+        //numéro des sorties auxquel il n'est pas inscrit
+        $numeroSorties = array();
+        $allSorties = $sortieRepo->findAll();
+        foreach ($allSorties as $s) {
+            array_push($numeroSorties, $s->getId());
+        }
+        //Je récupère le numéro des sorties auxquelles je ne suis pas inscrit
+        $numeroSortiePasInscrit = array_diff($numeroSorties, $numeroSortieInscrit);
 
         //Afficher un message d'erreur si aucun résultat
         if ($sorties->count() == 0) {
@@ -74,8 +85,9 @@ class MainController extends AbstractController
         return $this->render('main/index.html.twig', [
             'findMesSortiesForm' => $findMesSortiesForm->createView(),
             "sorties" => $sorties,
-            'numeroSortie'=>$numeroSortie,
+            'numeroSortieInscrit'=>$numeroSortieInscrit,
+            'estInscrit' => $estInscrit,
+            'numeroSortiePasInscrit' => $numeroSortiePasInscrit
         ]);
     }
-
 }
