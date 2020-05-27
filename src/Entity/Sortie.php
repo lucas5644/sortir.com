@@ -23,27 +23,37 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotNull(message="Rentres un petit nom sympa!")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan("today", message="C'est trop tôt !")
+     * @Assert\LessThan("2030-06-01 00:00:00",message="Ce sera la fin du monde, ça sert à rien !")
      */
+
     private $dateHeureDebut;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\GreaterThanOrEqual(30,message="Ca fait pas beaucoup de temps ça !")
+     * @Assert\LessThan(400,message="400 minutes ça fait 6h, c'est déja pas mal !")
      */
     private $duree;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan("today",message="C'est trop tôt !")
      */
     private $dateLimiteInscription;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\LessThan(10,message="Pas plus de 10 personnes !")
+     * @Assert\GreaterThanOrEqual(2,message="Plus on est de fous, plus on rit!")
      */
+
     private $nbInscriptionMax;
 
     /**

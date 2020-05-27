@@ -11,25 +11,21 @@
     <div>
         {{ form_label(sortieForm.nom) }}
         {{ form_widget(sortieForm.nom) }}
-        {{ form_errors(sortieForm.nom) }}
     </div>
 
     <div>
         {{ form_label(sortieForm.dateHeureDebut) }}
         {{ form_widget(sortieForm.dateHeureDebut) }}
-        {{ form_errors(sortieForm.dateHeureDebut) }}
     </div>
 
     <div>
         {{ form_label(sortieForm.dateLimiteInscription) }}
         {{ form_widget(sortieForm.dateLimiteInscription) }}
-        {{ form_errors(sortieForm.dateLimiteInscription) }}
     </div>
 
     <div>
         {{ form_label(sortieForm.nbInscriptionMax) }}
         {{ form_widget(sortieForm.nbInscriptionMax) }}
-        {{ form_errors(sortieForm.nbInscriptionMax) }}
     </div>
 
     <div>
@@ -56,31 +52,6 @@
 
     </div>
 
-
-
-
-    <div>
-{#        <select id="lieuE" name="lieuE">
-            {% for lieu in lieuE %}
-            <option class="lieu" value="{{ lieu }}" data-lieu="{{ lieu }}">{{ lieu }}</option>
-            {% endfor %}
-            {{ form_rest(sortieForm) }}
-        </select>#}
-    </div>
-
-
-
-{#    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var userRating = document.querySelector('.lieu');
-            var lieu = userRating.dataset.lieu;
-            console.log(lieu)
-
-            // or with jQuery
-            //var isAuthenticated = $('.js-user-rating').data('isAuthenticated');
-        });
-
-    </script>#}
 
     {{ form_row(sortieForm._token) }}
     <button type="submit">Enregistrer</button>
