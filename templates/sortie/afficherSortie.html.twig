@@ -32,35 +32,43 @@
     <dl class="row">
         <dt class="col-sm-3">Nom :</dt>
         <dd class="col-sm-9">{{ sortie.nom }} </dd>
+
         <dt class="col-sm-3">Commence le : </dt>
         <dd class="col-sm-9">{{ sortie.dateHeureDebut | date("d/m/yy h:m")}}</dd>
+
         <dt class="col-sm-3">Date limite d'inscription : </dt>
         <dd class="col-sm-9">{{ sortie.dateLimiteInscription | date("d/m/yy h:m")}}</dd>
+
         <dt class="col-sm-3">Nombre de places :</dt>
         <dd class="col-sm-9">{{ sortie.nbInscriptionMax }}</dd>
+
         <dt class="col-sm-3">Durée :</dt>
         <dd class="col-sm-9">{{ sortie.duree }} minutes</dd>
+
     {% if sortie.infosSortie is not null %}
         <dt class="col-sm-3">Descriptions et infos :</dt>
         <dd class="col-sm-9">{{ sortie.infosSortie}}</dd>
     {% endif %}
+
         <dt class="col-sm-3">Campus :</dt>
         <dd class="col-sm-9">{{ sortie.organisateur.campus.nom }}</dd>
+
         <dt class="col-sm-3">Lieu</dt>
         <dd class="col-sm-9">
+
         <dl class="row">
         <dd class="col-sm-9">{{ sortie.lieu.nom }}</dd>
         <dt class="col-sm-3"> </dt>
         <dd class="col-sm-9">{{ sortie.lieu.rue }}</dd>
         <dt class="col-sm-3"> </dt>
         <dd class="col-sm-9">{{ sortie.lieu.ville.nom }}   {{ sortie.lieu.ville.codePostal }}</dd>
+
     {% if sortie.lieu.latitude and sortie.lieu.longitude is not null %}
         <dt class="col-sm-4">Coordonnées GPS :</dt>
         <dd class="col-sm-8">{{ sortie.lieu.latitude }}, {{ sortie.lieu.longitude }}</dd>
     {% endif %}
-        </dl>
-        </dd>
 
+        </dl>
 
         <dt class="col-sm-3">Nombre d'inscrit à l'évènement : </dt>
         <dd class="col-sm-9">{{ sortie.getInscriptions()|length }}</dt>
@@ -89,15 +97,15 @@
         <form action="{{ path('annuler_sortie', {id: sortie.id}) }}" onsubmit="return annulerSortie()">
             <input id="status" hidden value="nope">
 
-            <button class="btn btn-warning" type="submit">Annuler sortie</button>
+            <button class="btn btn-light" type="submit">Annuler sortie</button>
 
         </form>
     {% endif %}
     </div>
+
     <div class="text-center">
         {% if app.user.administrateur == 1 and sortie.etat.id <= 3 %}
             <form action="{{ path('annuler', {id: sortie.id}) }}" onsubmit="return annulerSortie()">
-
                 <input id="status" hidden value="nope">
 
                 <button class="btn btn-danger" type="submit">Annuler sortie</button>
@@ -108,7 +116,6 @@
 {% endblock %}
 
 {% block javascripts %}
-
     <script>
         function annulerSortie() {
             if (document.getElementById("status").value) {
