@@ -65,7 +65,6 @@ class MainController extends AbstractController
 
         dump($findMesSortiesForm->getData());
 
-
         //Afficher un message d'erreur si aucun résultat
         if ($sorties->count() == 0) {
             $this->addFlash('warning', 'Aucun résultat à votre recherche');

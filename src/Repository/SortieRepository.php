@@ -3,14 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\FindSortie;
-use App\Entity\Inscription;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query\AST\Functions\CurrentDateFunction;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -32,6 +29,8 @@ class SortieRepository extends ServiceEntityRepository
     public function findSortie(FindSortie $filtre)
     {
         $qb = $this->createQueryBuilder('s');
+
+        dump($qb->getQuery());
 
         //Si le champ nom est rempli...
         if ($filtre->getNomSortie() != null || $filtre->getNomSortie()) {
@@ -77,8 +76,6 @@ class SortieRepository extends ServiceEntityRepository
                 ->groupBy('s.id');
         }
 
-        dump($filtre->getMesInscriptions());
-
         //si je ne suis pas inscrit
         if ($filtre->getMesInscriptions() === false) {
             //je recherche l'id du user connecté
@@ -93,18 +90,17 @@ class SortieRepository extends ServiceEntityRepository
 
         //si la sortie est passée
         if ($filtre->getSortiesPassees() == true) {
+
             //recherche des sorties passées
             $qb->andWhere('s.dateHeureDebut < CURRENT_DATE()');
         }
 
+        dump($qb->getQuery());
 
         //requête sur la table des sorties
         $query = $qb->getQuery();
 
-        dump($query->getResult(),$qb->getQuery());
-
         return new Paginator($query);
 
     }
-
 }

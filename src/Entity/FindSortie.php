@@ -38,7 +38,6 @@ class FindSortie
      */
     private $mesInscriptions;
 
-
     /**
      * @Assert\Type(type="boolean")
      * @var boolean|null
@@ -141,7 +140,6 @@ class FindSortie
     {
         $this->mesInscriptions = $mesInscriptions;
     }
-
 
     /**
      * @return bool|null

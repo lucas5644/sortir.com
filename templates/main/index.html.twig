@@ -60,15 +60,11 @@
                         </td>
                         <td>{{ sortie.etat.libelle }}</td>
                         <td class="text-center">
-                            {% set inscrit = false %}
                             {% for numSortie in numeroSortie %}
                                 {% if numSortie == sortie.id %}
-                                    {% set inscrit = true %}
+                                    X
                                 {% endif %}
                             {% endfor %}
-                            {% if inscrit == true %}
-                                X
-                            {% endif %}
                         </td>
                         <td>
                             <a href="{{ path('profile', {pseudo: sortie.organisateur.pseudo}) }}">{{ sortie.organisateur.prenom }}
