@@ -43,13 +43,13 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('c.nom LIKE :campus')
                 ->setParameter('campus', '%' . $filtre->getNomCampus() . '%');
         }
-        // si les dates sont saisies
-        if (($filtre->getDateDebut() != null || $filtre->getDateDebut())
-            || ($filtre->getDateFin() != null || $filtre->getDateFin())) {
-            $qb->andWhere('s.dateHeureDebut > :dateDebut AND s.dateHeureDebut < :dateFin')
-                ->setParameter('dateFin', $filtre->getDateFin())
-                ->setParameter('dateDebut', $filtre->getDateDebut());
-        }
+//        // si les dates sont saisies
+//        if (($filtre->getDateDebut() != null || $filtre->getDateDebut())
+//            || ($filtre->getDateFin() != null || $filtre->getDateFin())) {
+//            $qb->andWhere('s.dateHeureDebut > :dateDebut AND s.dateHeureDebut < :dateFin')
+//                ->setParameter('dateFin', $filtre->getDateFin())
+//                ->setParameter('dateDebut', $filtre->getDateDebut());
+//        }
 
         //si je suis organisateur
         if ($filtre->getMesSorties() == true) {

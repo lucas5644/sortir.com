@@ -84,5 +84,4 @@ class VilleController extends AbstractController
         $this->addFlash("success", $ville->getNom()." à bien été supprimée !");
         return $this->redirectToRoute('gestion_villes');
     }
-
 }
