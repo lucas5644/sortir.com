@@ -57,13 +57,14 @@ class MainController extends AbstractController
         $inscriptionRepo = $this->getDoctrine()->getRepository(Inscription::class);
         $inscrit = $inscriptionRepo->findBy(array('participant' => $userConnected));
 
+        //injection de l'id des sorties dans l'array numeroSortie
         $numeroSortie = array();
-
         foreach ($inscrit as $i) {
             array_push($numeroSortie, $i->getSortie()->getId());
         }
 
-        dump($request->get('nomSortie'));
+        dump($findMesSortiesForm->getData());
+
 
         //Afficher un message d'erreur si aucun résultat
         if ($sorties->count() == 0) {

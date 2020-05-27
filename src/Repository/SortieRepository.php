@@ -21,6 +21,7 @@ use Symfony\Component\Validator\Constraints\Date;
 class SortieRepository extends ServiceEntityRepository
 {
     private $security;
+
     public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Sortie::class);
@@ -46,7 +47,7 @@ class SortieRepository extends ServiceEntityRepository
         }
         // si les dates sont saisies
         if (($filtre->getDateDebut() != null || $filtre->getDateDebut())
-            || ($filtre->getDateFin() != null || $filtre->getDateFin()))  {
+            || ($filtre->getDateFin() != null || $filtre->getDateFin())) {
             $qb->andWhere('s.dateHeureDebut > :dateDebut AND s.dateHeureDebut < :dateFin')
                 ->setParameter('dateFin', $filtre->getDateFin())
                 ->setParameter('dateDebut', $filtre->getDateDebut());
@@ -62,8 +63,10 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('userId', $userId);
         }
 
+        dump($filtre->getMesInscriptions());
+
         // si je suis inscrit
-        if ($filtre->getMesInscriptions() == true) {
+        if ($filtre->getMesInscriptions() === true) {
             //je recherche l'id du user connecté
             $userId = $this->security->getUser()->getId();
 
@@ -74,8 +77,10 @@ class SortieRepository extends ServiceEntityRepository
                 ->groupBy('s.id');
         }
 
+        dump($filtre->getMesInscriptions());
+
         //si je ne suis pas inscrit
-        if ($filtre->getPasEncoreInscrit() == true) {
+        if ($filtre->getMesInscriptions() === false) {
             //je recherche l'id du user connecté
             $userId = $this->security->getUser()->getId();
 
@@ -88,7 +93,6 @@ class SortieRepository extends ServiceEntityRepository
 
         //si la sortie est passée
         if ($filtre->getSortiesPassees() == true) {
-
             //recherche des sorties passées
             $qb->andWhere('s.dateHeureDebut < CURRENT_DATE()');
         }
@@ -96,6 +100,8 @@ class SortieRepository extends ServiceEntityRepository
 
         //requête sur la table des sorties
         $query = $qb->getQuery();
+
+        dump($query->getResult(),$qb->getQuery());
 
         return new Paginator($query);
 
