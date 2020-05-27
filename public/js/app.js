@@ -77,7 +77,7 @@ $("#sortie_lieu").change(function(){
             var element = document.getElementById("rue");
             element.removeChild(element.childNodes[0]);
             var rue = document.createElement("dt");
-/*            rue.setAttribute('class',"col-sm-3");*/
+
             var text = document.createTextNode("Rue : " + lieu.rue);
             rue.appendChild(text);
             element.appendChild(rue);
@@ -86,6 +86,7 @@ $("#sortie_lieu").change(function(){
             var divLat = document.getElementById("lati");
             divLat.removeChild(divLat.childNodes[0]);
             var lat = document.createElement("dt");
+
             var latText = document.createTextNode("Latitude : " + lieu.latitude);
             lat.appendChild(latText);
             divLat.appendChild(lat);
@@ -94,6 +95,7 @@ $("#sortie_lieu").change(function(){
             var divLongi = document.getElementById("longi");
             divLongi.removeChild(divLongi.childNodes[0]);
             var longi = document.createElement("dt");
+
             var longiText = document.createTextNode("Longitude : " + lieu.longitude);
             longi.appendChild(longiText);
             divLongi.appendChild(longi);

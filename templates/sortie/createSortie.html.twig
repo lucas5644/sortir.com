@@ -4,76 +4,88 @@
 
 {% block main %}
 
-
     <h1>Ajouter une sortie</h1>
-<div class="col-10">
+
     {{ form_start(sortieForm) }}
-    <div>
-        {{ form_label(sortieForm.nom) }}
-        {{ form_widget(sortieForm.nom) }}
+
+    <div class="col-12 form-row">
+        <div class="col-sm-6">
+            <div>
+            {{ form_row(sortieForm.nom) }}
+            </div>
+
+             <div>
+                 <label>Commence le : </label>
+                {{ form_row(sortieForm.dateHeureDebut) }}
+             </div>
+
+             <div>
+                 <label>Date limite d'inscription : </label>
+                 {{ form_row(sortieForm.dateLimiteInscription) }}
+             </div>
+
+            <div>
+                {{ form_row(sortieForm.nbInscriptionMax) }}
+            </div>
+
+            <div>
+                {{ form_row(sortieForm.duree) }}
+            </div>
+
+            <div>
+                {{ form_row(sortieForm.infosSortie) }}
+            </div>
+
+        </div>
+
+        <div class="col-sm-6">
+            <div>
+                {{ form_row(sortieForm.ville) }}
+            </div>
+
+            <div class="form-row">
+                <div class="col-lg-11 col-sm-10">
+                    {{ form_rest(sortieForm) }}
+                </div>
+                <div class="align-self-center d-none d-md-block" style="padding-top: 15px;padding-left: 5px">
+                    <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}"
+                                                                            alt="Ajouter un lieu" class="bouton-plus"
+                                                                            width="35px"></a>
+                </div>
+            </div>
+
+            <div id="rue">
+
+            </div>
+
+            <div id="lati">
+
+            </div>
+
+            <div id="longi">
+
+            </div>
+        </div>
+
+        {{ form_row(sortieForm._token) }}
+
     </div>
 
-    <div>
-        {{ form_label(sortieForm.dateHeureDebut) }}
-        {{ form_widget(sortieForm.dateHeureDebut) }}
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Enregistrer</button>
+        <a class="btn btn-info" href={{ path('sortie_publier') }}>Publier la sortie</a>
+        <a class="btn btn-light" href="{{ app.request.headers.get('referer') }}">Annuler</a>
     </div>
 
-    <div>
-        {{ form_label(sortieForm.dateLimiteInscription) }}
-        {{ form_widget(sortieForm.dateLimiteInscription) }}
-    </div>
-
-    <div>
-        {{ form_label(sortieForm.nbInscriptionMax) }}
-        {{ form_widget(sortieForm.nbInscriptionMax) }}
-    </div>
-
-    <div>
-        {{ form_label(sortieForm.duree) }}
-        {{ form_widget(sortieForm.duree) }}
-    </div>
-
-    <div>
-        {{ form_label(sortieForm.infosSortie) }}
-        {{ form_widget(sortieForm.infosSortie) }}
-    </div>
-
-    <div id="dynamic">
-        {{ form_label(sortieForm.ville) }}
-        {{ form_widget(sortieForm.ville) }}
-        {{ form_errors(sortieForm.ville) }}
-    </div>
-
-    <div>
-        {{form_rest(sortieForm) }}
-
-        <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}" alt="Ajouter un lieu" class="bouton-plus" width="35px"></a>
-    </div>
-
-    <div id="rue">
-
-    </div>
-    <div id="lati">
-
-    </div>
-    <div id="longi">
-
-    </div>
-
-
-    {{ form_row(sortieForm._token) }}
-    <button class="btn btn-primary" type="submit">Enregistrer</button>
-    <a class="btn btn-primary" href={{ path('sortie_publier') }}>Publier la sortie</a>
     {{ form_end(sortieForm, {'render_rest': false}) }}
 
-
-
-    <a class="btn btn-primary" href="{{ app.request.headers.get('referer') }}">Annuler</a>
-
-</div>
 {% endblock %}
-    {% block javascripts %}
-        {{ parent() }}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="{{ asset('js/app.js') }}"></script>
-    {% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+{% endblock %}

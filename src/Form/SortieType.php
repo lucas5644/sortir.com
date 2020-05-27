@@ -46,26 +46,28 @@ class SortieType extends AbstractType
             ])
 
             ->add('dateHeureDebut', DateTimeType::class, [
-                'label' => 'Date et Heure de l\'évènement : ',
+                'label' => false,
                 'time_widget' => 'single_text',
                 'date_widget' => 'single_text',
                 'data' => new \DateTime("now"),
                 'format' => 'yyy-MM-dd',
                 'attr' => [
-                    'class' => 'date-debut'
+                    'class' => 'date-debut',
+
                 ]
             ])
 
             ->add('duree', IntegerType::class, [
-                'label' => 'Durée de l\'évènement ( en minutes ): ',
+                'label' => 'Durée de l\'évènement : ',
                 'attr' => [
-                    'class' => 'duree-evenement'
+                    'class' => 'duree-evenement',
+                    'placeholder' => 'En minutes'
                 ],
                 'required' => false
             ])
 
             ->add('dateLimiteInscription', DateTimeType::class, [
-                'label' => 'Date limite d\'inscription : ',
+                'label' => false,
                 'time_widget' => 'single_text',
                 'date_widget' => 'single_text',
                 'data' => new \DateTime("now"),
@@ -76,7 +78,7 @@ class SortieType extends AbstractType
             ])
 
             ->add('nbInscriptionMax', IntegerType::class, [
-                'label' => 'Nombre de places : ',
+                'label' => 'Nombre de places maximum : ',
                 'attr' => [
                     'class' => 'nb-inscrits-max'
                 ]
