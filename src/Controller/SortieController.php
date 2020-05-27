@@ -96,7 +96,16 @@ class SortieController extends AbstractController
     {
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortieRepo->find($id);
+        $dateFinSortie = $sortie->getDateHeureDebut();
 
+        date_add($dateFinSortie, date_interval_create_from_date_string("".$sortie->getDuree()." minutes"));
+        date_add($dateFinSortie, date_interval_create_from_date_string("1 month"));
+        $dateNow = new \DateTime();
+
+        if($dateNow > $dateFinSortie){
+            $this->addFlash('danger', 'Impossible d\'accéder à cet évènement, car il est vieux de plus de 1 mois!');
+            return $this->redirectToRoute('home');
+        }
 
         $idUser = $this->security->getUser()->getId();
         $idInscription = null;
@@ -127,12 +136,29 @@ class SortieController extends AbstractController
     public function delete($id, EntityManagerInterface $em)
     {
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
-        $sortie = $sortieRepo->find{$id};
+        $sortie = $sortieRepo->find($id);
 
         $em->remove($sortie);
         $em->flush();
 
         $this->addFlash("success","Votre évènement a bien été supprimé !");
         return $this->redirectToRoute('/');
+    }
+
+    /**
+     * @Route("/sortie/publier/{id}", name="publier", requirements={"id": "\d+"})
+     */
+    public function publier($id , EntityManagerInterface $em){
+        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $sortieRepo->find($id);
+        $etatRepo = $this->getDoctrine()->getRepository(Etat::class);
+        $etat = $etatRepo->findOneBy(['libelle' => 'ouverte']);
+
+        $sortie->setEtat($etat);
+
+        $em->persist($sortie);
+        $em->flush();
+        $this->addFlash("success","Votre évènement a bien été publié !");
+        return $this->redirectToRoute('home');
     }
 }
