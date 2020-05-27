@@ -65,7 +65,7 @@ class MainController extends AbstractController
             array_push($numeroSortieInscrit, $i->getSortie()->getId());
         }
 
-        dump($inscrit);
+        dump($estInscrit);
 
         //numéro des sorties auxquel il n'est pas inscrit
         $numeroSorties = array();
