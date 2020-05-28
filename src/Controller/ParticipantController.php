@@ -9,7 +9,6 @@ use App\Entity\Participant;
 use App\Form\ImportType;
 use App\Form\ParticipantType;
 use App\Form\UpdateParticipantType;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
