@@ -22,9 +22,9 @@
     </div>
 
     <div>
-        {% if  sortie.etat.id != 1 and sortie.etat.id != 2 %}
+        {% if  sortie.etat.libelle == "activité en cours" or sortie.etat.libelle == "passée" or sortie.etat.libelle == "archivée" %}
             <div class="text-center">
-            <p class="alert alert-danger" role="alert">La sortie est déja {{ sortie.etat.libelle }}.</p>
+            <p class="alert alert-danger" role="alert">La sortie est déja en cours ou passée.</p>
             </div>
         {% endif %}
     </div>
@@ -76,7 +76,7 @@
 
 
     <div class="text-center">
-    {% if utilisateurIns is not null and sortie.etat.id == 2%}
+    {% if utilisateurIns is not null and ((sortie.etat.libelle == "ouverte" or sortie.etat.libelle == "clôturée") and date(sortie.dateLimiteInscription) > date("now"))%}
         {% if utilisateurIns.id == app.user.id %}
             <p>Vous voulez vous désister?</p>
             <a class="btn btn-danger" href="{{ path('inscriptionDelete', {id: idInscription}) }}">Se désister</a>
@@ -84,7 +84,7 @@
     {% endif %}
     </div>
 
-    <div>
+    <div class="text-center">
         {% if utilisateurIns is null and idInscription is null %}
             {% if sortie.etat.id == 2 and date(sortie.dateLimiteInscription) > date("now") and sortie.getInscriptions()|length < 5%}
                 <a class="btn btn-primary" href="{{ path('inscription', {idSortie: sortie.id}) }}">S'inscrire</a>
@@ -93,7 +93,7 @@
     </div>
 
     <div class="text-center">
-    {% if sortie.organisateur.pseudo == app.user.pseudo and sortie.etat.id <= 3 %}
+    {% if sortie.organisateur.pseudo == app.user.pseudo and (sortie.etat.libelle == "ouverte" or sortie.etat.libelle == "clôturée")  and app.user.administrateur == 0 %}
         <form action="{{ path('annuler_sortie', {id: sortie.id}) }}" onsubmit="return annulerSortie()">
             <input id="status" hidden value="nope">
 
@@ -104,7 +104,7 @@
     </div>
 
     <div class="text-center">
-        {% if app.user.administrateur == 1 and sortie.etat.id <= 3 %}
+        {% if app.user.administrateur == 1 and  (sortie.etat.libelle == "ouverte" or sortie.etat.libelle == "clôturée") %}
             <form action="{{ path('annuler', {id: sortie.id}) }}" onsubmit="return annulerSortie()">
                 <input id="status" hidden value="nope">
 

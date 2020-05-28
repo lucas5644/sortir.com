@@ -188,6 +188,9 @@ class SortieController extends AbstractController
         date_add($dateFinSortie, date_interval_create_from_date_string("1 month"));
         $dateNow = new \DateTime();
 
+        dump(count($sortie->getInscriptions()));
+        dump($sortie->getNbInscriptionMax());
+
         if($dateNow > $dateFinSortie){
             $this->addFlash('danger', 'Impossible d\'accéder à cet évènement, car il est vieux de plus de 1 mois!');
             return $this->redirectToRoute('home');
