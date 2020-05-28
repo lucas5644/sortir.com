@@ -30,6 +30,8 @@ class SortieRepository extends ServiceEntityRepository
     public function findSortie(FindSortie $filtre)
     {
         $qb = $this->createQueryBuilder('s');
+        $qb->andWhere('s.etat != :etatArchivee')
+            ->setParameter('etatArchivee', 7);
 
         //Si le champ nom est rempli...
         if ($filtre->getNomSortie() != null || $filtre->getNomSortie()) {
@@ -80,9 +82,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('s.etat != :etatCreee')
                 ->setParameter('etatCreee', 1)
                 ->andWhere('s.etat != :etatCloturee')
-                ->setParameter('etatCloturee', 3)
-                ->andWhere('s.etat != :etatArchivee')
-                ->setParameter('etatArchivee', 7);
+                ->setParameter('etatCloturee', 3);
         }
 
         //requête sur la table des sorties
