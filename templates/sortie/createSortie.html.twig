@@ -77,7 +77,7 @@
 
         {{ form_label(sortieForm.creerEtPublier) }}
         {{ form_widget(sortieForm.creerEtPublier) }}
-        <a class="btn btn-light" href="{{ app.request.headers.get('referer') }}">Annuler</a>
+        <a class="btn btn-light" href="javascript:history.back()">Retour</a>
     </div>
 
     {{ form_end(sortieForm, {'render_rest': false}) }}
