@@ -69,10 +69,34 @@
     {% endif %}
 
         </dl>
-
-        <dt class="col-sm-3">Nombre d'inscrit à l'évènement : </dt>
-        <dd class="col-sm-9">{{ sortie.getInscriptions()|length }}</dt>
     </dl>
+
+            <dt class="col-sm-3">Nombre d'inscrit à l'évènement : </dt>
+        <dd class="col-sm-9">{{ sortie.getInscriptions()|length }}</dt>
+    <br><br>
+
+    {% if sortie.inscriptions | length > 0 %}
+    <div class="table-responsive pre-scrollable table-bordered table-info">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Nom</th>
+            </tr>
+            </thead>
+            <tr>
+                <td>
+                    {#<a href="{{ path('profile', {pseudo: sortie.organisateur.pseudo}) }}">#}
+                    {{ participantIns.pseudo }}
+                    </a>
+                </td>
+{#                <td>
+                    {{ sortie.inscription.participant.prenom }}  {{ sortie.inscription.participant.nom }}
+                </td>#}
+            </tr>
+        </table>
+    </div>
+    {% endif %}
 
 
     <div class="text-center">
