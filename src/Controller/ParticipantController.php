@@ -86,16 +86,16 @@ class ParticipantController extends AbstractController
                 }
                 $em->persist($user);
                 $em->flush();
-                $this->addFlash("success", $user->getPseudo().", vos modifications ont été prises en compte.");
-                return $this->redirectToRoute('profile', ['pseudo', $user->getPseudo()]);
+                $pseudo = $request->get('pseudo');
+                dump($pseudo);
+                $this->addFlash("success",  $userC->getPseudo().", vos modifications ont été prises en compte.");
+                return $this->redirectToRoute('profile', ['pseudo', $userC->getPseudo()]);
             }
             return $this->render("User/monProfil.html.twig", [
                 "user" => $user,
                 "userForm" => $userForm->createView()
             ]);
         }
-
-
     }
 }
 

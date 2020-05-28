@@ -24,7 +24,6 @@ class Participant implements UserInterface
     private $role;
 
     /**
-     * @Assert\Unique(message="Ce pseudo existe déjà")
      * @ORM\Column(type="string", length=30, unique=true)
      */
     private $pseudo;
