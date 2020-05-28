@@ -74,13 +74,14 @@
 
         </dl>
     </dl>
-
+{#<div class="text-center">
             <dt class="col-sm-3">Nombre d'inscrit à l'évènement : </dt>
         <dd class="col-sm-9">{{ sortie.getInscriptions()|length }}</dt>
+</div>#}
     <br><br>
 
     {% if sortie.inscriptions | length > 0 %}
-    <div class="table-responsive pre-scrollable table-bordered table-info">
+        <div class="table-responsive pre-scrollable table-bordered table-info">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -88,21 +89,24 @@
                 <th scope="col">Nom</th>
             </tr>
             </thead>
+            {% for user in  users %}
             <tr>
                 <td>
-                    {#<a href="{{ path('profile', {pseudo: sortie.organisateur.pseudo}) }}">#}
-                    {{ participantIns.pseudo }}
+                    <a href="{{ path('profile', {pseudo: user.pseudo}) }}">
+                    {{ user.pseudo }}
                     </a>
                 </td>
-{#                <td>
-                    {{ sortie.inscription.participant.prenom }}  {{ sortie.inscription.participant.nom }}
-                </td>#}
+                <td>
+                    {{ user.prenom }}  {{ user.nom | upper }}
+                </td>
             </tr>
+            {% endfor %}
         </table>
     </div>
     {% endif %}
+    </form>
 
-
+    <br>
     <div class="text-center">
     {% if utilisateurIns is not null and ((sortie.etat.libelle == "ouverte" or sortie.etat.libelle == "clôturée") and date(sortie.dateLimiteInscription) > date("now"))%}
         {% if utilisateurIns.id == app.user.id %}
@@ -120,13 +124,14 @@
         {% endif %}
     </div>
 
+
     <div class="text-center">
     {% if sortie.organisateur.pseudo == app.user.pseudo and (sortie.etat.libelle == "ouverte" or sortie.etat.libelle == "clôturée")  and app.user.administrateur == 0 %}
         <form action="{{ path('annuler_sortie', {id: sortie.id}) }}" ">
             <input type="hidden" id="raison" name="raisonUser"/>
             <button class="btn btn-light" type="submit">Annuler sortie</button>
 
-        </form>
+
     {% endif %}
     </div>
 

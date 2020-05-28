@@ -28,12 +28,21 @@
     </div>
 
     <div>
+        {% if app.user.administrateur == 1 %}
         <form action="{{ path("annuler", {id: sortie.id}) }}" method="post">
             <label>Motif : </label>
             <input type="text" name="raison"><br>
             <button class="btn btn-primary" type="submit" name="confirmation">Confirmer l'annulation</button>
             <a class="btn btn-outline-primary" href="{{ path("sortie_detail", {id: sortie.id}) }}">Revenir en arrière</a>
         </form>
+        {% elseif app.user.administrateur == 0  %}
+            <form action="{{ path("annuler_sortie", {id: sortie.id}) }}" method="post">
+                <label>Motif : </label>
+                <input type="text" name="raison"><br>
+                <button class="btn btn-primary" type="submit" name="confirmation">Confirmer l'annulation</button>
+                <a class="btn btn-outline-primary" href="{{ path("sortie_detail", {id: sortie.id}) }}">Revenir en arrière</a>
+            </form>
+        {% endif %}
     </div>
 
 

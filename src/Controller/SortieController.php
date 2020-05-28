@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use function Matrix\add;
 
 class SortieController extends AbstractController
 {
@@ -208,6 +209,13 @@ class SortieController extends AbstractController
             }
         }
 
+        $users = array();
+        foreach ($sortie->getInscriptions() as $ins) {
+            $userRepo = $this->getDoctrine()->getRepository(Participant::class);
+            $user = $userRepo->findOneBy(['id' => $ins->getParticipant()->getId()]);
+            $users[] = $user;
+        }
+
         if(empty($sortie)){
             throw $this->createNotFoundException("Oh non... Cet évènement n'existe pas (╥﹏╥)");
         }
@@ -216,6 +224,7 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
             'utilisateurIns' => $user,
             'idInscription' => $idInscription,
+            'users' => $users
         ]);
     }
 
