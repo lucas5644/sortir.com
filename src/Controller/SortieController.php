@@ -42,8 +42,6 @@ class SortieController extends AbstractController
         $organisateur = $this->getUser();
         $sortie->setOrganisateur($organisateur);
 
-
-
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
         $sortieForm->handleRequest($request);
@@ -60,13 +58,11 @@ class SortieController extends AbstractController
             $em->persist($sortie);
             $em->flush();
 
-
-
             if ($sortieForm->getClickedButton() && 'creerEtPublier' === $sortieForm->getClickedButton()->getName()) {
-                $this->addFlash("success", "Votre évènement" . $sortie->getNom() . " a bien été sauvegardé  et publier !");
+                $this->addFlash("success", "Votre évènement " . $sortie->getNom() . " a bien été sauvegardé  et publié !");
                 return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
             }else{
-                $this->addFlash("success", "Votre évènement" . $sortie->getNom() . " a bien été sauvegardé !");
+                $this->addFlash("success", "Votre évènement " . $sortie->getNom() . " a bien été sauvegardé !");
                 return $this->redirectToRoute('sortie_modifier', ['id' => $sortie->getId()]);
             }
 
@@ -103,10 +99,10 @@ class SortieController extends AbstractController
                 $this->entityManager->flush();
 
                 if ($sortieModifForm->getClickedButton() && 'creerEtPublier' === $sortieModifForm->getClickedButton()->getName()) {
-                    $this->addFlash("success", "Votre évènement" . $sortie->getNom() . " a bien été sauvegardé  et publier !");
+                    $this->addFlash("success", "Votre évènement " . $sortie->getNom() . " a bien été sauvegardé  et publié !");
                     return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
                 }else{
-                    $this->addFlash("success", "Votre évènement" . $sortie->getNom() . " a bien été sauvegardé !");
+                    $this->addFlash("success", "Votre évènement " . $sortie->getNom() . " a bien été sauvegardé !");
                     return $this->redirectToRoute('sortie_modifier', ['id' => $sortie->getId()]);
                 }
             }
@@ -275,7 +271,7 @@ class SortieController extends AbstractController
             $sortie->setInfosSortie($raison);
             $this->entityManager->persist($sortie);
             $this->entityManager->flush();
-            $this->addFlash("success", "Sortie annulée : " . $sortie->getNom());
+            $this->addFlash("success", "La sortie " . $sortie->getNom() . " a bien été annulée !");
             return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
         }
         return $this->render("sortie/annulerSortie.html.twig", [
