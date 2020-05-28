@@ -19,28 +19,28 @@ class UpdateParticipantType extends AbstractType
     {
         $builder
             ->add('pseudo', TextType::class, [
-                'label' => 'Pseudo',
+                'label' => 'Pseudo :',
             ])
             ->add('nom', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'Nom :',
             ])
             ->add('prenom', TextType::class, [
-                'label' => 'Prenom',
+                'label' => 'Prénom :',
             ])
             ->add('telephone', TextType::class, [
-                'label' => 'Téléphone',
+                'label' => 'Téléphone :',
                 'required' => false
             ])
             ->add('mail', EmailType::class, [
-                'label' => 'Email',
+                'label' => 'Email :',
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent correspondre.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => false,
-                'first_options' => ['label' => 'Mot de Passe'],
-                'second_options' => ['label' => 'Confirmation'],
+                'first_options' => ['label' => 'Nouveau mot de passe :'],
+                'second_options' => ['label' => 'Confirmer mot de passe :'],
             ])
             ->add('urlPhoto', FileType::class, [
                 'label' => 'Télécharger vers le serveur',
