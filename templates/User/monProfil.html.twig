@@ -1,62 +1,62 @@
 {% extends 'layout.html.twig' %}
 {% block title %}Mon profil{% endblock %}
 {% block main %}
-    <div class="col-12 form-row">
+    <div class="col-sm-12" >
 
         <h1 class="col-sm-12 text-center" style="padding-bottom: 20px">Mon profil</h1>
 
-        <div class="col-4 align-baseline">
+        <div class="col-4 align-baseline form-group">
             <img src="{{ asset('uploads/photo_profil/' ~ user.getUrlPhoto()) }}" width="150">
             <br>
         </div>
 
         {{ form_start(userForm) }}
         <div>
-            <div class="form-row">
+            <div class="form-group row">
                 <label class="col-sm-4">{{ form_label(userForm.pseudo) }} : </label>
                 <div class="col-sm-8">{{ form_widget(userForm.pseudo) }}</div>
             </div>
 
-            <div class="form-row">
+            <div class="form-group row">
                 <label class="col-sm-4">{{ form_label(userForm.prenom) }} : </label>
                 <div class="col-sm-8">{{ form_widget(userForm.prenom) }}</div>
             </div>
 
-            <div class="form-row">
+            <div class="form-group row">
                 <label class="col-sm-4">{{ form_label(userForm.nom) }} : </label>
                 <div class="col-sm-8">{{ form_widget(userForm.nom) }}</div>
             </div>
 
-            <div class="form-row">
+            <div class="form-group row">
                 <label class="col-sm-4">{{ form_label(userForm.telephone) }} : </label>
                 <div class="col-sm-8">{{ form_widget(userForm.telephone) }}</div>
             </div>
 
-            <div class="form-row">
+            <div class="form-group row">
                 <label class="col-sm-4">{{ form_label(userForm.mail) }} : </label>
                 <div class="col-sm-8">{{ form_widget(userForm.mail) }}</div>
             </div>
 
-            <div class="form-row">
+            <div class="form-group row">
                 <label class="col-sm-4">Nouveau mot de passe : </label>
                 <div class="col-sm-8">{{ form_row(userForm.password) }}</div>
             </div>
 
-            <div class="form-row">
+            <div class="form-group row">
                 <label class="col-sm-4">{{ form_label(userForm.campus) }} : </label>
                 <div class="col-sm-8">{{ form_widget(userForm.campus) }}</div>
             </div>
 
-            <div class="form-row">
+            <div class="form-group row">
                 <label class="col-sm-4">Ma photo : </label>
-                <div class="btn btn-outline-primary col-sm-8" style="padding-top: 3px;padding-bottom: 2px">
+                <div class="btn-outline-primary col-sm-8" style="padding-top: 3px;padding-bottom: 2px; background-color: #1b1e21">
                     {{ form_label(userForm.urlPhoto) }}
                     {{ form_widget(userForm.urlPhoto) }}
                     {{ form_errors(userForm.urlPhoto) }}
                 </div>
             </div>
-
         </div>
+    </div>
         <br>
         {{ form_row(userForm._token) }}
     </div>

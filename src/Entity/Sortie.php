@@ -38,7 +38,7 @@ class Sortie
     /**
      * @ORM\Column(type="integer", nullable=true)
      * @Assert\GreaterThanOrEqual(30,message="Ca fait pas beaucoup de temps ça !")
-     * @Assert\LessThan(400,message="400 minutes ça fait 6h, c'est déja pas mal !")
+     * @Assert\LessThanOrEqual(400,message="400 minutes ça fait 6h, c'est déja pas mal !")
      */
     private $duree;
 
