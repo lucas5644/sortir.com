@@ -1,0 +1,45 @@
+{% extends 'layout.html.twig' %}
+{% block title %}Utilisateurs importés{% endblock %}
+{% block main %}
+    {% if users | length > 0 %}
+        <h1 class="text-center">Utilisateurs importés</h1>
+        <div class="table-responsive pre-scrollable table-bordered table-info">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Téléphone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Campus</th>
+                    <th scope="col">Administrateur</th>
+                </tr>
+                </thead>
+                {% for user in users %}
+                    <tr>
+                        <td><a href="{{ path('profile', {pseudo: user.pseudo}) }}">{{ user.pseudo }}</a></td>
+                        <td>{{ user.nom }}</td>
+                        <td>{{ user.prenom }}</td>
+                        {% if user.telephone is null %}
+                            <td>Non renseigné</td>
+                        {% else %}
+                            <td>{{ user.telephone }}</td>
+                        {% endif %}
+                        <td>{{ user.mail }}</td>
+                        <td>{{ user.campus.nom }}</td>
+
+                        {% if user.administrateur == 1 %}
+                            <td class="text-center">Oui</td>
+                        {% else %}
+                            <td class="text-center">Non</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    {% endif %}
+    <br>
+    <a class="btn btn-light" href="{{ path('admin') }}">Retour à la page administration</a>
+{% endblock %}
