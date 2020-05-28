@@ -202,10 +202,11 @@ class SortieController extends AbstractController
         $idInscription = null;
         $user = null;
 
+        $userIns = null;
         foreach ($sortie->getInscriptions() as $ins) {
             if ($ins->getParticipant()->getId() == $idUser) {
                 $idInscription = $ins->getId();
-                $user = $ins->getParticipant();
+                $userIns = $ins->getParticipant();
             }
         }
 
@@ -222,7 +223,7 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/afficherSortie.html.twig', [
             'sortie' => $sortie,
-            'utilisateurIns' => $user,
+            'utilisateurIns' => $userIns,
             'idInscription' => $idInscription,
             'users' => $users
         ]);
