@@ -83,22 +83,39 @@ $("#sortie_lieu").change(function(){
             element.appendChild(rue);
 
             if (lieu.latitude){
-            var divLat = document.getElementById("lati");
-            divLat.removeChild(divLat.childNodes[0]);
-            var lat = document.createElement("dt");
+                var divLat = document.getElementById("lati");
+                divLat.removeChild(divLat.childNodes[0]);
+                var lat = document.createElement("dt");
 
-            var latText = document.createTextNode("Latitude : " + lieu.latitude);
-            lat.appendChild(latText);
-            divLat.appendChild(lat);
+                var latText = document.createTextNode("Latitude : " + lieu.latitude);
+                lat.appendChild(latText);
+                divLat.appendChild(lat);
 
 
-            var divLongi = document.getElementById("longi");
-            divLongi.removeChild(divLongi.childNodes[0]);
-            var longi = document.createElement("dt");
+                var divLongi = document.getElementById("longi");
+                divLongi.removeChild(divLongi.childNodes[0]);
+                var longi = document.createElement("dt");
 
-            var longiText = document.createTextNode("Longitude : " + lieu.longitude);
-            longi.appendChild(longiText);
-            divLongi.appendChild(longi);
+                var longiText = document.createTextNode("Longitude : " + lieu.longitude);
+                longi.appendChild(longiText);
+                divLongi.appendChild(longi);
+            }else{
+                var divLat = document.getElementById("lati");
+                divLat.removeChild(divLat.childNodes[0]);
+                var lat = document.createElement("dt");
+
+                var latText = document.createTextNode("Latitude : Non renseignée");
+                lat.appendChild(latText);
+                divLat.appendChild(lat);
+
+
+                var divLongi = document.getElementById("longi");
+                divLongi.removeChild(divLongi.childNodes[0]);
+                var longi = document.createElement("dt");
+
+                var longiText = document.createTextNode("Longitude : Non renseignée");
+                longi.appendChild(longiText);
+                divLongi.appendChild(longi);
             }
         },
             error : function(error) {
