@@ -25,7 +25,7 @@ class Campus
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="campus")
+     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="campus", cascade={"remove"})
      */
     private $participants;
 

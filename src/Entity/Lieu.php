@@ -46,7 +46,7 @@ class Lieu
     private $ville;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="lieu")
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="lieu", cascade={"remove"})
      */
     private $sorties;
 

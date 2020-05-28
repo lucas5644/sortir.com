@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
@@ -38,11 +39,13 @@ class Participant implements UserInterface
     private $prenom;
 
     /**
+     * @Assert\Regex("/^0[1-68]([-. ]?[0-9]{2}){4}$/", message="C'est mieux un avec un vrai numéro !")
      * @ORM\Column(type="string", length=15, nullable=true)
      */
     private $telephone;
 
     /**
+     * @Assert\Regex("/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/", message="C'est une adresse mail ça ?")
      * @ORM\Column(type="string", length=50, unique=true)
      */
     private $mail;
@@ -68,7 +71,7 @@ class Participant implements UserInterface
     private $reset_token;
 
     /**
-     * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="participant")
+     * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="participant", cascade={"remove"})
      */
     private $inscriptions;
 
