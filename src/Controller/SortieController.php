@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Etat;
 use App\Entity\Inscription;
 use App\Entity\Lieu;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\InscriptionType;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use function Matrix\add;
 
 class SortieController extends AbstractController
 {
@@ -188,11 +190,11 @@ class SortieController extends AbstractController
         date_add($dateFinSortie, date_interval_create_from_date_string("1 month"));
         $dateNow = new \DateTime();
 
-        dump(count($sortie->getInscriptions()));
-        dump($sortie->getNbInscriptionMax());
+/*        dump(count($sortie->getInscriptions()));
+        dump($sortie->getNbInscriptionMax());*/
 
         if($dateNow > $dateFinSortie){
-            $this->addFlash('danger', 'Impossible d\'accéder à cet évènement, car il est vieux de plus de 1 mois!');
+            $this->addFlash('danger', 'Impossible d\'accéder à cet évènement, car il est archivé !');
             return $this->redirectToRoute('home');
         }
 
@@ -207,6 +209,13 @@ class SortieController extends AbstractController
             }
         }
 
+        $users = array();
+        foreach ($sortie->getInscriptions() as $ins) {
+            $userRepo = $this->getDoctrine()->getRepository(Participant::class);
+            $user = $userRepo->findOneBy(['id' => $ins->getParticipant()->getId()]);
+            $users[] = $user;
+        }
+
         if(empty($sortie)){
             throw $this->createNotFoundException("Oh non... Cet évènement n'existe pas (╥﹏╥)");
         }
@@ -215,6 +224,7 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
             'utilisateurIns' => $user,
             'idInscription' => $idInscription,
+            'users' => $users
         ]);
     }
 
@@ -255,13 +265,20 @@ class SortieController extends AbstractController
      * @Route("/sortie/annuler/{id}", name="annuler_sortie")
      * @param $id
      */
-    public function annulerSortie($id){
+    public function annulerSortie($id, Request $request){
         $sortie = $this->entityManager->getRepository(Sortie::class)->findOneBy(['id' => $id]);
-        $etat = $this->entityManager->getRepository(Etat::class)->findOneBy(['id' => 6]);
-        $sortie->setEtat($etat);
-        $this->entityManager->persist($sortie);
-        $this->entityManager->flush();
-        $this->addFlash("success", "Sortie annulée : " . $sortie->getNom());
-        return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getid()]);
+        $etat = $this->entityManager->getRepository(Etat::class)->findOneBy(['libelle' => "annulée"]);
+        if(!is_null($request->get("confirmation"))){
+            $raison = $request->get("raison");
+            $sortie->setEtat($etat);
+            $sortie->setInfosSortie($raison);
+            $this->entityManager->persist($sortie);
+            $this->entityManager->flush();
+            $this->addFlash("success", "Sortie annulée : " . $sortie->getNom());
+            return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
+        }
+        return $this->render("sortie/annulerSortie.html.twig", [
+            'sortie' => $sortie
+        ]);
     }
 }
