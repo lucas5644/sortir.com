@@ -48,23 +48,49 @@
                     {{ form_row(sortieForm.lieu) }}
                 </div>
                 <div class="align-self-center d-none d-md-block" style="padding-top: 15px;padding-left: 5px">
-                    <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}"
-                                                                            alt="Ajouter un lieu" class="bouton-plus"
-                                                                            width="35px"></a>
+                    <img onclick="ajoutLieu()" id="ajoutLieu()" src="{{ asset('img/bouton_ajouter.png') }}"
+                         alt="Ajouter un lieu" class="bouton-plus" width="35px">
                 </div>
             </div>
 
-            <div id="rue">
+            <div id="lieu">
+                <div id="rue">
+
+                </div>
+
+                <div id="lati">
+
+                </div>
+
+                <div id="longi">
+
+                </div>
+            </div>
+
+            <div id="lieuForm" style="display: none">
+                <input type="text" value="0" hidden id="inputId">
+                <div>
+                    <label>Nom du lieu : </label>
+                    <input type="text" value="">
+                </div>
+
+                <div>
+                    <label>Rue : </label>
+                    <input type="text" value="">
+                </div>
+
+                <div>
+                    <label>Latitude : </label>
+                    <input type="text" value="">
+                </div>
+
+                <div>
+                    <label>Longitude : </label>
+                    <input type="text" value="">
+                </div>
 
             </div>
 
-            <div id="lati">
-
-            </div>
-
-            <div id="longi">
-
-            </div>
         </div>
 
         {{ form_row(sortieForm._token) }}

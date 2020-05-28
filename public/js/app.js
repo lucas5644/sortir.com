@@ -43,7 +43,11 @@ $("#sortie_ville").change(function(){
        async:      true,
 
        success: function (lieux){
-
+           document.getElementById("inputId").value = 0;
+           var testLieu = document.getElementById("lieu");
+           testLieu.style.display = "block";
+           var lieuForm = document.getElementById("lieuForm")
+           lieuForm.style.display = "none";
            var lieuSelec = $("#sortie_lieu");
 
            lieuSelec.html('');
@@ -62,6 +66,15 @@ $("#sortie_ville").change(function(){
     });
 });
 
+function ajoutLieu() {
+    document.getElementById("inputId").value = 1;
+    console.log(document.getElementById("inputId").value);
+    var testLieu = document.getElementById("lieu");
+    testLieu.style.display = "none";
+    var lieuForm = document.getElementById("lieuForm")
+    lieuForm.style.display = "block";
+}
+
 $("#sortie_lieu").change(function(){
     var lieuSelec = $(this).val();
     console.log(lieuSelec);
@@ -74,7 +87,13 @@ $("#sortie_lieu").change(function(){
         async: true,
 
         success: function (lieu) {
+            document.getElementById("inputId").value = 0;
+            var testLieu = document.getElementById("lieu");
+            testLieu.style.display = "block";
+            var lieuForm = document.getElementById("lieuForm")
+            lieuForm.style.display = "none";
             var element = document.getElementById("rue");
+
             element.removeChild(element.childNodes[0]);
             var rue = document.createElement("dt");
 
