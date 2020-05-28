@@ -57,6 +57,7 @@
 
 
 {% block javascripts %}
+    {{ parent() }}
     <script>
         function validate() {
             if (document.getElementById("status").value) {

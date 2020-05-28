@@ -1,5 +1,5 @@
 {% extends 'layout.html.twig' %}
-
+{% block title %}Mon profil{% endblock %}
 {% block main %}
     <div class="col-12 form-row">
 
@@ -10,7 +10,7 @@
             <br>
         </div>
 
-            {{ form_start(userForm) }}
+        {{ form_start(userForm) }}
         <div>
             <div class="form-row">
                 <label class="col-sm-4">{{ form_label(userForm.pseudo) }} : </label>
@@ -58,31 +58,33 @@
 
         </div>
         <br>
-            {{ form_row(userForm._token) }}
+        {{ form_row(userForm._token) }}
     </div>
 
-        <div class="text-center">
-            <button class="btn btn-primary" type="submit">Modifier</button><a class="btn btn-dark" href="{{ app.request.headers.get('referer') }}">Retour</a>
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Modifier</button>
+        <a class="btn btn-dark" href="{{ app.request.headers.get('referer') }}">Retour</a>
 
-            {% if app.user.administrateur == 1 %}
-                <form action="{{ path('supprimer', {id: user.id}) }}" onsubmit="return validate()">
-                    <input id="status" hidden value="nope">
-                    <button class="btn btn-danger" type="submit">Supprimer utilisateur</button>
-                </form>
-            {% endif %}
-        </div>
+        {% if app.user.administrateur == 1 %}
+            <form action="{{ path('supprimer', {id: user.id}) }}" onsubmit="return validate()">
+                <input id="status" hidden value="nope">
+                <button class="btn btn-danger" type="submit">Supprimer utilisateur</button>
+            </form>
+        {% endif %}
+    </div>
     {{ form_end(userForm, {'render_rest': false}) }}
 {% endblock %}
 
 {% block javascripts %}
-<script>
-    function validate() {
-        if (document.getElementById("status").value) {
-            return confirm('Voulez vous vraiment supprimer cet utilisateur?');
-        } else {
-            console.log('Non non');
-            return false;
+    {{ parent() }}
+    <script>
+        function validate() {
+            if (document.getElementById("status").value) {
+                return confirm('Voulez vous vraiment supprimer cet utilisateur?');
+            } else {
+                console.log('Non non');
+                return false;
+            }
         }
-    }
-</script>
+    </script>
 {% endblock %}
