@@ -1,7 +1,8 @@
 {% extends 'layout.html.twig' %}
-
+{% block title %}Utilisateurs importés{% endblock %}
 {% block main %}
     {% if users | length > 0 %}
+        <h1 class="text-center">Utilisateurs importés</h1>
         <div class="table-responsive pre-scrollable table-bordered table-info">
             <table class="table table-striped">
                 <thead>
@@ -12,7 +13,6 @@
                     <th scope="col">Téléphone</th>
                     <th scope="col">Email</th>
                     <th scope="col">Campus</th>
-                    <th scope="col">Actif</th>
                     <th scope="col">Administrateur</th>
                 </tr>
                 </thead>
@@ -28,29 +28,6 @@
                         {% endif %}
                         <td>{{ user.mail }}</td>
                         <td>{{ user.campus.nom }}</td>
-                        {% if user.actif == 0 %}
-                            <td>
-                                <form action="{{ path('activer', {id: user.id}) }}"
-                                      onsubmit="return validerteActivation()">
-
-                                    <input id="status" hidden value="nope">
-
-                                    <button class="btn btn-outline-primary" type="submit">Activer</button>
-
-                                </form>
-                            </td>
-                        {% else %}
-                            <td>
-                                <form action="{{ path('desactiver', {id: user.id}) }}"
-                                      onsubmit="return validaterDesactivation()">
-
-                                    <input id="status" hidden value="nope">
-
-                                    <button class="btn btn-outline-primary" type="submit">Désactiver</button>
-
-                                </form>
-                            </td>
-                        {% endif %}
 
                         {% if user.administrateur == 1 %}
                             <td class="text-center">Oui</td>
