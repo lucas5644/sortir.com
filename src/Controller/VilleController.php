@@ -57,7 +57,7 @@ class VilleController extends AbstractController
             $em->persist($addVille);
             $em->flush();
 
-            $this->addFlash("success", "Votre ville " . $addVille->getNom() ." ". $addVille->getCodePostal() . " a bien été ajoutée !");
+            $this->addFlash("success", "Votre ville " . $addVille->getNom() ." ". $addVille->getCodePostal() . " a bien été ajoutée.");
             return $this->redirectToRoute('gestion_villes');
         }
 
@@ -106,7 +106,7 @@ class VilleController extends AbstractController
         $nom = $ville->getNom();
         $this->entityManager->remove($ville);
         $this->entityManager->flush();
-        $this->addFlash("success", $ville->getNom()." a bien été supprimée !");
+        $this->addFlash("success", $ville->getNom()." a bien été supprimée");
         return $this->redirectToRoute('gestion_villes');
     }
 

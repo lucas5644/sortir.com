@@ -25,7 +25,7 @@ class AddVilleType extends AbstractType
             ->add('Ajouter', SubmitType::class, [
                 'attr' => [
                     'class' => "btn btn-info"]
-    ]);
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
