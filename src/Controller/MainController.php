@@ -28,7 +28,7 @@ class MainController extends AbstractController
      */
     public function index(Request $request, SortieRepository $sortieRepository): Response
     {
-
+        //check si l'utilisateur est bien connecté
         if (is_null($this->security->getUser())) {
             return $this->redirectToRoute('login');
         }
@@ -36,11 +36,12 @@ class MainController extends AbstractController
         //nouvelle instance de FindSortie
         $findSortie = new FindSortie();
 
-        //création du formulaire
+        //création du formulaire avec l'instance
         $findMesSortiesForm = $this->createForm(FindSortieType::class, $findSortie);
         //récupération des données du formulaire
         $findMesSortiesForm->handleRequest($request);
 
+        //check si les deux dates sont saisies
         if ($findSortie->getDateDebut() == '' && $findSortie->getDateFin() != '' ||
             $findSortie->getDateDebut() != '' && $findSortie->getDateFin() == '') {
             $this->addFlash('warning', 'Les deux dates doivent être saisies');
@@ -56,24 +57,23 @@ class MainController extends AbstractController
         $userConnected = $this->security->getUser()->getId();
         $inscriptionRepo = $this->getDoctrine()->getRepository(Inscription::class);
         $inscrit = $inscriptionRepo->findBy(array('participant' => $userConnected));
+        //retourne true ou false
         $estInscrit = $findMesSortiesForm->getData()->getMesInscriptions();
 
-
-        //injection de l'id des sorties dans l'array numeroSortie
+        //injection de l'id des sorties auxquelles l'utilisateur est inscrit
         $numeroSortieInscrit = array();
         foreach ($inscrit as $i) {
             array_push($numeroSortieInscrit, $i->getSortie()->getId());
         }
 
-        dump($estInscrit);
-
-        //numéro des sorties auxquel il n'est pas inscrit
+        //dans un tableau, injection de l'id de toutes le sorties
         $numeroSorties = array();
         $allSorties = $sortieRepo->findAll();
         foreach ($allSorties as $s) {
             array_push($numeroSorties, $s->getId());
         }
-        //Je récupère le numéro des sorties auxquelles je ne suis pas inscrit
+
+        //Dans un tableau, je récupère le numéro des sorties auxquelles je ne suis pas inscrit
         $numeroSortiePasInscrit = array_diff($numeroSorties, $numeroSortieInscrit);
 
         //Afficher un message d'erreur si aucun résultat

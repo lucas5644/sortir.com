@@ -88,8 +88,8 @@
                                     {% if sortie.organisateur.pseudo == app.user.pseudo %}
                                         {# Modif' de l'affichage suivant l'état de la sortie #}
                                         {% if sortie.etat.libelle == 'créée' %}
-                                            <a href="{{ path('sortie_detail', {id: sortie.id}) }}">
-                                                Modifier</a> - <a>Publier</a>
+                                            <a href="{{ path('sortie_modifier', {id: sortie.id}) }}">
+                                                Modifier</a> - <a href="#">Publier</a>
                                         {% elseif sortie.etat.libelle == 'activité en cours' %}
                                             <a href="{{ path('sortie_detail', {id: sortie.id}) }}">
                                                 Afficher</a>
@@ -130,8 +130,8 @@
                                     {% if sortie.organisateur.pseudo == app.user.pseudo %}
                                         {# Modif' de l'affichage suivant l'état de la sortie #}
                                         {% if sortie.etat.libelle == 'créée' %}
-                                            <a href="{{ path('sortie_detail', {id: sortie.id}) }}">
-                                                Modifier</a> - Publier
+                                            <a href="{{ path('sortie_modifier', {id: sortie.id}) }}">
+                                                Modifier</a> - <a href="#">Publier</a>
                                         {% elseif sortie.etat.libelle == 'activité en cours' %}
                                             <a href="{{ path('sortie_detail', {id: sortie.id}) }}">
                                                 Afficher</a>
@@ -227,7 +227,7 @@
                                             {% if sortie.organisateur.pseudo == app.user.pseudo %}
                                                 {# Modif' de l'affichage suivant l'état de la sortie #}
                                                 {% if sortie.etat.libelle == 'créée' %}
-                                                    <a href="{{ path('sortie_detail', {id: sortie.id}) }}">
+                                                    <a href="{{ path('sortie_modifier', {id: sortie.id}) }}">
                                                         Modifier</a> - <a>Publier</a>
                                                 {% elseif sortie.etat.libelle == 'activité en cours' %}
                                                     <a href="{{ path('sortie_detail', {id: sortie.id}) }}">
@@ -269,7 +269,7 @@
                                             {% if sortie.organisateur.pseudo == app.user.pseudo %}
                                                 {# Modif' de l'affichage suivant l'état de la sortie #}
                                                 {% if sortie.etat.libelle == 'créée' %}
-                                                    <a href="{{ path('sortie_detail', {id: sortie.id}) }}">
+                                                    <a href="{{ path('sortie_modifier', {id: sortie.id}) }}">
                                                         Modifier</a> - Publier
                                                 {% elseif sortie.etat.libelle == 'activité en cours' %}
                                                     <a href="{{ path('sortie_detail', {id: sortie.id}) }}">
@@ -367,7 +367,7 @@
                                             {% if sortie.organisateur.pseudo == app.user.pseudo %}
                                                 {# Modif' de l'affichage suivant l'état de la sortie #}
                                                 {% if sortie.etat.libelle == 'créée' %}
-                                                    <a href="{{ path('sortie_detail', {id: sortie.id}) }}">
+                                                    <a href="{{ path('sortie_modifier', {id: sortie.id}) }}">
                                                         Modifier</a> - <a>Publier</a>
                                                 {% elseif sortie.etat.libelle == 'activité en cours' %}
                                                     <a href="{{ path('sortie_detail', {id: sortie.id}) }}">
@@ -409,7 +409,7 @@
                                             {% if sortie.organisateur.pseudo == app.user.pseudo %}
                                                 {# Modif' de l'affichage suivant l'état de la sortie #}
                                                 {% if sortie.etat.libelle == 'créée' %}
-                                                    <a href="{{ path('sortie_detail', {id: sortie.id}) }}">
+                                                    <a href="{{ path('sortie_modifier', {id: sortie.id}) }}">
                                                         Modifier</a> - Publier
                                                 {% elseif sortie.etat.libelle == 'activité en cours' %}
                                                     <a href="{{ path('sortie_detail', {id: sortie.id}) }}">

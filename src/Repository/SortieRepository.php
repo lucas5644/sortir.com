@@ -43,13 +43,13 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('c.nom LIKE :campus')
                 ->setParameter('campus', '%' . $filtre->getNomCampus() . '%');
         }
-//        // si les dates sont saisies
-//        if (($filtre->getDateDebut() != null || $filtre->getDateDebut())
-//            || ($filtre->getDateFin() != null || $filtre->getDateFin())) {
-//            $qb->andWhere('s.dateHeureDebut > :dateDebut AND s.dateHeureDebut < :dateFin')
-//                ->setParameter('dateFin', $filtre->getDateFin())
-//                ->setParameter('dateDebut', $filtre->getDateDebut());
-//        }
+        // si les dates sont saisies
+        if (($filtre->getDateDebut() != null || $filtre->getDateDebut())
+            || ($filtre->getDateFin() != null || $filtre->getDateFin())) {
+            $qb->andWhere('s.dateHeureDebut > :dateDebut AND s.dateHeureDebut < :dateFin')
+                ->setParameter('dateFin', $filtre->getDateFin())
+                ->setParameter('dateDebut', $filtre->getDateDebut());
+        }
 
         //si je suis organisateur
         if ($filtre->getMesSorties() == true) {
@@ -60,8 +60,6 @@ class SortieRepository extends ServiceEntityRepository
             $qb->andWhere('s.organisateur = :userId')
                 ->setParameter('userId', $userId);
         }
-
-        dump($filtre->getMesInscriptions());
 
         // si je suis inscrit
         if ($filtre->getMesInscriptions() === true) {
@@ -75,30 +73,17 @@ class SortieRepository extends ServiceEntityRepository
                 ->groupBy('s.id');
         }
 
-        //si je ne suis pas inscrit
-//        if ($filtre->getMesInscriptions() === false) {
-//            $qb->andWhere('s.id != :idSortie')
-//                ->andWhere('s.id != :idSortie2')
-//                ->setParameter('idSortie', $filtreInscription->)
-//        }
-        if ($filtre->getMesInscriptions() === false) {
-            //je recherche l'id du user connecté
-            $userId = $this->security->getUser()->getId();
-
-            //recherche des sorties où je ne suis pas inscrit
-            $qb->join('s.inscriptions', 'i')
-                ->andWhere('i.participant != :userId')
-                ->setParameter('userId', $userId)
-                ->groupBy('i.sortie');
-        }
-
         //si la sortie est passée
         if ($filtre->getSortiesPassees() == true) {
             //recherche des sorties passées
-            $qb->andWhere('s.dateHeureDebut < CURRENT_DATE()');
+            $qb->andWhere('s.dateHeureDebut < CURRENT_DATE()')
+                ->andWhere('s.etat != :etatCreee')
+                ->setParameter('etatCreee', 1)
+                ->andWhere('s.etat != :etatCloturee')
+                ->setParameter('etatCloturee', 3)
+                ->andWhere('s.etat != :etatArchivee')
+                ->setParameter('etatArchivee', 7);
         }
-
-        dump($qb->getQuery());
 
         //requête sur la table des sorties
         $query = $qb->getQuery();
