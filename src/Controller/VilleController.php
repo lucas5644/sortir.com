@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Ville;
 use App\Form\AddVilleType;
 use App\Form\FindVilleType;
+use App\Form\UpdateVilleType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,10 +63,30 @@ class VilleController extends AbstractController
             return $this->redirectToRoute('gestion_villes');
 
         }
+
+//        $updatedVille = new Ville();
+//
+//        //$updatedVille = $this->entityManager->getRepository(Ville::class)->findOneBy(['id' => $id]);
+//        $updatedVilleForm = $this->createForm(UpdateVilleType::class, $updatedVille);
+//        $updatedVilleForm->handleRequest($request);
+//
+//        if ($updatedVilleForm->isSubmitted() && $updatedVilleForm->isValid()) {
+//
+//
+//            $em->persist($updatedVille);
+//            $em->flush();
+//
+//            $this->addFlash("success", "Votre ville " . $updatedVille->getNom() ." ". $updatedVille->getCodePostal() . " a bien été modifiée !");
+//            return $this->redirectToRoute('gestion_villes');
+//
+//        }
+
         return $this->render('ville/gestion-villes.html.twig', [
             'gestionVilles' => $findVilleForm->createView(),
             'listeVilles' => $listeVilles,
-            'addVille' => $addVilleForm->createView()
+            'addVille' => $addVilleForm->createView(),
+            //'updatedVille' => $updatedVilleForm->createView()
+
         ]);
     }
 
@@ -84,4 +105,5 @@ class VilleController extends AbstractController
         $this->addFlash("success", $ville->getNom()." à bien été supprimée !");
         return $this->redirectToRoute('gestion_villes');
     }
+
 }
