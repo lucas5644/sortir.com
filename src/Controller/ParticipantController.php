@@ -90,6 +90,7 @@ class ParticipantController extends AbstractController
 
                 $em->persist($userC);
                 try {
+
                     $em->flush();
                 }catch (\Exception $exception){
                     if ($oldMail !== $userC->getMail()){
@@ -102,7 +103,7 @@ class ParticipantController extends AbstractController
                     }
 
                     //arnal.duncan@gmail.com
-                    return $this->redirectToRoute('profile', ['pseudo' => $user->getPseudo()]);
+                    return $this->redirectToRoute('profile', ['pseudo' => $userC->getPseudo()]);
                 }
 
                 $this->addFlash("success", $userC->getPseudo() . ", vos modifications ont été prises en compte.");
