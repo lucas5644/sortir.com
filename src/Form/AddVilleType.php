@@ -23,8 +23,10 @@ class AddVilleType extends AbstractType
                 'label' => 'Ajouter un code postal : '
             ])
             ->add('Ajouter', SubmitType::class, [
-                'attr' => [
-                    'class' => "btn btn-info"]
+                'attr' => ['class' => "btn btn-info",
+                " align-items-center"]
+
+
     ]);
     }
 

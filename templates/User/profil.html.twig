@@ -4,13 +4,13 @@
 
 {% block main %}
     <div class="jumbotron col-lg-6 offset-lg-3 col-md-8 offset-md-2
-    col-sm-10 offset-sm-1">
+    col-sm-10 offset-sm-1" id="afficher-sortie-shadow">
         <h1 class="card-title text-center">{{ user.pseudo }}</h1>
 
         {% if user.getUrlPhoto() is not null%}
         <div class="card-img col-12 text-center">
             <img src="{{ asset('uploads/photo_profil/' ~ user.getUrlPhoto()) }}"
-                 width="150">
+                 width="150" id="bouton-shadow">
         </div>
         {% endif %}
 
@@ -30,7 +30,7 @@
         </div>
 
         <div class="text-center">
-            <a class="btn btn-light" href="javascript:history.back()">Retour</a>
+            <a class="btn btn-light" id="bouton-shadow" href="javascript:history.back()">Retour</a>
         </div>
     </div>
 
@@ -38,9 +38,9 @@
         {% if app.user.administrateur == 1 %}
             <form action="{{ path('supprimer', {id: user.id}) }}" onsubmit="return validate()">
 
-                <input id="status" hidden value="nope">
+                <label for="status"><input id="status" hidden value="nope"></label>
 
-                <button class="btn btn-danger" type="submit">Supprimer utilisateur</button>
+                <button class="btn btn-danger" id="bouton-shadow" type="submit">Supprimer utilisateur</button>
             </form>
         {% endif %}
     </div>

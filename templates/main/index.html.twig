@@ -29,8 +29,8 @@
             {{ form_row(findMesSortiesForm.sortiesPassees) }}
         </div>
         <div class="col-12 text-center">
-            <input class="btn btn-primary" type="submit" value="Rechercher">
-            <a class="btn btn-primary d-none d-md-inline-block" href="{{ path('sortie') }}">Créer une sortie</a>
+            <input class="btn btn-info" id="bouton-shadow" type="submit" value="Rechercher">
+            <a class="btn btn-info d-none d-md-inline-block" id="bouton-shadow" href="{{ path('sortie') }}">Créer une sortie</a>
         </div>
     </div>
     {{ form_end(findMesSortiesForm) }}

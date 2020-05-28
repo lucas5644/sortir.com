@@ -14,7 +14,10 @@ class ForgottenPasswordType extends AbstractType
     {
         $builder
             ->add('mail', EmailType::class)
-            ->add('envoyer', SubmitType::class)
+            ->add('envoyer', SubmitType::class, [
+                'option' => ['attr'=> ['id'=> 'bouton-shadow']],
+                ['class' => 'btn btn-info']
+            ])
         ;
     }
 

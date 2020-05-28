@@ -6,16 +6,16 @@
     {{ form_start(fichierFrom) }}
 
     <label>Le fichier .csv : </label>
-    <div class="btn btn-outline-primary">
+    <div class="btn btn-outline-info" id="bouton-shadow">
         {{ form_label(fichierFrom.fichier) }}
         {{ form_widget(fichierFrom.fichier) }}
         {{ form_errors(fichierFrom.fichier) }}
     </div>
 
-    <button class="btn btn-primary" type="submit">Enregistrer le fichier</button>
+    <button class="btn btn-info" id="bouton-shadow" type="submit">Enregistrer le fichier</button>
     {{ form_end(fichierFrom)}}
 
     <br>
-    <a class="btn btn-light" href="javascript:history.back()">Retour</a>
+    <a class="btn btn-light" id="bouton-shadow" href="javascript:history.back()">Retour</a>
 
 {% endblock %}

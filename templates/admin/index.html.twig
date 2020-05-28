@@ -6,8 +6,8 @@
     <h1 class="text-center">Panneau Administrateur</h1>
     <br>
     <div class="text-center">
-        <a href="{{ path('register') }}" class="btn btn-primary">Créer un utilisateur</a>
-        <a href="{{ path('import') }}" class="btn btn-primary">Importer des utilisateurs</a>
+        <a href="{{ path('register') }}" class="btn btn-info" id="bouton-shadow">Créer un utilisateur</a>
+        <a href="{{ path('import') }}" class="btn btn-info" id="bouton-shadow">Importer des utilisateurs</a>
     </div>
 
     <br>
@@ -46,7 +46,7 @@
 
                                     <input id="status" hidden value="nope">
 
-                                    <button class="btn btn-outline-primary" type="submit">Activer</button>
+                                    <button class="btn btn-outline-info" id="bouton-shadow" type="submit">Activer</button>
 
                                 </form>
                             </td>
@@ -57,7 +57,7 @@
 
                                     <input id="status" hidden value="nope">
 
-                                    <button class="btn btn-outline-primary" type="submit">Désactiver</button>
+                                    <button class="btn btn-outline-info" id="bouton-shadow" type="submit">Désactiver</button>
 
                                 </form>
                             </td>
@@ -75,7 +75,7 @@
 
     {% endif %}
     <br>
-    <a class="btn btn-light" href="javascript:history.back()">Retour</a>
+    <a class="btn btn-light" id="bouton-shadow" href="javascript:history.back()">Retour</a>
 
 {% endblock %}
 

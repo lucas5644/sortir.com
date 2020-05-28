@@ -51,10 +51,10 @@
             </div>
 
             {{ form_row(userForm._token) }}
-            <button class="btn btn-primary" type="submit">Inscrire un nouvel utilisateur</button>
+            <button class="btn btn-info" id="bouton-shadow" type="submit">Inscrire un nouvel utilisateur</button>
         {{ form_end(userForm, {'render_rest': false}) }}
 
     </div>
     <br>
-    <a class="btn btn-light" href="javascript:history.back()">Retour</a>
+    <a class="btn btn-light" id="bouton-shadow" href="javascript:history.back()">Retour</a>
 {% endblock %}

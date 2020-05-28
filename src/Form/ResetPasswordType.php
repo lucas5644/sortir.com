@@ -22,7 +22,10 @@ class ResetPasswordType extends AbstractType
                 'first_options' => ['label' => 'Mot de Passe'],
                 'second_options' => ['label' => 'Confirmation'],
             ])
-            ->add('Valider', SubmitType::class)
+            ->add('Valider', SubmitType::class,[
+                'option' => ['attr'=> ['id'=> 'bouton-shadow']],
+                ['class' => 'btn btn-info']
+            ])
         ;
     }
 

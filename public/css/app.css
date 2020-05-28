@@ -41,6 +41,13 @@ footer {
     font-size: 70px;
     font-family: -apple-system;
 }
+#afficher-sortie-shadow {
+    box-shadow: 2px 4px 10px #2e3133;
+}
+
+#bouton-shadow {
+    box-shadow: 2px 4px 10px #2e3133;
+}
 
 nav li {
     padding-left: 40px;
