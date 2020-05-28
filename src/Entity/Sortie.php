@@ -50,7 +50,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\LessThan(10,message="Pas plus de 10 personnes !")
+     * @Assert\LessThanOrEqual(10,message="Pas plus de 10 personnes !")
      * @Assert\GreaterThanOrEqual(2,message="Plus on est de fous, plus on rit!")
      */
 
