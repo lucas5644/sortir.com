@@ -240,22 +240,6 @@ class SortieController extends AbstractController
         ]);
     }
 
-
-    /**
-     * @Route("/sortie/delete/{id}", name="sortie_delete", requirements={"id": "\d+"})
-     */
-    public function delete($id, EntityManagerInterface $em)
-    {
-        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
-        $sortie = $sortieRepo->find($id);
-
-        $em->remove($sortie);
-        $em->flush();
-
-        $this->addFlash("success","Votre évènement a bien été supprimé !");
-        return $this->redirectToRoute('/');
-    }
-
     /**
      * @Route("/sortie/publier/{id}", name="publier", requirements={"id": "\d+"})
      */
