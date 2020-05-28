@@ -59,7 +59,7 @@
         <br>
         <div class="text-center">
             <button class="btn btn-primary" type="submit">Modifier</button>
-            <a class="btn btn-dark" href="{{ app.request.headers.get('referer') }}">Retour</a>
+            <a class="btn btn-light" href="javascript:history.back()">Retour</a>
             {{ form_end(userForm, {'render_rest': false}) }}
             {% if app.user.administrateur == 1 %}
                 <br>

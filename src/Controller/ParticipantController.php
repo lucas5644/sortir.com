@@ -44,33 +44,36 @@ class ParticipantController extends AbstractController
         $userC = $this->security->getUser();
         $oldPassword = $userC->getPassword();
         $oldURL = $userC->getUrlPhoto();
-        if(!hash_equals($userC->getUsername(), $user->getUsername())){
+        $oldPseudo = $userC->getPseudo();
+        $oldMail = $userC->getMail();
+        if (!hash_equals($userC->getUsername(), $user->getUsername())) {
             return $this->render("User/profil.html.twig", [
-                "user" => $user
+                "user" => $user,
             ]);
-        }else{
+        } else {
             $userForm = $this->createForm(UpdateParticipantType::class, $user);
 
             $userForm->handleRequest($request);
-            dump($user);
-            if($userForm->isSubmitted() && $userForm->isValid())
-            {
+            if ($userForm->isSubmitted() && $userForm->isValid()) {
 
-                if(strlen(trim($user->getPassword())) ==! 0){
-                    $password = $passwordEncoder->encodePassword($user, $user->getPassword());
-                    $user->setPassword($password);
-                }else{
-                    $user->setPassword($oldPassword);
+                //Changement de mot de passe
+                if (strlen(trim($userC->getPassword())) == !0) {
+                    $password = $passwordEncoder->encodePassword($userC, $userC->getPassword());
+                    $userC->setPassword($password);
+                } else {
+                    $userC->setPassword($oldPassword);
                 }
-                if(is_null($user->getUrlPhoto()) && !is_null($oldURL)){
-                    $user->setUrlPhoto($oldURL);
-                }else{
+
+                //Photo de profil
+                if (is_null($userC->getUrlPhoto()) && !is_null($oldURL)) {
+                    $userC->setUrlPhoto($oldURL);
+                } else {
                     $urlPhotoFile = $userForm->get('urlPhoto')->getData();
                     if ($urlPhotoFile) {
                         $originalFilename = pathinfo($urlPhotoFile->getClientOriginalName(), PATHINFO_FILENAME);
                         // this is needed to safely include the file name as part of the URL
                         $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                        $newFilename = $safeFilename.'-'.uniqid().'.'.$urlPhotoFile->guessExtension();
+                        $newFilename = $safeFilename . '-' . uniqid() . '.' . $urlPhotoFile->guessExtension();
 
                         try {
                             $urlPhotoFile->move(
@@ -78,24 +81,39 @@ class ParticipantController extends AbstractController
                                 $newFilename
                             );
                         } catch (FileException $e) {
-                            $this->addFlash("success", "Impossible d'enregistrer l'image ".$user->getPseudo());
-                            return $this->redirectToRoute('profile', ['pseudo', $user->getPseudo()]);
+                            $this->addFlash("success", "Impossible d'enregistrer l'image " . $userC->getPseudo());
+                            return $this->redirectToRoute('profile', ['pseudo' => $userC->getPseudo()]);
                         }
-                        $user->setUrlPhoto($newFilename);
+                        $userC->setUrlPhoto($newFilename);
                     }
                 }
-                $em->persist($user);
-                $em->flush();
-                $pseudo = $request->get('pseudo');
-                dump($pseudo);
-                $this->addFlash("success",  $userC->getPseudo().", vos modifications ont été prises en compte.");
-                return $this->redirectToRoute('profile', ['pseudo', $userC->getPseudo()]);
+
+                $em->persist($userC);
+                try {
+                    $em->flush();
+                }catch (\Exception $exception){
+                    if ($oldMail !== $userC->getMail()){
+                        $this->addFlash("danger", "L'email : ".$userC->getMail()." est déjà utilisée!");
+                        $userC->setMail($oldMail);
+                    }
+                    if ($oldPseudo !== $userC->getPseudo()){
+                        $this->addFlash("danger", "Le pseudo : ".$userC->getPseudo()." est déjà utilisé");
+                        $userC->setPseudo($oldPseudo);
+                    }
+
+                    //arnal.duncan@gmail.com
+                    return $this->redirectToRoute('profile', ['pseudo' => $user->getPseudo()]);
+                }
+
+                $this->addFlash("success", $userC->getPseudo() . ", vos modifications ont été prises en compte.");
+                return $this->redirectToRoute('profile', ['pseudo' => $userC->getPseudo()]);
             }
-            return $this->render("User/monProfil.html.twig", [
-                "user" => $user,
-                "userForm" => $userForm->createView()
-            ]);
         }
+
+        return $this->render("User/monProfil.html.twig", [
+            "user" => $user,
+            "userForm" => $userForm->createView()
+        ]);
     }
 }
 

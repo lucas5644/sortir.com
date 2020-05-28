@@ -95,7 +95,7 @@
 
         {{ form_label(sortieModifForm.creerEtPublier) }}
         {{ form_widget(sortieModifForm.creerEtPublier) }}
-        <a class="btn btn-light" href="{{ app.request.headers.get('referer') }}">Annuler</a>
+        <a class="btn btn-light" href="javascript:history.back()">Retour</a>
     </div>
 
     {{ form_end(sortieModifForm, {'render_rest': false}) }}
