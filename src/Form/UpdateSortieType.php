@@ -23,7 +23,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\DateTime;
 
-class SortieType extends AbstractType
+class UpdateSortieType extends AbstractType
 {
     private $em;
 
@@ -131,16 +131,16 @@ class SortieType extends AbstractType
                 ->setParameter("villeid", $ville->getId())
                 ->getQuery()
                 ->getResult();
-            }
+        }
 
-            $form->add('lieu', EntityType::class, array(
-                'class' => 'App:Lieu',
-                'placeholder' => 'Sélectionnez la ville avant',
-                'mapped' => true,
-                'auto_initialize' => false,
-                'required' => true,
-                'choices' => $lieux
-            ));
+        $form->add('lieu', EntityType::class, array(
+            'class' => 'App:Lieu',
+            'placeholder' => 'Sélectionnez la ville avant',
+            'mapped' => true,
+            'auto_initialize' => false,
+            'required' => true,
+            'choices' => $lieux
+        ));
 
     }
 
@@ -159,7 +159,7 @@ class SortieType extends AbstractType
         $sortie = $event->getData();
         $form = $event->getForm();
 
-        $ville = null;
+        $ville = $sortie->getLieu()->getVille() ? $sortie->getLieu()->getVille() : null;
 
         $this->addElements($form, $ville);
     }

@@ -45,7 +45,7 @@
 
             <div class="form-row">
                 <div class="col-lg-11 col-sm-10">
-                    {{ form_rest(sortieForm) }}
+                    {{ form_row(sortieForm.lieu) }}
                 </div>
                 <div class="align-self-center d-none d-md-block" style="padding-top: 15px;padding-left: 5px">
                     <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}"
@@ -72,8 +72,11 @@
     </div>
 
     <div class="text-center">
-        <button class="btn btn-primary" type="submit">Enregistrer</button>
-        <a class="btn btn-info" href={{ path('sortie_publier') }}>Publier la sortie</a>
+        {{ form_label(sortieForm.creer) }}
+        {{ form_widget(sortieForm.creer) }}
+
+        {{ form_label(sortieForm.creerEtPublier) }}
+        {{ form_widget(sortieForm.creerEtPublier) }}
         <a class="btn btn-light" href="{{ app.request.headers.get('referer') }}">Annuler</a>
     </div>
 

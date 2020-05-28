@@ -9,6 +9,7 @@ use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\InscriptionType;
 use App\Form\SortieType;
+use App\Form\UpdateSortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,8 +40,7 @@ class SortieController extends AbstractController
         $organisateur = $this->getUser();
         $sortie->setOrganisateur($organisateur);
 
-        $etat = $this->getDoctrine()->getManager()->getRepository(Etat::class)->findOneBy(["libelle"=>"créée"]);
-        $sortie->setEtat($etat);
+
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
@@ -48,12 +48,26 @@ class SortieController extends AbstractController
 
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            if ($sortieForm->getClickedButton() && 'creerEtPublier' === $sortieForm->getClickedButton()->getName()) {
+                $etat = $this->getDoctrine()->getManager()->getRepository(Etat::class)->findOneBy(["libelle"=>"ouverte"]);
+                $sortie->setEtat($etat);
+            }else{
+                $etat = $this->getDoctrine()->getManager()->getRepository(Etat::class)->findOneBy(["libelle"=>"créée"]);
+                $sortie->setEtat($etat);
+            }
             $em->persist($sortie);
             $em->flush();
 
 
-            $this->addFlash("success", "Votre évènement" . $sortie->getNom() . " a bien été sauvegardé !");
-            return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
+
+            if ($sortieForm->getClickedButton() && 'creerEtPublier' === $sortieForm->getClickedButton()->getName()) {
+                $this->addFlash("success", "Votre évènement" . $sortie->getNom() . " a bien été sauvegardé  et publier !");
+                return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
+            }else{
+                $this->addFlash("success", "Votre évènement" . $sortie->getNom() . " a bien été sauvegardé !");
+                return $this->redirectToRoute('sortie_modifier', ['id' => $sortie->getId()]);
+            }
+
         }
 
         return $this->render('sortie/createSortie.html.twig', [
@@ -62,38 +76,44 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/sortie/publierSortie", name="sortie_publier")
+     * @Route("/sortie/modifier?{id}", name="sortie_modifier")
+     * requirements={"id":"\d+"},
      */
-    public function publierSortie(EntityManagerInterface $em, Request $request)
-    {
+    public function modifierSortie($id,  Request $request){
+        $sortie = $this->entityManager->getRepository(Sortie::class)->findOneBy(['id' => $id]);
+        $utilisateurConnecte = $this->security->getUser();
+        dump($sortie);
+        dump($utilisateurConnecte);
+        if($sortie->getOrganisateur()->getId() === $utilisateurConnecte->getId()){
+            $sortieModifForm = $this->createForm(UpdateSortieType::class, $sortie);
+            $sortieModifForm->handleRequest($request);
+            if($sortieModifForm->isSubmitted() && $sortieModifForm->isValid())
+            {
+                if ($sortieModifForm->getClickedButton() && 'creerEtPublier' === $sortieModifForm->getClickedButton()->getName()) {
+                    $etat = $this->getDoctrine()->getManager()->getRepository(Etat::class)->findOneBy(["libelle"=>"ouverte"]);
+                    $sortie->setEtat($etat);
+                }else{
+                    $etat = $this->getDoctrine()->getManager()->getRepository(Etat::class)->findOneBy(["libelle"=>"créée"]);
+                    $sortie->setEtat($etat);
+                }
 
-        $sortie = new Sortie();
+                $this->entityManager->persist($sortie);
+                $this->entityManager->flush();
 
-        $organisateur = $this->getUser();
-        $sortie->setOrganisateur($organisateur);
-
-        $etat = $this->getDoctrine()->getManager()->getRepository(Etat::class)->findOneBy(["libelle"=>"publiée"]);
-        $sortie->setEtat($etat);
-
-        $sortieForm = $this->createForm(SortieType::class, $sortie);
-
-        $sortieForm->handleRequest($request);
-
-
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            $em->persist($sortie);
-            $em->flush();
-
-
-            $this->addFlash("success", "Votre évènement" . $sortie->getNom() . " a bien été sauvegardé !");
-            return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
+                if ($sortieModifForm->getClickedButton() && 'creerEtPublier' === $sortieModifForm->getClickedButton()->getName()) {
+                    $this->addFlash("success", "Votre évènement" . $sortie->getNom() . " a bien été sauvegardé  et publier !");
+                    return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
+                }else{
+                    $this->addFlash("success", "Votre évènement" . $sortie->getNom() . " a bien été sauvegardé !");
+                    return $this->redirectToRoute('sortie_modifier', ['id' => $sortie->getId()]);
+                }
+            }
         }
-
-        return $this->render('sortie/createSortie.html.twig', [
-            'sortieForm' => $sortieForm->createView()
+        return $this->render('sortie/modifierSortie.html.twig', [
+            'sortieModifForm' => $sortieModifForm->createView(),
+            'sortie' => $sortie
         ]);
     }
-
 
     /**
      * @Route("/sortie/lieux", name="sortie_lieux")

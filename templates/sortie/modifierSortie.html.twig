@@ -1,0 +1,112 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Publiez vos sorties{% endblock %}
+
+{% block main %}
+
+    <h1>Ajouter une sortie</h1>
+
+    {{ form_start(sortieModifForm) }}
+
+    <div class="col-12 form-row">
+        <div class="col-sm-6">
+            <input type="text" hidden value="{{ sortie.id }}" id="idSortie">
+            <div>
+                {{ form_row(sortieModifForm.nom) }}
+            </div>
+
+            <div>
+                <label>Commence le : </label>
+                {{ form_row(sortieModifForm.dateHeureDebut) }}
+            </div>
+
+            <div>
+                <label>Date limite d'inscription : </label>
+                {{ form_row(sortieModifForm.dateLimiteInscription) }}
+            </div>
+
+            <div>
+                {{ form_row(sortieModifForm.nbInscriptionMax) }}
+            </div>
+
+            <div>
+                {{ form_row(sortieModifForm.duree) }}
+            </div>
+
+            <div>
+                {{ form_row(sortieModifForm.infosSortie) }}
+            </div>
+
+        </div>
+
+        <div class="col-sm-6">
+            <div>
+                {{ form_row(sortieModifForm.ville) }}
+            </div>
+
+            <div class="form-row">
+                <div class="col-lg-11 col-sm-10">
+                    {{ form_row(sortieModifForm.lieu) }}
+                </div>
+                <div class="align-self-center d-none d-md-block" style="padding-top: 15px;padding-left: 5px">
+                    <a href="{{ path('sortie') }}" title="Ajouter un lieu"><img src="{{ asset('img/bouton_ajouter.png') }}"
+                                                                                alt="Ajouter un lieu" class="bouton-plus"
+                                                                                width="35px"></a>
+                </div>
+            </div>
+
+            <div id="rue">
+                <dt>Rue : {{ sortie.lieu.rue }}</dt>
+            </div>
+
+            <div id="lati">
+                {% if sortie.lieu.latitude %}
+                    <dt>Latitude : {{ sortie.lieu.latitude }}</dt>
+                {% endif %}
+            </div>
+
+            <div id="longi">
+                {% if sortie.lieu.longitude %}
+                    <dt>Longitude : {{ sortie.lieu.longitude }}</dt>
+                {% endif %}
+            </div>
+
+            <div id="rueJ">
+
+            </div>
+
+            <div id="latiJ">
+
+            </div>
+
+            <div id="longiJ">
+
+            </div>
+
+        </div>
+
+        {{ form_row(sortieModifForm._token) }}
+
+    </div>
+
+    <div class="text-center">
+        {{ form_label(sortieModifForm.creer) }}
+        {{ form_widget(sortieModifForm.creer) }}
+
+        {{ form_label(sortieModifForm.creerEtPublier) }}
+        {{ form_widget(sortieModifForm.creerEtPublier) }}
+        <a class="btn btn-light" href="{{ app.request.headers.get('referer') }}">Annuler</a>
+    </div>
+
+    {{ form_end(sortieModifForm, {'render_rest': false}) }}
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="{{ asset('js/appModif.js') }}"></script>
+{% endblock %}
