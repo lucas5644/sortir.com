@@ -7,7 +7,7 @@
     {% if utilisateurIns is null and idInscription is null %}
         {% if sortie.etat.id == 2 and date(sortie.dateLimiteInscription) > date("now") and sortie.getInscriptions()|length < 5%}
         <div class="text-center">
-            <p class="alert alert-primary" role="alert">Cette sortie est disponible jusqu'au {{ sortie.dateLimiteInscription | date('d/m/y') }}</p>
+            <p class="alert alert-primary" role="alert">Cette sortie est disponible jusqu'au {{ sortie.dateLimiteInscription | date('d/m/yy') }}</p>
         </div>
         {% endif %}
     {% endif %}
@@ -16,7 +16,7 @@
     <div>
         {% if sortie.getInscriptions()|length == 5 and utilisateurIns is null%}
             <div class="text-center">
-            <p class="alert alert-danger" role="alert">Il n'y a plus de place disponible pour cette sortie.</p>
+            <p class="alert alert-danger" role="alert">Il n'y a plus de places disponibles pour cette sortie.</p>
             </div>
         {% endif %}
     </div>
@@ -29,10 +29,13 @@
         {% endif %}
     </div>
 
-    <dl class="row">
-        <dt class="col-sm-3">Nom :</dt>
-        <dd class="col-sm-9">{{ sortie.nom }} </dd>
+    <h2 class="text-right">٩(◕‿◕｡)۶</h2>
+    <br>
+    <h2 class="col-sm-12 text-center">{{ sortie.nom }}</h2>
+    <br>
 
+
+    <dl class="row">
         <dt class="col-sm-3">Commence le : </dt>
         <dd class="col-sm-9">{{ sortie.dateHeureDebut | date("d/m/yy h:m")}}</dd>
 
@@ -74,13 +77,12 @@
 
         </dl>
     </dl>
-{#<div class="text-center">
-            <dt class="col-sm-3">Nombre d'inscrit à l'évènement : </dt>
-        <dd class="col-sm-9">{{ sortie.getInscriptions()|length }}</dt>
-</div>#}
-    <br><br>
 
+    <br>
+    <div>
     {% if sortie.inscriptions | length > 0 %}
+        <h5>Liste des inscrits :</h5>
+
         <div class="table-responsive pre-scrollable table-bordered table-info">
         <table class="table table-striped">
             <thead>
@@ -104,47 +106,48 @@
         </table>
     </div>
     {% endif %}
-    </form>
 
     <br>
-    <div class="text-center">
+
+<div class="col-12 d-flex justify-content-sm-center text-center btn-group">
+    <div style="margin-left: 5px;margin-right: 5px">
     {% if utilisateurIns is not null and ((sortie.etat.libelle == "ouverte" or sortie.etat.libelle == "clôturée") and date(sortie.dateLimiteInscription) > date("now"))%}
         {% if utilisateurIns.id == app.user.id %}
-            <p>Vous voulez vous désister?</p>
             <a class="btn btn-danger" href="{{ path('inscriptionDelete', {id: idInscription}) }}">Se désister</a>
         {% endif %}
     {% endif %}
     </div>
 
-    <div class="text-center">
+    <div style="margin-left: 5px;margin-right: 5px">
         {% if utilisateurIns is null and idInscription is null %}
-            {% if sortie.etat.id == 2 and date(sortie.dateLimiteInscription) > date("now") and sortie.getInscriptions()|length < 5%}
-                <a class="btn btn-primary" href="{{ path('inscription', {idSortie: sortie.id}) }}">S'inscrire</a>
+            {% if sortie.etat.id == 2 and date(sortie.dateLimiteInscription) > date("now") and sortie.getInscriptions()|length < 5 %}
+                <a class="btn btn-info" href="{{ path('inscription', {idSortie: sortie.id}) }}">S'inscrire</a>
             {% endif %}
         {% endif %}
     </div>
 
 
-    <div class="text-center">
+    <div style="margin-left: 5px;margin-right: 5px">
     {% if sortie.organisateur.pseudo == app.user.pseudo and (sortie.etat.libelle == "ouverte" or sortie.etat.libelle == "clôturée")  and app.user.administrateur == 0 %}
-        <form action="{{ path('annuler_sortie', {id: sortie.id}) }}" ">
+        <form action="{{ path('annuler_sortie', {id: sortie.id}) }}" >
             <input type="hidden" id="raison" name="raisonUser"/>
             <button class="btn btn-light" type="submit">Annuler sortie</button>
-
-
+        </form>
     {% endif %}
     </div>
 
-    <div class="text-center">
+    <div style="margin-left: 5px;margin-right: 5px">
         {% if app.user.administrateur == 1 and  (sortie.etat.libelle == "ouverte" or sortie.etat.libelle == "clôturée") %}
             <form action="{{ path('annuler', {id: sortie.id}) }}" >
                 <input type="hidden" id="raison" name="raisonAdmin"/>
                 <button class="btn btn-danger" type="submit">Annuler sortie</button>
-
             </form>
         {% endif %}
     </div>
+</div>
+
 {% endblock %}
+
 
 {% block javascripts %}
     {{ parent() }}
@@ -161,5 +164,4 @@
             }
         }
     </script>
-
 {% endblock %}
