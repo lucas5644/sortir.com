@@ -75,14 +75,21 @@ class AdminController extends AbstractController
      * @Route("/admin/annuler/{id}", name="annuler")
      * @param $id
      */
-    public function annulerSortie($id){
+    public function annulerSortie($id, Request $request){
         $sortie = $this->entityManager->getRepository(Sortie::class)->findOneBy(['id' => $id]);
-        $etat = $this->entityManager->getRepository(Etat::class)->findOneBy(['id' => 6]);
-        $sortie->setEtat($etat);
-        $this->entityManager->persist($sortie);
-        $this->entityManager->flush();
-        $this->addFlash("success", "Sortie annulée : " . $sortie->getNom());
-        return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getid()]);
+        $etat = $this->entityManager->getRepository(Etat::class)->findOneBy(['libelle' => "annulée"]);
+        if(!is_null($request->get("confirmation"))){
+            $raison = $request->get("raison");
+            $sortie->setEtat($etat);
+            $sortie->setInfosSortie($raison);
+            $this->entityManager->persist($sortie);
+            $this->entityManager->flush();
+            $this->addFlash("success", "Sortie annulée : " . $sortie->getNom());
+            return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
+        }
+        return $this->render("sortie/annulerSortie.html.twig", [
+            'sortie' => $sortie
+        ]);
     }
 
     /**
