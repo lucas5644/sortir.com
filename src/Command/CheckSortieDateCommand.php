@@ -59,22 +59,25 @@ class CheckSortieDateCommand extends Command
                 $io->note(sprintf('Il faut que la sortie passe en clôturée'));
                 $this->changerEtat($sortie, 'clôturée', $this->entityManager);
                 $io->note(sprintf('Nouvel état de la sortie : %s', $sortie->getEtat()->getLibelle()));
-
             }elseif ($etat->getLibelle() == 'clôturée' && $dateNow > $sortie->getDateHeureDebut() && $dateNow < $dateFinSortie){
                 $io->note(sprintf('Il faut que la sortie passe en activité en cours'));
                 $this->changerEtat($sortie, 'activité en cours', $this->entityManager);
                 $io->note(sprintf('Nouvel état de la sortie : %s', $sortie->getEtat()->getLibelle()));
-
             }elseif ($etat->getLibelle() == 'activité en cours' && $dateNow > $dateFinSortie){
                 $io->note(sprintf('Il faut que la sortie passe en passée'));
                 $this->changerEtat($sortie, 'passée', $this->entityManager);
                 $io->note(sprintf('Nouvel état de la sortie : %s', $sortie->getEtat()->getLibelle()));
-
             }elseif (($etat->getLibelle() == 'passée' || $etat->getLibelle() == 'annulée') && $dateNow > $dateArchivage){
                 $io->note(sprintf('Il faut que la sortie passe en archivée'));
                 $this->changerEtat($sortie, 'archivée', $this->entityManager);
                 $io->note(sprintf('Nouvel état de la sortie : %s', $sortie->getEtat()->getLibelle()));
+            }elseif (($etat->getLibelle() != 'passée' || $etat->getLibelle() != 'annulée') && $dateNow > $dateArchivage){
+                $io->note(sprintf('Il faut que la sortie passe en archivée'));
+                $this->changerEtat($sortie, 'archivée', $this->entityManager);
+                $io->note(sprintf('Nouvel état de la sortie : %s', $sortie->getEtat()->getLibelle()));
             }
+
+
 
         }
 
