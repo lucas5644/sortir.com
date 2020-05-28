@@ -22,9 +22,6 @@ class ParticipantType extends AbstractType
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudo',
                 'required' => true,
-                'constraints' => new Unique([
-                    "message" => "Mail déjà utilisé"
-                ])
             ])
             ->add('prenom', TextType::class, [
                  'label' => 'Prénom : ',
@@ -44,9 +41,6 @@ class ParticipantType extends AbstractType
             ->add('mail', EmailType::class, [
                 'label' => 'Email : ',
                 'required' => true,
-                'constraints' => new Unique([
-                    "message" => "Mail déjà utilisé"
-                ])
             ])
 
             ->add('password', RepeatedType::class, [

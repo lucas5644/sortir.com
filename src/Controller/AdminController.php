@@ -61,7 +61,16 @@ class AdminController extends AbstractController
             $utilisateur->setPassword($password);
             $utilisateur->setActif(true);
             $em->persist($utilisateur);
-            $em->flush();
+            try {
+                $em->flush();
+            }catch (\Exception $exception){
+                $this->addFlash("danger", "Impossible de créer l'utilisateur");
+                return $this->render("User/register.html.twig", [
+                    "userForm" => $userForm->createView(),
+                    "user" => $utilisateur
+                ]);
+            }
+
 
             $this->addFlash("success", "Vous avez créé l'utilisateur : ".$utilisateur->getPseudo());
             return $this->redirectToRoute('home');
