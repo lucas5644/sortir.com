@@ -117,12 +117,16 @@ class AdminController extends AbstractController
                         $newFilename
 
                     );
-                    $this->getData($newFilename, $passwordEncoder, $em);
+                    $tableauUsers = $this->getData($newFilename, $passwordEncoder, $em);
                 } catch (FileException $e) {
                     $this->addFlash("danger", "Impossible d'enregistrer l'image!!! ");
                     return $this->redirectToRoute('import');
                 }
+                return $this->render("User/viewUserImport.html.twig", [
+                    'users' => $tableauUsers
+                ]);
             }
+
         }
 
         return $this->render("User/import.html.twig", [
@@ -183,6 +187,7 @@ class AdminController extends AbstractController
     private function getData(String $newFilename, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em){
         $reader = new Ods();
         $spreadsheet = $reader->load($this->getParameter('kernel.project_dir') . '/public/uploads/imports/'.$newFilename);
+        $tableauUsers = array();
         for ($i = 2; $i < 10000; $i++){
             $valueDebut = $spreadsheet->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue();
             $utilisateur = new Participant();
@@ -214,7 +219,9 @@ class AdminController extends AbstractController
                 $utilisateur->setUrlPhoto($url_photo);
                 $em->persist($utilisateur);
                 $em->flush();
+                $tableauUsers[] = $utilisateur;
             }
         }
+        return $tableauUsers;
     }
 }
