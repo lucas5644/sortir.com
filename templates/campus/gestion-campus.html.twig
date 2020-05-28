@@ -1,57 +1,55 @@
 {% extends "layout.html.twig" %}
-{% block title %}Gestion des villes{% endblock %}
+{% block title %}Gestion des campus{% endblock %}
 
 {% block main %}
-    <div class="jumbotron" id="afficher-sortie-shadow">
-        <h1 class="text-center">Gérer les villes</h1>
-        {{ form_start(gestionVilles) }}
+    <div class="jumbotron">
+        <h1 class="text-center">Gérer les campus</h1>
+        {{ form_start(gestionCampus) }}
         <div class="form-row">
             <div class="col-4">
-                {{ form_row(gestionVilles.nom) }}
+                {{ form_row(gestionCampus.nom) }}
             </div>
             <div class="col-3 align-self-center" style="padding-top: 15px">
                 <input class="btn btn-outline-info"
-                       id="bouton-shadow" type="submit" value="Rechercher">
+                       type="submit" value="Rechercher">
             </div>
         </div>
-        {{ form_end(gestionVilles) }}
+        {{ form_end(gestionCampus) }}
         <br>
         <div class="table-responsive pre-scrollable table-bordered table-info">
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">Villes</th>
-                    <th scope="col">Code postal</th>
+                    <th scope="col">Campus</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
-                {% for ville in listeVilles %}
+                {% for campus in listeCampus %}
                     <tr>
                         <td style="padding-top: 35px">
-                            {{ ville.nom }}
-                        </td>
-                        <td style="padding-top: 35px">
-                            {{ ville.codePostal }}
+                            {{ campus.nom }}
                         </td>
                         <td class="text-center">
-                            <form style="align-items:center" action="{{ path('gestion_villes', {id: ville.id}) }}"
+                            <form action="{{ path('gestion_campus', {id: campus.id}) }}"
                                   onsubmit="return validate_update()">
-                                <button class="btn btn-info" type="submit">Modifier</button>
+                                <button class="btn btn-info" type="submit">
+                                    Modifier
+                                </button>
                             </form>
-                            <form style="align-items:center" action="{{ path('supprimer_Ville', {id: ville.id}) }}"
+                            <form action="{{ path('supprimer_campus', {id: campus.id}) }}"
                                   onsubmit="return validate()">
                                 <input id="status" hidden value="nope">
-                                <button class="btn btn-danger mt-1" type="submit">Supprimer</button>
-                            </form>
+                                <button class="btn btn-danger mt-1" type="submit">
+                                    Supprimer
+                                </button>
                         </td>
                     </tr>
                 {% endfor %}
                 <tr>
-                    {{ form_start(addVille) }}
-                    <td>{{ form_row(addVille.nom) }}</td>
-                    <td>{{ form_row(addVille.codePostal) }}</td>
-                    <td class="text-center" style="padding-top: 45px">{{ form_row(addVille.Ajouter) }}</td>
-                    {{ form_end(addVille) }}
+                    {{ form_start(addCampus) }}
+                    <td>{{ form_row(addCampus.nom) }}</td>
+                    <td class="text-center" style="padding-top: 45px">{{ form_row(addCampus.Ajouter) }}</td>
+                    {{ form_end(addCampus) }}
                 </tr>
             </table>
         </div>
@@ -63,7 +61,7 @@
     <script>
         function validate() {
             if (document.getElementById("status").value) {
-                return confirm('Voulez vous vraiment supprimer cette ville?');
+                return confirm('Voulez vous vraiment supprimer ce campus ?');
             } else {
                 console.log('Non non');
                 return false;
@@ -72,7 +70,7 @@
 
         function validate_update() {
             if (document.getElementById("status").value) {
-                return confirm('Voulez vous vraiment modifier cette ville?');
+                return confirm('Voulez vous vraiment modifier ce campus ?');
             } else {
                 console.log('Non non');
                 return false;

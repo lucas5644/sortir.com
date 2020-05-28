@@ -1,57 +1,65 @@
 {% extends 'layout.html.twig' %}
 {% block title %}Inscrire un utilisateur{% endblock %}
 {% block main %}
-    <h1 class="text-center">Inscrire un utilisateur</h1>
-    <div>
+    <div class="jumbotron">
+        <h1 class="text-center">Inscrire un utilisateur</h1>
+        <br>
         {{ form_start(userForm) }}
             {{ form_errors(userForm) }}
-            <div>
-                {{ form_label(userForm.pseudo) }}
-                {{ form_widget(userForm.pseudo) }}
-            </div>
+            <div class="form-row col-12">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    {{ form_label(userForm.pseudo) }}
+                    {{ form_widget(userForm.pseudo) }}
+                </div>
 
-            <div>
-                    {{ form_label(userForm.prenom) }}
-                    {{ form_widget(userForm.prenom) }}
-                    {{ form_errors(userForm.prenom) }}
-            </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        {{ form_label(userForm.prenom) }}
+                        {{ form_widget(userForm.prenom) }}
+                        {{ form_errors(userForm.prenom) }}
+                </div>
 
-            <div>
-                    {{ form_label(userForm.nom) }}
-                    {{ form_widget(userForm.nom) }}
-                    {{ form_errors(userForm.nom) }}
-            </div>
+                <div class="col-sm-6 col-xs-12">
+                        {{ form_label(userForm.nom) }}
+                        {{ form_widget(userForm.nom) }}
+                        {{ form_errors(userForm.nom) }}
+                </div>
 
-            <div>
-                    {{ form_label(userForm.telephone) }}
-                    {{ form_widget(userForm.telephone) }}
-                    {{ form_errors(userForm.telephone) }}
-            </div>
+                <div class="col-sm-6 col-xs-12">
+                        {{ form_label(userForm.telephone) }}
+                        {{ form_widget(userForm.telephone) }}
+                        {{ form_errors(userForm.telephone) }}
+                </div>
 
-            <div>
-                    {{ form_label(userForm.mail) }}
-                    {{ form_widget(userForm.mail) }}
-            </div>
-
-            <div>
-                    {{ form_widget(userForm.password) }}
-                    {{ form_errors(userForm.password) }}
-            </div>
-
-            <div>
+                <div class="col-sm-6 col-xs-12">
+                        {{ form_label(userForm.mail) }}
+                        {{ form_widget(userForm.mail) }}
+                    <br>
+                </div>
+                <div class="col-sm-6 col-xs-12">
                     {{ form_label(userForm.campus) }}
                     {{ form_widget(userForm.campus) }}
-                    {{ form_errors(userForm.campus) }}
-            </div>
+                </div>
+                <div class="card col-12 col-lg-8 offset-lg-2">
+                    <div class="card-body row">
+                        <h5 class="card-title col-12">
+                            Modifier votre mot de passe :
+                        </h5>
+                        <div class="col-12 col-lg-6 col-md-6 col-sm-12">
+                            {{ form_row(userForm.password.first) }}
+                        </div>
+                        <div class="col-12 col-lg-6 col-md-6 col-sm-12">
+                            {{ form_row(userForm.password.second) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                {{ form_row(userForm._token) }}
 
-            <div>
-                {{ form_label(userForm.administrateur) }}
-                {{ form_widget(userForm.administrateur) }}
-                {{ form_errors(userForm.administrateur) }}
             </div>
-
-            {{ form_row(userForm._token) }}
-            <button class="btn btn-info" id="bouton-shadow" type="submit">Inscrire un nouvel utilisateur</button>
+        <br>
+            <div class="text-center">
+                <button class="btn btn-primary" type="submit">Inscrire un nouvel utilisateur</button>
+            </div>
         {{ form_end(userForm, {'render_rest': false}) }}
 
     </div>

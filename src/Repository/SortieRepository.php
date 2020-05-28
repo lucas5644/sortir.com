@@ -31,7 +31,9 @@ class SortieRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('s');
         $qb->andWhere('s.etat != :etatArchivee')
-            ->setParameter('etatArchivee', 7);
+            ->setParameter('etatArchivee', 7)
+            ->leftJoin('s.etat','etat')
+            ->addSelect('etat');
 
         //Si le champ nom est rempli...
         if ($filtre->getNomSortie() != null || $filtre->getNomSortie()) {
@@ -60,7 +62,9 @@ class SortieRepository extends ServiceEntityRepository
 
             //recherche des sorties que j'organise
             $qb->andWhere('s.organisateur = :userId')
-                ->setParameter('userId', $userId);
+                ->setParameter('userId', $userId)
+                ->leftJoin('s.organisateur','organisateur')
+                ->addSelect();
         }
 
         // si je suis inscrit

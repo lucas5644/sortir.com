@@ -63,7 +63,7 @@ class Sortie
     private $infosSortie;
 
     /**
-     * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="sortie")
+     * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="sortie", cascade={"remove"})
      */
     private $inscriptions;
 
