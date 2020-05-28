@@ -7,10 +7,12 @@
         <h1 class="text-center">Mon profil</h1>
         {{ form_start(userForm) }}
         <div class="form-row col-12">
+            {% if user.getUrlPhoto() is not null%}
             <div class="col-lg-12 col-md-12 col-sm-12 text-center">
                 <img src="{{ asset('uploads/photo_profil/' ~
                     user.getUrlPhoto()) }}" width="150">
             </div>
+            {% endif %}
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 {{ form_row(userForm.prenom) }}
             </div>

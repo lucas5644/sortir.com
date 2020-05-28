@@ -6,15 +6,19 @@
     <div class="jumbotron col-lg-6 offset-lg-3 col-md-8 offset-md-2
     col-sm-10 offset-sm-1">
         <h1 class="card-title text-center">{{ user.pseudo }}</h1>
+
+        {% if user.getUrlPhoto() is not null%}
         <div class="card-img col-12 text-center">
             <img src="{{ asset('uploads/photo_profil/' ~ user.getUrlPhoto()) }}"
                  width="150">
         </div>
-        <div class="card-text col-12 text-center">
+        {% endif %}
 
+        <div class="card-text col-12 text-center">
             <p>Prénom : {{ user.prenom }}</p>
             <p>Nom : {{ user.nom }}</p>
         </div>
+
         <div class="card-text col-12 text-center">
             {% if user.telephone %}
                 <p>Téléphone : {{ user.telephone }}</p>
@@ -24,10 +28,12 @@
             <p>Email : {{ user.mail }}</p>
             <p>Campus : {{ user.campus }}</p>
         </div>
+
         <div class="text-center">
             <a class="btn btn-light" href="javascript:history.back()">Retour</a>
         </div>
     </div>
+
     <div class="text-center">
         {% if app.user.administrateur == 1 %}
             <form action="{{ path('supprimer', {id: user.id}) }}" onsubmit="return validate()">
@@ -35,7 +41,6 @@
                 <input id="status" hidden value="nope">
 
                 <button class="btn btn-danger" type="submit">Supprimer utilisateur</button>
-
             </form>
         {% endif %}
     </div>
@@ -54,5 +59,4 @@
             }
         }
     </script>
-
 {% endblock %}
