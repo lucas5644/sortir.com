@@ -102,7 +102,7 @@ class VilleController extends AbstractController
         $nom = $ville->getNom();
         $this->entityManager->remove($ville);
         $this->entityManager->flush();
-        $this->addFlash("success", $ville->getNom()." à bien été supprimée !");
+        $this->addFlash("success", $ville->getNom()." a bien été supprimée !");
         return $this->redirectToRoute('gestion_villes');
     }
 

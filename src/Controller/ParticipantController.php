@@ -44,8 +44,6 @@ class ParticipantController extends AbstractController
         $userC = $this->security->getUser();
         $oldPassword = $userC->getPassword();
         $oldURL = $userC->getUrlPhoto();
-        dump($userC->getUsername());
-        dump($user->getUsername());
         if(!hash_equals($userC->getUsername(), $user->getUsername())){
             return $this->render("User/profil.html.twig", [
                 "user" => $user
@@ -80,16 +78,16 @@ class ParticipantController extends AbstractController
                                 $newFilename
                             );
                         } catch (FileException $e) {
-                            $this->addFlash("success", "Impossible d'enregistrer l'image!!! ".$user->getPseudo());
-                            return $this->redirectToRoute('profile', $user->getPseudo());
+                            $this->addFlash("success", "Impossible d'enregistrer l'image ".$user->getPseudo());
+                            return $this->redirectToRoute('profile', ['pseudo', $user->getPseudo()]);
                         }
                         $user->setUrlPhoto($newFilename);
                     }
                 }
                 $em->persist($user);
                 $em->flush();
-                $this->addFlash("success", "Modifications prise en compte!!! ".$user->getPseudo());
-                return $this->redirectToRoute('home');
+                $this->addFlash("success", $user->getPseudo().", vos modifications ont été prises en compte.");
+                return $this->redirectToRoute('profile', ['pseudo', $user->getPseudo()]);
             }
             return $this->render("User/monProfil.html.twig", [
                 "user" => $user,

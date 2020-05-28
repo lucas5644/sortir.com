@@ -22,12 +22,14 @@ class Ville
     private $id;
 
     /**
+     * @Assert\Regex("/^[[:alpha:]]([-' ]?[[:alpha:]])*$/", message="Nom de ville incorrect")
      * @ORM\Column(type="string", length=100)
      */
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @Assert\Regex("/^(([0-8][0-9])|(9[0-5])|(2[ab]))[0-9]{3}$/", message="Code postal incorrect")
+     * @ORM\Column(type="string", length=5)
      */
     private $codePostal;
 

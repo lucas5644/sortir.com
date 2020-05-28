@@ -62,7 +62,7 @@ class AdminController extends AbstractController
             $utilisateur->setActif(true);
             $em->persist($utilisateur);
             $em->flush();
-            $this->addFlash("success", "Vous êtes inscrit!!! Bienvenue ".$utilisateur->getPseudo());
+            $this->addFlash("success", "Vous avez créé l'utilisateur : ".$utilisateur->getPseudo());
             return $this->redirectToRoute('home');
         }
 
