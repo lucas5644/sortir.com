@@ -62,12 +62,14 @@ class AdminController extends AbstractController
             $utilisateur->setActif(true);
             $em->persist($utilisateur);
             $em->flush();
+
             $this->addFlash("success", "Vous avez créé l'utilisateur : ".$utilisateur->getPseudo());
             return $this->redirectToRoute('home');
         }
 
         return $this->render("User/register.html.twig", [
-            "userForm" => $userForm->createView()
+            "userForm" => $userForm->createView(),
+            "user" => $utilisateur
         ]);
     }
 
@@ -84,7 +86,7 @@ class AdminController extends AbstractController
             $sortie->setInfosSortie($raison);
             $this->entityManager->persist($sortie);
             $this->entityManager->flush();
-            $this->addFlash("success", "Sortie annulée : " . $sortie->getNom());
+            $this->addFlash("success", "La sortie " . $sortie->getNom() . " a bien été annulée !");
             return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
         }
         return $this->render("sortie/annulerSortie.html.twig", [

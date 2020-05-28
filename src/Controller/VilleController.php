@@ -46,7 +46,7 @@ class VilleController extends AbstractController
 
         //recherche des toutes les villes
         $villeRepo  = $this->getDoctrine()->getRepository(Ville::class);
-        $listeVilles = $villeRepo->findAll();
+        $listeVilles = $villeRepo->findVille($findVille);
 
         $addVille = new Ville();
 
@@ -54,14 +54,11 @@ class VilleController extends AbstractController
         $addVilleForm->handleRequest($request);
 
         if ($addVilleForm->isSubmitted() && $addVilleForm->isValid()) {
-
-
             $em->persist($addVille);
             $em->flush();
 
             $this->addFlash("success", "Votre ville " . $addVille->getNom() ." ". $addVille->getCodePostal() . " a bien été ajoutée !");
             return $this->redirectToRoute('gestion_villes');
-
         }
 
 //        $updatedVille = new Ville();
@@ -81,6 +78,13 @@ class VilleController extends AbstractController
 //
 //        }
 
+        //Afficher un message d'erreur si aucun résultat
+        if ($listeVilles->count() == 0) {
+            $this->addFlash('warning', 'Aucun résultat à votre recherche');
+        }
+
+
+        //je renvoie le formulaire sur la page de gestion des sorties
         return $this->render('ville/gestion-villes.html.twig', [
             'gestionVilles' => $findVilleForm->createView(),
             'listeVilles' => $listeVilles,

@@ -34,17 +34,23 @@ class InscriptionController extends AbstractController
      */
     public function index($idSortie, Request $request, EntityManagerInterface $em)
     {
+        $utilisateurConnecte = $this->security->getUser();
+
+        if (!$utilisateurConnecte->getActif()){
+            $this->addFlash("danger", "Vous ne pouvez pas vous inscrire !");
+            return $this->redirectToRoute('sortie_detail',['id'=>$idSortie]);
+        }
 
         $inscription = new Inscription();
 
         $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($idSortie);
 
         if($this->date > $sortie->getDateLimiteInscription()){
-            $this->addFlash("danger", "Petit malin, t'as cru t'étais plus fort que moi?");
+            $this->addFlash("danger", "Petit malin, t'as cru que t'étais plus fort que moi ?");
             return $this->redirectToRoute('sortie_detail',['id'=>$sortie->getId()]);
         }
         if(count($sortie->getInscriptions()) === $sortie->getNbInscriptionMax()){
-            $this->addFlash("danger", "Impossible de s'inscrire sur cette sortie, nombre de place maximum atteinte.?");
+            $this->addFlash("danger", "Impossible de s'inscrire sur cette sortie, le nombre de place maximum est atteint !");
             return $this->redirectToRoute('sortie_detail',['id'=>$sortie->getId()]);
         }
         $inscription->setDateInscription($this->date);
@@ -62,7 +68,7 @@ class InscriptionController extends AbstractController
             $em->flush();
         }
 
-        $this->addFlash("success", "Votre inscription a bien été sauvegardée");
+        $this->addFlash("success", "Votre inscription a bien été sauvegardée !");
         return $this->redirectToRoute('sortie_detail',['id'=>$sortie->getId()]);
     }
 
@@ -74,13 +80,21 @@ class InscriptionController extends AbstractController
      * @Route("/inscription/delete/{id}", name="inscriptionDelete")
      */
     public function remove($id, EntityManagerInterface $em){
+
         $inscriptionRepo = $this->getDoctrine()->getRepository(Inscription::class);
         $inscription = $inscriptionRepo->findOneBy(['id' => $id]);
         $idSortie = $inscription->getSortie()->getId();
         $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($idSortie);
 
+        $utilisateurConnecte = $this->security->getUser();
+
+        if (!$utilisateurConnecte->getActif()){
+            $this->addFlash("danger", "Vous ne pouvez pas supprimer les inscriptions !");
+            return $this->redirectToRoute('sortie_detail',['id'=>$idSortie]);
+        }
+
         if($inscription->getParticipant() != $this->security->getUser()){
-            $this->addFlash("success", "Attention, on ne supprime pas les inscriptions des autres!!!");
+            $this->addFlash("success", "Attention, on ne supprime pas les inscriptions des autres !");
             return $this->redirectToRoute('sortie_detail',['id'=>$idSortie]);
         }
 
@@ -88,7 +102,7 @@ class InscriptionController extends AbstractController
         $etatString = $inscription->getSortie()->getEtat()->getLibelle();
 
         if($etatString === "activité en cours" || $etatString === "passée" || $etatString === "annulée" || $etatString === "archivée"){
-            $this->addFlash("success", "Tu veux vraiment supprimer ton inscription alors que l'évènement est déjà passé?");
+            $this->addFlash("success", "Tu veux vraiment supprimer ton inscription alors que l'évènement est déjà passé ?");
             return $this->redirectToRoute('sortie_detail',['id'=>$idSortie]);
         }
 

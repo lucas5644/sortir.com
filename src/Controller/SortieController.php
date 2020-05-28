@@ -42,6 +42,11 @@ class SortieController extends AbstractController
         $organisateur = $this->getUser();
         $sortie->setOrganisateur($organisateur);
 
+        if (!$organisateur->getActif()){
+            $this->addFlash("danger", "Vous n'avez pas accès à la création de sorties !");
+            return $this->redirectToRoute('home');
+        }
+
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
         $sortieForm->handleRequest($request);
@@ -57,6 +62,8 @@ class SortieController extends AbstractController
             }
             $em->persist($sortie);
             $em->flush();
+
+
 
             if ($sortieForm->getClickedButton() && 'creerEtPublier' === $sortieForm->getClickedButton()->getName()) {
                 $this->addFlash("success", "Votre évènement " . $sortie->getNom() . " a bien été sauvegardé  et publié !");
@@ -80,6 +87,14 @@ class SortieController extends AbstractController
     public function modifierSortie($id,  Request $request){
         $sortie = $this->entityManager->getRepository(Sortie::class)->findOneBy(['id' => $id]);
         $utilisateurConnecte = $this->security->getUser();
+
+        if (!$utilisateurConnecte->getActif()){
+            $this->addFlash("danger", "Vous ne pouvez pas modifier de sorties !");
+            return $this->redirectToRoute('home');
+        }
+
+        $sortie = $this->entityManager->getRepository(Sortie::class)->findOneBy(['id' => $id]);
+
         dump($sortie);
         dump($utilisateurConnecte);
         if($sortie->getOrganisateur()->getId() === $utilisateurConnecte->getId()){
@@ -225,26 +240,17 @@ class SortieController extends AbstractController
         ]);
     }
 
-
-    /**
-     * @Route("/sortie/delete/{id}", name="sortie_delete", requirements={"id": "\d+"})
-     */
-    public function delete($id, EntityManagerInterface $em)
-    {
-        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
-        $sortie = $sortieRepo->find($id);
-
-        $em->remove($sortie);
-        $em->flush();
-
-        $this->addFlash("success","Votre évènement a bien été supprimé !");
-        return $this->redirectToRoute('/');
-    }
-
     /**
      * @Route("/sortie/publier/{id}", name="publier", requirements={"id": "\d+"})
      */
     public function publier($id , EntityManagerInterface $em){
+        $utilisateurConnecte = $this->security->getUser();
+
+        if (!$utilisateurConnecte->getActif()){
+            $this->addFlash("danger", "Vous ne pouvez pas publier de sorties !");
+            return $this->redirectToRoute('home');
+        }
+
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortieRepo->find($id);
         $etatRepo = $this->getDoctrine()->getRepository(Etat::class);
@@ -263,6 +269,12 @@ class SortieController extends AbstractController
      * @param $id
      */
     public function annulerSortie($id, Request $request){
+        $utilisateurConnecte = $this->security->getUser();
+
+        if (!$utilisateurConnecte->getActif()){
+            $this->addFlash("danger", "Vous ne pouvez pas annuler de sorties !");
+            return $this->redirectToRoute('home');
+        }
         $sortie = $this->entityManager->getRepository(Sortie::class)->findOneBy(['id' => $id]);
         $etat = $this->entityManager->getRepository(Etat::class)->findOneBy(['libelle' => "annulée"]);
         if(!is_null($request->get("confirmation"))){

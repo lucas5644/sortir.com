@@ -4,11 +4,10 @@
     <h1 class="text-center">Inscrire un utilisateur</h1>
     <div>
         {{ form_start(userForm) }}
-
+            {{ form_errors(userForm) }}
             <div>
                 {{ form_label(userForm.pseudo) }}
                 {{ form_widget(userForm.pseudo) }}
-                {{ form_errors(userForm.pseudo) }}
             </div>
 
             <div>
@@ -32,7 +31,6 @@
             <div>
                     {{ form_label(userForm.mail) }}
                     {{ form_widget(userForm.mail) }}
-                    {{ form_errors(userForm.mail) }}
             </div>
 
             <div>
