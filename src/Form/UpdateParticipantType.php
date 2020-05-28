@@ -46,6 +46,7 @@ class UpdateParticipantType extends AbstractType
                 'label' => 'Télécharger vers le serveur',
                 'mapped' => false,
                 'required' => false,
+                'row_attr' => ['class'=>'btn btn-light col-12'],
                 'constraints' => [
                     new File([
                         'maxSize' => '100M',
