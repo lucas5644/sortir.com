@@ -81,8 +81,8 @@ class SecurityController extends AbstractController
                 // On retourne sur la page de connexion
                 return $this->redirectToRoute('login');
             }else{
-                dump($donnees['mail']);
-                dump($utilisateur);
+                //dump($donnees['mail']);
+                //dump($utilisateur);
                 //return $this->redirectToRoute('app_forgotten_password');
             }
 

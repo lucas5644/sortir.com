@@ -115,8 +115,8 @@ class SortieController extends AbstractController
 
         $sortie = $this->entityManager->getRepository(Sortie::class)->findOneBy(['id' => $id]);
 
-        dump($sortie);
-        dump($utilisateurConnecte);
+        //dump($sortie);
+        //dump($utilisateurConnecte);
         if($sortie->getOrganisateur()->getId() === $utilisateurConnecte->getId()){
             $sortieModifForm = $this->createForm(UpdateSortieType::class, $sortie);
             $sortieModifForm->handleRequest($request);

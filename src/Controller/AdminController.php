@@ -54,7 +54,7 @@ class AdminController extends AbstractController
         $userForm = $this->createForm(ParticipantType::class, $utilisateur);
 
         $userForm->handleRequest($request);
-        dump($utilisateur);
+        //dump($utilisateur);
         if($userForm->isSubmitted() && $userForm->isValid())
         {
             $password = $passwordEncoder->encodePassword($utilisateur, $utilisateur->getPassword());
