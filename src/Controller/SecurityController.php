@@ -11,7 +11,6 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,8 +23,6 @@ class SecurityController extends AbstractController
 {
     /**
      * @Route("/login", name="login")
-     * @param AuthenticationUtils $authenticationUtils
-     * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -137,7 +134,7 @@ class SecurityController extends AbstractController
      * @param string $token
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param EntityManagerInterface $em
-     * @return RedirectResponse|Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
     {
