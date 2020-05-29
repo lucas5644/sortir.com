@@ -23,10 +23,8 @@ class ResetPasswordType extends AbstractType
                 'second_options' => ['label' => 'Confirmation'],
             ])
             ->add('Valider', SubmitType::class,[
-                'option' => ['attr'=> ['id'=> 'bouton-shadow']],
-                ['class' => 'btn btn-info']
-            ])
-        ;
+                    'attr' => ['class' => 'btn btn-info']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

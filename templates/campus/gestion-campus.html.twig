@@ -2,7 +2,7 @@
 {% block title %}Gestion des campus{% endblock %}
 
 {% block main %}
-    <div class="jumbotron">
+    <div class="jumbotron" id="afficher-sortie-shadow">
         <h1 class="text-center">Gérer les campus</h1>
         {{ form_start(gestionCampus) }}
         <div class="form-row">
@@ -10,7 +10,7 @@
                 {{ form_row(gestionCampus.nom) }}
             </div>
             <div class="col-3 align-self-center" style="padding-top: 15px">
-                <input class="btn btn-outline-info"
+                <input class="btn btn-outline-info" id="bouton-shadow"
                        type="submit" value="Rechercher">
             </div>
         </div>

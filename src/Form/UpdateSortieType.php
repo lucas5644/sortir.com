@@ -94,16 +94,11 @@ class UpdateSortieType extends AbstractType
                 'required' => false
             ])
             ->add('creer', SubmitType::class, [
-                'label' => "Enregistrer",
-                'attr' => [
-                    'class' => 'btn btn-primary'
-                ]
+                'attr' => ['class' => 'btn btn-info']
+
             ])
             ->add('creerEtPublier', SubmitType::class, [
-                'label' => "Publier",
-                'attr' => [
-                    'class' => 'btn btn-primary'
-                ]
+                'attr' => ['class' => 'btn btn-info']
             ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));

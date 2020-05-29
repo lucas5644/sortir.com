@@ -1,7 +1,7 @@
 {% extends 'layout.html.twig' %}
 {% block title %}Inscrire un utilisateur{% endblock %}
 {% block main %}
-    <div class="jumbotron">
+    <div class="jumbotron" id="afficher-sortie-shadow">
         <h1 class="text-center">Inscrire un utilisateur</h1>
         <br>
         {{ form_start(userForm) }}
@@ -58,7 +58,7 @@
             </div>
         <br>
             <div class="text-center">
-                <button class="btn btn-primary" type="submit">Inscrire un nouvel utilisateur</button>
+                <button class="btn btn-info" id="bouton-shadow" type="submit">Inscrire un nouvel utilisateur</button>
             </div>
         {{ form_end(userForm, {'render_rest': false}) }}
 

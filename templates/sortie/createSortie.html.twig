@@ -98,12 +98,16 @@
     </div>
 
     <div class="text-center">
-        {{ form_label(sortieForm.creer) }}
-        {{ form_widget(sortieForm.creer) }}
+        {{ form_row(sortieForm.creer , { 'label': 'Enregistrer',
+            'id': 'bouton-shadow'
+        }) }}
+        {#{{ form_widget(sortieForm.creer) }}#}
 
-        {{ form_label(sortieForm.creerEtPublier) }}
-        {{ form_widget(sortieForm.creerEtPublier) }}
-        <a class="btn btn-light" href="javascript:history.back()">Retour</a>
+        {{ form_row(sortieForm.creerEtPublier , { 'label': 'Publier',
+            'id': 'bouton-shadow'
+        }) }}
+        {#{{ form_widget(sortieForm.creerEtPublier) }}#}
+        <a class="btn btn-light" id="bouton-shadow" href="javascript:history.back()">Retour</a>
     </div>
 
     {{ form_end(sortieForm, {'render_rest': false}) }}

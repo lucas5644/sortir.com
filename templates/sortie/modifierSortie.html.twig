@@ -90,12 +90,21 @@
     </div>
 
     <div class="text-center">
-        {{ form_label(sortieModifForm.creer) }}
-        {{ form_widget(sortieModifForm.creer) }}
 
-        {{ form_label(sortieModifForm.creerEtPublier) }}
-        {{ form_widget(sortieModifForm.creerEtPublier) }}
-        <a class="btn btn-light" href="javascript:history.back()">Retour</a>
+        <div>
+            {{ form_row(sortieForm.creer , { 'label': 'Enregistrer',
+            'id': 'bouton-shadow'
+        }) }}</div>
+        {#{{ form_widget(sortieForm.creer) }}#}
+
+        <div>
+        {{ form_row(sortieForm.creerEtPublier , { 'label': 'Publier',
+            'id': 'bouton-shadow'
+        }) }}
+        </div>
+        {#{{ form_widget(sortieForm.creerEtPublier) }}#}
+        <a class="btn btn-light" id="bouton-shadow" href="javascript:history.back()">Retour</a>
+
     </div>
 
     {{ form_end(sortieModifForm, {'render_rest': false}) }}
