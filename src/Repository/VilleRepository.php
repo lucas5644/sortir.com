@@ -15,11 +15,19 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class VilleRepository extends ServiceEntityRepository
 {
+    /**
+     * VilleRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Ville::class);
     }
 
+    /**
+     * @param Ville $filtre
+     * @return Paginator
+     */
     public function findVille(Ville $filtre)
     {
         $qb = $this->createQueryBuilder('v');
