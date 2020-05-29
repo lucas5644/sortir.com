@@ -54,7 +54,7 @@ class AdminController extends AbstractController
         $userForm = $this->createForm(ParticipantType::class, $utilisateur);
 
         $userForm->handleRequest($request);
-        dump($utilisateur);
+        //dump($utilisateur);
         if($userForm->isSubmitted() && $userForm->isValid())
         {
             $password = $passwordEncoder->encodePassword($utilisateur, $utilisateur->getPassword());
@@ -85,6 +85,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/annuler/{id}", name="annuler")
      * @param $id
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
     public function annulerSortie($id, Request $request){
         $sortie = $this->entityManager->getRepository(Sortie::class)->findOneBy(['id' => $id]);
@@ -107,6 +109,7 @@ class AdminController extends AbstractController
      * @Route("/admin/import", name="import")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param EntityManagerInterface $em
      * @return RedirectResponse|Response
      * @throws Exception
      * @throws \PhpOffice\PhpSpreadsheet\Exception
