@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddCampusType extends AbstractType
@@ -16,7 +18,9 @@ class AddCampusType extends AbstractType
         $builder
             ->add('nom', TextType::class, [
                 'required' => true,
-                'label' => 'Ajouter un campus : '
+                'label' => 'Ajouter un campus : ',
+                'attr' => [
+                    'placeholder' => 'Campus de...'],
             ])
             ->add('Ajouter', SubmitType::class, [
                 'attr' => [
