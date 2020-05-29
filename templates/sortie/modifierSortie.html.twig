@@ -87,18 +87,14 @@
     </div>
 
     <div class="text-center">
-
-        <div>
-            {{ form_row(sortieModifForm.creer , { 'label': 'Enregistrer',
-            'id': 'bouton-shadow'
-        }) }}</div>
-        {#{{ form_widget(sortieForm.creer) }}#}
-
-        <div>
-        {{ form_row(sortieModifForm.creerEtPublier , { 'label': 'Publier',
+            {{ form_widget(sortieModifForm.creer , { 'label': 'Enregistrer',
             'id': 'bouton-shadow'
         }) }}
-        </div>
+        {#{{ form_widget(sortieForm.creer) }}#}
+
+        {{ form_widget(sortieModifForm.creerEtPublier , { 'label': 'Publier',
+            'id': 'bouton-shadow'
+        }) }}
         {#{{ form_widget(sortieForm.creerEtPublier) }}#}
         <a class="btn btn-light" id="bouton-shadow" href="javascript:history.back()">Retour</a>
 
