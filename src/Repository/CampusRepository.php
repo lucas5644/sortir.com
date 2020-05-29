@@ -15,11 +15,19 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CampusRepository extends ServiceEntityRepository
 {
+    /**
+     * CampusRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Campus::class);
     }
 
+    /**
+     * @param Campus $filtre
+     * @return Paginator
+     */
     public function findCampus(Campus $filtre)
     {
         $qb = $this->createQueryBuilder('v');

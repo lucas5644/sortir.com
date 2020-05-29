@@ -52,11 +52,13 @@ $("#sortie_ville").change(function(){
 
            lieuSelec.html('');
 
-           lieuSelec.append('<option value> Selectionner lieu de ' + ville.find("option:selected").text() + ' ...</option>');
+
 
             $.each(lieux, function (key,lieu) {
+                if(key == 0){
+                    lieuSelec.append('<option value="' + lieu.id + '"> Selectionner lieu de ' + ville.find("option:selected").text() + ' ...</option>');
+                }
                 lieuSelec.append('<option value="' + lieu.id + '">' + lieu.nom + '</option>');
-                console.log("dddd :"+key + " " + lieu.id);
             });
 
         },
@@ -68,16 +70,14 @@ $("#sortie_ville").change(function(){
 
 function ajoutLieu() {
     document.getElementById("inputId").value = 1;
-    console.log(document.getElementById("inputId").value);
     var testLieu = document.getElementById("lieu");
     testLieu.style.display = "none";
-    var lieuForm = document.getElementById("lieuForm")
+    var lieuForm = document.getElementById("lieuForm");
     lieuForm.style.display = "block";
 }
 
 $("#sortie_lieu").change(function(){
     var lieuSelec = $(this).val();
-    console.log(lieuSelec);
 
     $.ajax({
         url: 'lieu',

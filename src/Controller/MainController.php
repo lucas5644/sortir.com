@@ -25,6 +25,9 @@ class MainController extends AbstractController
 
     /**
      * @Route("/", name="home")
+     * @param Request $request
+     * @param SortieRepository $sortieRepository
+     * @return Response
      */
     public function index(Request $request, SortieRepository $sortieRepository): Response
     {

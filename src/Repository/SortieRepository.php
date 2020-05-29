@@ -20,13 +20,21 @@ class SortieRepository extends ServiceEntityRepository
 {
     private $security;
 
+    /**
+     * SortieRepository constructor.
+     * @param ManagerRegistry $registry
+     * @param Security $security
+     */
     public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Sortie::class);
         $this->security = $security;
     }
 
-
+    /**
+     * @param FindSortie $filtre
+     * @return Paginator
+     */
     public function findSortie(FindSortie $filtre)
     {
         $qb = $this->createQueryBuilder('s');

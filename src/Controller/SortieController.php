@@ -14,7 +14,9 @@ use App\Form\UpdateSortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use function Matrix\add;
@@ -33,6 +35,9 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/sortie/createSortie", name="sortie")
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
     public function create(EntityManagerInterface $em, Request $request)
     {
@@ -60,6 +65,26 @@ class SortieController extends AbstractController
                 $etat = $this->getDoctrine()->getManager()->getRepository(Etat::class)->findOneBy(["libelle"=>"créée"]);
                 $sortie->setEtat($etat);
             }
+            if ($request->get("inputId") == 1){
+                if (trim($request->get("nomLieu")) !== ""){
+                    $lieu = new Lieu();
+                    $lieu->setNom($request->get("nomLieu"));
+                    $lieu->setRue($request->get("rueLieu"));
+                    if (trim($request->get("latiLieu")) === ""){
+                        $lieu->setLatitude(null);
+                    }else{
+                        $lieu->setLatitude($request->get("latiLieu"));
+                    }
+                    if (trim($request->get("longiLieu")) === ""){
+                        $lieu->setLongitude(null);
+                    }else {
+                        $lieu->setLongitude($request->get("longiLieu"));
+                    }
+                    $lieu->setVille($sortie->getLieu()->getVille());
+                    $sortie->setLieu($lieu);
+                    $em->persist($lieu);
+                }
+            }
             $em->persist($sortie);
             $em->flush();
 
@@ -83,6 +108,9 @@ class SortieController extends AbstractController
     /**
      * @Route("/sortie/modifier?{id}", name="sortie_modifier")
      * requirements={"id":"\d+"},
+     * @param $id
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
     public function modifierSortie($id,  Request $request){
         $sortie = $this->entityManager->getRepository(Sortie::class)->findOneBy(['id' => $id]);
@@ -95,8 +123,8 @@ class SortieController extends AbstractController
 
         $sortie = $this->entityManager->getRepository(Sortie::class)->findOneBy(['id' => $id]);
 
-        dump($sortie);
-        dump($utilisateurConnecte);
+        //dump($sortie);
+        //dump($utilisateurConnecte);
         if($sortie->getOrganisateur()->getId() === $utilisateurConnecte->getId()){
             $sortieModifForm = $this->createForm(UpdateSortieType::class, $sortie);
             $sortieModifForm->handleRequest($request);
@@ -190,6 +218,10 @@ class SortieController extends AbstractController
      * @Route("/sortie/{id}", name="sortie_detail")
      *     requirements={"id":"\d+"},
      *     methods={"GET"})
+     * @param $id
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse|Response
      */
     public function detail($id, Request $request, EntityManagerInterface $em)
     {
@@ -242,6 +274,9 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/sortie/publier/{id}", name="publier", requirements={"id": "\d+"})
+     * @param $id
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse
      */
     public function publier($id , EntityManagerInterface $em){
         $utilisateurConnecte = $this->security->getUser();

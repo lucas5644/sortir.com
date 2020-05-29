@@ -87,7 +87,7 @@ class Participant implements UserInterface
     private $urlPhoto;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur")
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur", cascade={"remove"})
      */
     private $sorties;
 
