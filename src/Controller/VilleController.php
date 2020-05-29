@@ -8,6 +8,7 @@ use App\Form\FindVilleType;
 use App\Form\UpdateVilleType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -98,7 +99,7 @@ class VilleController extends AbstractController
      * @Route("/villes/supprimer_Ville/{id}", name="supprimer_Ville")
      * @param $id
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function supprimerVille($id, Request $request)
     {

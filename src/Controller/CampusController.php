@@ -7,6 +7,7 @@ use App\Form\AddCampusType;
 use App\Form\FindCampusType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,6 +26,9 @@ class CampusController extends AbstractController
 
     /**
      * @Route("campus", name="gestion_campus")
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return Response
      */
     public function gestionCampus(EntityManagerInterface $em, Request $request) : Response
     {
@@ -75,6 +79,9 @@ class CampusController extends AbstractController
 
     /**
      * @Route("/campus/supprimer_campus/{id}", name="supprimer_campus")
+     * @param $id
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function supprimerCampus($id, Request $request) {
         $campus = $this->entityManager->getRepository(Campus::class)->findOneBy(['id' => $id]);
