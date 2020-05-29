@@ -14,7 +14,9 @@ use App\Form\UpdateSortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use function Matrix\add;
@@ -33,6 +35,9 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/sortie/createSortie", name="sortie")
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
     public function create(EntityManagerInterface $em, Request $request)
     {
@@ -103,6 +108,9 @@ class SortieController extends AbstractController
     /**
      * @Route("/sortie/modifier?{id}", name="sortie_modifier")
      * requirements={"id":"\d+"},
+     * @param $id
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
     public function modifierSortie($id,  Request $request){
         $sortie = $this->entityManager->getRepository(Sortie::class)->findOneBy(['id' => $id]);
@@ -210,6 +218,10 @@ class SortieController extends AbstractController
      * @Route("/sortie/{id}", name="sortie_detail")
      *     requirements={"id":"\d+"},
      *     methods={"GET"})
+     * @param $id
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse|Response
      */
     public function detail($id, Request $request, EntityManagerInterface $em)
     {
@@ -262,6 +274,9 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/sortie/publier/{id}", name="publier", requirements={"id": "\d+"})
+     * @param $id
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse
      */
     public function publier($id , EntityManagerInterface $em){
         $utilisateurConnecte = $this->security->getUser();

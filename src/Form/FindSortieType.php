@@ -17,6 +17,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FindSortieType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -63,6 +67,9 @@ class FindSortieType extends AbstractType
         ;
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -72,6 +79,9 @@ class FindSortieType extends AbstractType
         ]);
     }
 
+    /**
+     * @return string|null
+     */
     public function getBlockPrefix()
     {
         return '';

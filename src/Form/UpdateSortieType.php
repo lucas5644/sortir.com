@@ -35,6 +35,10 @@ class UpdateSortieType extends AbstractType
         $this->em = $em;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -105,6 +109,10 @@ class UpdateSortieType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
     }
 
+    /**
+     * @param FormInterface $form
+     * @param Ville|null $ville
+     */
     protected function addElements(FormInterface $form, Ville $ville = null)
     {
         $form->add('ville', EntityType::class, [
@@ -139,6 +147,9 @@ class UpdateSortieType extends AbstractType
 
     }
 
+    /**
+     * @param FormEvent $event
+     */
     function onPreSubmit(FormEvent $event)
     {
         $form = $event->getForm();
@@ -150,6 +161,9 @@ class UpdateSortieType extends AbstractType
         $this->addElements($form,$ville);
     }
 
+    /**
+     * @param FormEvent $event
+     */
     function onPreSetData(FormEvent $event) {
         $sortie = $event->getData();
         $form = $event->getForm();
@@ -159,7 +173,9 @@ class UpdateSortieType extends AbstractType
         $this->addElements($form, $ville);
     }
 
-
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -167,6 +183,9 @@ class UpdateSortieType extends AbstractType
         ]);
     }
 
+    /**
+     * @return string|null
+     */
     public function getBlockPrefix()
     {
         return 'sortie';

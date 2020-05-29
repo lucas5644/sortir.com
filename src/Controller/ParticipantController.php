@@ -38,6 +38,11 @@ class ParticipantController extends AbstractController
 
     /**
      * @Route("profil/{pseudo}", name="profile")
+     * @param $pseudo
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return RedirectResponse|Response
      */
     public function afficherProfil($pseudo, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder){
         $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $pseudo]);

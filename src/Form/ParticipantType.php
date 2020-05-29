@@ -16,6 +16,10 @@ use Symfony\Component\Validator\Constraints\Unique;
 
 class ParticipantType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -64,6 +68,9 @@ class ParticipantType extends AbstractType
             ->add('campus');
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
