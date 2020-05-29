@@ -227,6 +227,8 @@ class SortieController extends AbstractController
     {
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortieRepo->find($id);
+
+        //throw error 404
         $dateFinSortie = $sortie->getDateHeureDebut();
 
         date_add($dateFinSortie, date_interval_create_from_date_string("".$sortie->getDuree()." minutes"));
@@ -280,7 +282,6 @@ class SortieController extends AbstractController
      */
     public function publier($id , EntityManagerInterface $em){
         $utilisateurConnecte = $this->security->getUser();
-
         if (!$utilisateurConnecte->getActif()){
             $this->addFlash("danger", "Vous ne pouvez pas publier de sorties !");
             return $this->redirectToRoute('home');
@@ -304,7 +305,7 @@ class SortieController extends AbstractController
      * @param $id
      */
     public function annulerSortie($id, Request $request){
-        $utilisateurConnecte = $this->security->getUser();
+        $utilisateurConnecte = $this->getUser();
 
         if (!$utilisateurConnecte->getActif()){
             $this->addFlash("danger", "Vous ne pouvez pas annuler de sorties !");

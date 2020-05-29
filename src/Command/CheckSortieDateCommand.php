@@ -86,7 +86,7 @@ class CheckSortieDateCommand extends Command
     }
 
     private function getSorties(){
-        $sorties = $this->entityManager->getRepository(Sortie::class)->findAll();
+        $sorties = $this->entityManager->getRepository(Sortie::class)->findAll();//PAS DE FINDALL()!!!
         return $sorties;
     }
 
@@ -95,6 +95,6 @@ class CheckSortieDateCommand extends Command
         $etatNouveau = $etatRepo->findOneBy(['libelle' => $etatString]);
         $sortie->setEtat($etatNouveau);
         $em->persist($sortie);
-        $em->flush();
+        $em->flush();//A METTRE EN DEHORS DE LA METHODE
     }
 }
