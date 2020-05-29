@@ -133,7 +133,7 @@ class SortieType extends AbstractType
                 'placeholder' => 'Sélectionnez la ville avant',
                 'mapped' => true,
                 'auto_initialize' => false,
-                'required' => true,
+                'required' => false,
                 'choices' => $lieux
             ));
 
@@ -145,7 +145,6 @@ class SortieType extends AbstractType
         $data = $event->getData();
 
         $ville = $this->em->getRepository(Ville::class)->find($data['ville']);
-        $lieu = $this->em->getRepository(Lieu::class)->find($data['lieu']);
 
         $this->addElements($form,$ville);
     }

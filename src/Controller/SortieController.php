@@ -60,6 +60,26 @@ class SortieController extends AbstractController
                 $etat = $this->getDoctrine()->getManager()->getRepository(Etat::class)->findOneBy(["libelle"=>"créée"]);
                 $sortie->setEtat($etat);
             }
+            if ($request->get("inputId") == 1){
+                if (trim($request->get("nomLieu")) !== ""){
+                    $lieu = new Lieu();
+                    $lieu->setNom($request->get("nomLieu"));
+                    $lieu->setRue($request->get("rueLieu"));
+                    if (trim($request->get("latiLieu")) === ""){
+                        $lieu->setLatitude(null);
+                    }else{
+                        $lieu->setLatitude($request->get("latiLieu"));
+                    }
+                    if (trim($request->get("longiLieu")) === ""){
+                        $lieu->setLongitude(null);
+                    }else {
+                        $lieu->setLongitude($request->get("longiLieu"));
+                    }
+                    $lieu->setVille($sortie->getLieu()->getVille());
+                    $sortie->setLieu($lieu);
+                    $em->persist($lieu);
+                }
+            }
             $em->persist($sortie);
             $em->flush();
 

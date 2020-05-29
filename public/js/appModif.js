@@ -54,7 +54,6 @@ $("#sortie_ville").change(function(){
 
             $.each(lieux, function (key,lieu) {
                 lieuSelec.append('<option value="' + lieu.id + '">' + lieu.nom + '</option>');
-                console.log("dddd :"+key + " " + lieu.id);
             });
 
         },
