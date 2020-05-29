@@ -25,6 +25,9 @@ use Symfony\Component\Validator\Constraints\DateTime;
 
 class SortieType extends AbstractType
 {
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
 
     /**
@@ -35,6 +38,10 @@ class SortieType extends AbstractType
         $this->em = $em;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
